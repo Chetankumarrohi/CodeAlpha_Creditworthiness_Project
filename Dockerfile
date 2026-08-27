@@ -1,26 +1,22 @@
-# Production Dockerfile for Nova Credit AI
-FROM python:3.11-slim
+# Multi-stage Dockerfile for Nova Credit AI
+FROM python:3.12-slim as builder
 
 WORKDIR /app
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
-# Copy application source code
-COPY . .
+FROM python:3.12-slim
 
-# Train model during build if not present
-RUN python src/train_model.py
+WORKDIR /app
 
-# Expose ports for Streamlit (8501) and Backend REST API (8085)
-EXPOSE 8501 8085
+COPY --from=builder /install /usr/local
+COPY . /app
 
-# Default command launches Streamlit Dashboard
-CMD ["streamlit", "run", "app/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+EXPOSE 8085
+
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8085"]

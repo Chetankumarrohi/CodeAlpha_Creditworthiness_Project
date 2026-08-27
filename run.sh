@@ -1,24 +1,23 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# 1-Click Launch Script for Nova Credit AI
 set -e
 
-PYTHON_BIN="./.venv/bin/python"
-if [ ! -f "$PYTHON_BIN" ]; then
-    PYTHON_BIN="python3"
+echo "🚀 Starting Nova Credit AI Institutional Platform..."
+
+if [ ! -d ".venv" ]; then
+    echo "Creating virtual environment..."
+    python3 -m venv .venv
+    ./.venv/bin/pip install -r requirements.txt
 fi
 
-echo "⚡ Nova Credit AI Enterprise Launcher"
-echo "----------------------------------------"
-
-if [ "$1" == "train" ]; then
-    echo "🏋️ Retraining Calibrated ML Pipeline & Cross-Validation Benchmarking..."
-    $PYTHON_BIN ml/train.py
-elif [ "$1" == "server" ]; then
-    echo "🚀 Starting Enterprise FastAPI REST API & Web Client..."
-    $PYTHON_BIN -m uvicorn backend.main:app --host 0.0.0.0 --port 8085
-elif [ "$1" == "test" ]; then
-    echo "🧪 Running Pytest Test Suite..."
-    PYTHONPATH=. $PYTHON_BIN -m pytest tests/
-else
-    echo "🎨 Starting Enterprise Streamlit Dashboard..."
-    $PYTHON_BIN -m streamlit run app/app.py
+if [ ! -f "models/nova_credit_pipeline.joblib" ]; then
+    echo "Training champion ML pipeline..."
+    ./.venv/bin/python ml/train.py
 fi
+
+echo "Initializing database..."
+./.venv/bin/python -c "from backend.app.database.session import init_db; init_db()"
+
+PORT=8085
+echo "🌐 Server running live at: http://localhost:${PORT}"
+./.venv/bin/python -m uvicorn backend.main:app --host 0.0.0.0 --port ${PORT}

@@ -1,20 +1,14 @@
 version: '3.8'
 
 services:
-  streamlit-app:
+  nova-api:
     build: .
-    container_name: nova_credit_streamlit
-    ports:
-      - "8501:8501"
-    environment:
-      - PYTHONUNBUFFERED=1
-    command: ["streamlit", "run", "app/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
-
-  api-backend:
-    build: .
-    container_name: nova_credit_backend
     ports:
       - "8085:8085"
     environment:
-      - PYTHONUNBUFFERED=1
-    command: ["python", "backend/server.py", "8085"]
+      - ENVIRONMENT=production
+      - DATABASE_URL=sqlite:///./data/nova_credit.db
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+    restart: unless-stopped

@@ -17,6 +17,151 @@ function pillHtml(decision) {
   return `<span class="pill ${cls}">${decision}</span>`;
 }
 
+// ─── Authentication & Session State ───────────────────────────────────────────
+let currentUser = null;
+let currentAuthTab = "login";
+
+function getAuthHeaders() {
+  const token = localStorage.getItem("nova_token");
+  return token ? { "Authorization": `Bearer ${token}` } : {};
+}
+
+function initSplashAndAuth() {
+  // Splash Screen Intro Animation
+  setTimeout(() => {
+    const splash = document.getElementById("splash-screen");
+    if (splash) splash.classList.add("fade-out");
+  }, 1800);
+
+  // Check stored user session
+  const storedUser = localStorage.getItem("nova_user");
+  if (storedUser) {
+    try {
+      currentUser = JSON.parse(storedUser);
+      updateUserUI();
+    } catch(e) { localStorage.removeItem("nova_user"); }
+  }
+}
+
+function openAuthModal() {
+  const modal = document.getElementById("authModal");
+  if (modal) modal.classList.add("active");
+}
+
+function closeAuthModal() {
+  const modal = document.getElementById("authModal");
+  if (modal) modal.classList.remove("active");
+}
+
+function toggleAuthModal() {
+  if (currentUser) {
+    // Logout
+    localStorage.removeItem("nova_token");
+    localStorage.removeItem("nova_user");
+    currentUser = null;
+    updateUserUI();
+    loadHistory();
+  } else {
+    openAuthModal();
+  }
+}
+
+function switchAuthTab(tab) {
+  currentAuthTab = tab;
+  const loginBtn = document.getElementById("tabLoginBtn");
+  const regBtn   = document.getElementById("tabRegBtn");
+  const nameGrp  = document.getElementById("nameGroup");
+  const titleEl  = document.getElementById("authTitle");
+  const subEl    = document.getElementById("authSub");
+  const btnText  = document.getElementById("authBtnText");
+  const tipEl    = document.getElementById("adminTip");
+
+  if (tab === "login") {
+    loginBtn.classList.add("active");
+    regBtn.classList.remove("active");
+    if (nameGrp) nameGrp.style.display = "none";
+    if (titleEl) titleEl.textContent = "Sign In to Nova Credit";
+    if (subEl)   subEl.textContent   = "Institutional Access & Private Risk History";
+    if (btnText) btnText.textContent = "Sign In to Workspace";
+    if (tipEl)   tipEl.style.display   = "block";
+  } else {
+    regBtn.classList.add("active");
+    loginBtn.classList.remove("active");
+    if (nameGrp) nameGrp.style.display = "block";
+    if (titleEl) titleEl.textContent = "Register New Account";
+    if (subEl)   subEl.textContent   = "Create your secure credit risk session";
+    if (btnText) btnText.textContent = "Create Account";
+    if (tipEl)   tipEl.style.display   = "none";
+  }
+}
+
+async function handleAuthSubmit(e) {
+  e.preventDefault();
+  const email    = document.getElementById("authEmail").value;
+  const password = document.getElementById("authPassword").value;
+  const name     = document.getElementById("authName")?.value || "";
+
+  const endpoint = currentAuthTab === "login" ? "/api/v1/auth/login" : "/api/v1/auth/register";
+  const body = currentAuthTab === "login"
+    ? { email, password }
+    : { email, password, full_name: name || email.split("@")[0] };
+
+  try {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || "Authentication failed");
+    }
+    const data = await res.json();
+    localStorage.setItem("nova_token", data.access_token);
+    currentUser = {
+      user_id: data.user_id,
+      email: data.email,
+      full_name: data.full_name,
+      role: data.role,
+    };
+    localStorage.setItem("nova_user", JSON.stringify(currentUser));
+    updateUserUI();
+    closeAuthModal();
+    loadHistory();
+  } catch(err) {
+    alert("Auth Error: " + err.message);
+  }
+}
+
+function updateUserUI() {
+  const avatarEl = document.getElementById("userAvatar");
+  const nameEl   = document.getElementById("userName");
+  const roleEl   = document.getElementById("userRoleBadge");
+  const topText  = document.getElementById("topbarAuthText");
+  const actionBtn= document.getElementById("authActionBtn");
+
+  if (currentUser) {
+    const initials = currentUser.full_name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+    if (avatarEl) avatarEl.textContent = initials || "U";
+    if (nameEl)   nameEl.textContent   = currentUser.full_name;
+    if (roleEl) {
+      roleEl.textContent = currentUser.role === "admin" ? "ADMIN 👑" : "USER";
+      roleEl.className = currentUser.role === "admin" ? "pill pill-warning" : "pill pill-info";
+    }
+    if (topText)   topText.textContent  = "Sign Out";
+    if (actionBtn) actionBtn.title      = "Sign Out";
+  } else {
+    if (avatarEl) avatarEl.textContent = "G";
+    if (nameEl)   nameEl.textContent   = "Guest Mode";
+    if (roleEl) {
+      roleEl.textContent = "Guest";
+      roleEl.className = "pill pill-neutral";
+    }
+    if (topText)   topText.textContent  = "Sign In";
+    if (actionBtn) actionBtn.title      = "Sign In / Register";
+  }
+}
+
 // ─── Sidebar Navigation ────────────────────────────────────────────────────────
 const PAGE_TITLES = {
   overview:   "Financial Overview",
@@ -56,7 +201,6 @@ const TOTAL_STEPS = 5;
 
 function nextStep(target) {
   if (target > currentStep) {
-    // Validate current step before advancing
     if (!validateStep(currentStep)) return;
   }
   document.getElementById(`step-${currentStep}`).classList.remove("active");
@@ -106,9 +250,6 @@ function updateEmiPreview() {
   const r = 10.5 / 12 / 100;
   const emi = amt * r * Math.pow(1+r, dur) / (Math.pow(1+r, dur) - 1);
   document.getElementById("s4_emi_preview").textContent = "₹ " + fmt(emi, 0);
-  ["s4_amount", "s4_dur"].forEach(id => {
-    document.getElementById(id).addEventListener("input", updateEmiPreview, { once: false });
-  });
 }
 
 function renderReviewSummary() {
@@ -159,7 +300,11 @@ async function submitAssessment() {
   const payload = collectPayload();
 
   try {
-    const res = await fetch("/api/v1/assess", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const res = await fetch("/api/v1/assess", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify(payload)
+    });
     if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || "Assessment failed"); }
     const data = await res.json();
     renderResult(data);
@@ -343,24 +488,29 @@ function updateOverviewHero(data) {
   }
 }
 
-// ─── History Loader ────────────────────────────────────────────────────────────
+// ─── History Loader (Privacy Scoped) ──────────────────────────────────────────
 async function loadHistory() {
   try {
-    const res = await fetch("/api/v1/history?limit=25");
+    const res = await fetch("/api/v1/history?limit=25", {
+      headers: getAuthHeaders()
+    });
     if (!res.ok) return;
     const data = await res.json();
     const records = data.history || [];
+    const isAdmin = data.is_admin || false;
+
+    const subTitle = document.getElementById("hist-sub-title");
+    if (subTitle) {
+      subTitle.textContent = isAdmin
+        ? "👑 SYSTEM ADMIN MODE — Displaying All User Assessments"
+        : "🔒 Private Session Ledger — Displaying Your Personal Assessments";
+    }
 
     const render = (rows, cols) => rows.length === 0
-      ? `<tr><td colspan="${cols}" style="text-align:center;padding:20px;color:var(--text-muted);">No assessments yet.</td></tr>`
+      ? `<tr><td colspan="${cols}" style="text-align:center;padding:20px;color:var(--text-muted);">No assessments recorded for this account.</td></tr>`
       : rows.map(r => {
           const date = new Date(r.timestamp).toLocaleString("en-IN", { month:"short", day:"numeric", hour:"2-digit", minute:"2-digit" });
-          let pCls = "pill-success";
-          if (r.decision === "High Risk") pCls = "pill-danger";
-          else if (r.decision === "Manual Review") pCls = "pill-warning";
-          else if (r.decision === "Conditionally Eligible") pCls = "pill-info";
-          const base = `<td style="font-size:11px;color:var(--text-muted);">${date}</td><td><strong>${r.applicant_name}</strong></td><td style="font-family:var(--font-mono);">₹${fmt(r.requested_loan)}</td><td style="font-family:var(--font-mono);font-weight:700;color:var(--text-primary);">${r.nova_score}</td><td>${r.risk_tier}</td><td style="font-family:var(--font-mono);">${r.approval_probability}%</td><td>${pillHtml(r.decision)}</td>`;
-          return `<tr>${base}${cols===8?`<td><a href="/api/v1/reports/pdf/${r.id}" target="_blank" style="color:var(--primary);text-decoration:none;font-weight:600;font-size:11px;">PDF ↗</a></td>`:""}</tr>`;
+          return `<tr><td style="font-size:11px;color:var(--text-muted);">${date}</td><td><strong>${r.applicant_name}</strong>${isAdmin?`<br/><span style="font-size:10px;color:var(--text-dim);">${r.user_email}</span>`:''}</td><td style="font-family:var(--font-mono);">₹${fmt(r.requested_loan)}</td><td style="font-family:var(--font-mono);font-weight:700;color:var(--text-primary);">${r.nova_score}</td><td>${r.risk_tier}</td><td style="font-family:var(--font-mono);">${r.approval_probability}%</td><td>${pillHtml(r.decision)}</td>${cols===8?`<td><a href="/api/v1/reports/pdf/${r.id}" target="_blank" style="color:var(--primary);text-decoration:none;font-weight:600;font-size:11px;">PDF ↗</a></td>`:''}</tr>`;
         }).join("");
 
     const histTbl = document.getElementById("hist-table");
@@ -403,14 +553,9 @@ async function runSimulation() {
   const emi     = parseFloat(get("sim_emi")?.value)      || 0;
   const savings = parseFloat(get("sim_savings")?.value)  || 80000;
 
-  // Update labels
-  [["sim_v_income","₹"+fmt(income)],["sim_v_credit","₹"+fmt(credit)],
-   ["sim_v_dur",dur+" Months"],["sim_v_emi","₹"+fmt(emi)],["sim_v_sav","₹"+fmt(savings)]
-  ].forEach(([id,v]) => { const el=document.getElementById(id); if(el) el.textContent=v; });
-
   try {
     const res = await fetch("/api/v1/simulate", {
-      method:"POST", headers:{"Content-Type":"application/json"},
+      method:"POST", headers:{"Content-Type":"application/json", ...getAuthHeaders()},
       body: JSON.stringify({ monthly_income: income, credit_amount: credit, duration: dur, existing_emi: emi, savings_balance: savings, age: 30 })
     });
     if (!res.ok) return;
@@ -480,12 +625,11 @@ function renderModelIntelligence(m, h) {
   const holdout = m.holdout_metrics || {};
   const el = id => document.getElementById(id);
 
-  // Status row
   if (el("ml-model-name")) el("ml-model-name").textContent = m.champion_model || "—";
   if (el("ml-roc")) el("ml-roc").textContent = m.champion_cv_roc_auc?.toFixed(4) || "—";
   if (el("ml-roc-holdout")) el("ml-roc-holdout").textContent = holdout.roc_auc?.toFixed(4) || "—";
   if (el("ml-brier")) el("ml-brier").textContent = holdout.brier_score?.toFixed(4) || "—";
-  if (el("ml-ece")) el("ml-ece").textContent = "1.67%"; // from Phase 4 calibration evaluation
+  if (el("ml-ece")) el("ml-ece").textContent = "1.67%";
   if (el("ml-cal-badge")) el("ml-cal-badge").textContent = m.calibration_method?.replace("_"," ").toUpperCase() || "—";
 
   const statusOk = h.overall_status === "Healthy";
@@ -494,19 +638,16 @@ function renderModelIntelligence(m, h) {
     el("ml-health-badge").className = `pill ${statusOk?"pill-success":"pill-warning"}`;
   }
 
-  // Holdout metrics table
   const hmRows = [
-    ["ROC-AUC",          holdout.roc_auc?.toFixed(4),           "Discriminative ability (class separation)"],
-    ["PR-AUC",           holdout.pr_auc?.toFixed(4),            "Precision-Recall trade-off (imbalanced classes)"],
+    ["ROC-AUC",          holdout.roc_auc?.toFixed(4),           "Discriminative ability"],
+    ["PR-AUC",           holdout.pr_auc?.toFixed(4),            "Precision-Recall trade-off"],
     ["Balanced Accuracy",holdout.balanced_accuracy?.toFixed(4), "Average per-class accuracy"],
-    ["F1 Score",         holdout.f1_score?.toFixed(4),          "Harmonic mean of precision/recall"],
-    ["Precision",        holdout.precision?.toFixed(4),         "Of approved: fraction truly good borrowers"],
+    ["F1 Score",         holdout.f1_score?.toFixed(4),          "Harmonic mean"],
+    ["Precision",        holdout.precision?.toFixed(4),         "Truly good borrowers"],
     ["Recall (Good)",    holdout.recall_good?.toFixed(4),       "Good borrowers correctly approved"],
     ["Recall (Bad)",     holdout.recall_bad?.toFixed(4),        "Bad borrowers correctly flagged"],
-    ["Brier Score",      holdout.brier_score?.toFixed(4),       "Calibration quality (lower = better)"],
-    ["Log Loss",         holdout.log_loss?.toFixed(4),          "Cross-entropy loss (lower = better)"],
-    ["False Approvals",  holdout.false_approvals_bad,           "Bad risk applicants incorrectly approved"],
-    ["False Rejections", holdout.false_rejections_good,         "Good applicants incorrectly denied"],
+    ["Brier Score",      holdout.brier_score?.toFixed(4),       "Calibration quality"],
+    ["Log Loss",         holdout.log_loss?.toFixed(4),          "Cross-entropy loss"],
   ];
   const hmTbl = el("ml-holdout-table");
   if (hmTbl) {
@@ -515,7 +656,6 @@ function renderModelIntelligence(m, h) {
     ).join("");
   }
 
-  // Confusion Matrix
   const cm = holdout.confusion_matrix || [[26,34],[12,128]];
   const tn=cm[0][0], fp=cm[0][1], fn=cm[1][0], tp=cm[1][1];
   if (el("conf-matrix")) {
@@ -531,13 +671,9 @@ function renderModelIntelligence(m, h) {
       <div class="conf-cell conf-tp">${tp}<br><span style="font-size:9px;font-weight:400;">True Pos</span></div>
     `;
   }
-  if (el("cm-fa")) el("cm-fa").textContent = holdout.false_approvals_bad ?? "34";
-  if (el("cm-fr")) el("cm-fr").textContent = holdout.false_rejections_good ?? "12";
 
-  // ROC Curve SVG (approximation using real AUC to draw curve shape)
   renderRocSvg(holdout.roc_auc || 0.77);
 
-  // Threshold Analysis Bar Chart
   const thresholds = m.threshold_analysis || [];
   if (el("threshold-chart") && thresholds.length) {
     el("threshold-chart").innerHTML = thresholds.map(t => `
@@ -549,7 +685,6 @@ function renderModelIntelligence(m, h) {
     `).join("");
   }
 
-  // Model Comparison Table
   const compTbl = el("ml-comparison-table");
   if (compTbl && m.model_comparison) {
     compTbl.querySelector("tbody").innerHTML = m.model_comparison.map(row => `
@@ -567,7 +702,6 @@ function renderModelIntelligence(m, h) {
     `).join("");
   }
 
-  // Feature Importance Bar Chart (domain-verified order from CatBoost)
   const features = [
     ["Checking Account Status",    0.82],
     ["Duration (Months)",          0.71],
@@ -589,45 +723,11 @@ function renderModelIntelligence(m, h) {
       </div>
     `).join("");
   }
-
-  // Health Checklist
-  const checks = [
-    ["Pipeline Loaded",       h.pipeline_loaded,       h.pipeline_loaded ? "nova_credit_pipeline.joblib found" : "File missing — run ml/train.py"],
-    ["Benchmark Report",      h.report_available,      h.report_available ? "reports/model_benchmark_report.json found" : "Run ml/train.py"],
-    ["Calibration Active",    h.calibration_active,    h.calibration_method?.replace("_"," ").toUpperCase() || "Not calibrated"],
-    ["Feature Schema Valid",  h.feature_schema_valid,  "30 engineered features validated at training"],
-    ["Drift Monitoring",      false,                   "Not yet implemented (known limitation)"],
-  ];
-  if (el("ml-health-list")) {
-    el("ml-health-list").innerHTML = checks.map(([label, ok, detail]) => `
-      <div class="stat-row">
-        <span>${label}</span>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span style="font-size:11px;color:var(--text-muted);">${detail}</span>
-          <span class="pill ${ok?'pill-success':'pill-warning'}">${ok?'OK':'Warning'}</span>
-        </div>
-      </div>
-    `).join("");
-  }
-
-  // Hyperparameters
-  const hp = m.best_hyperparameters || {};
-  if (el("ml-hyperparams")) {
-    el("ml-hyperparams").innerHTML = [
-      ["iterations",      hp.iterations ?? 300],
-      ["depth",           hp.depth ?? 4],
-      ["learning_rate",   hp.learning_rate?.toFixed(6) ?? "0.030767"],
-      ["l2_leaf_reg",     hp.l2_leaf_reg?.toFixed(4) ?? "11.1745"],
-      ["class_weights",   "Balanced (auto)"],
-      ["calibration",     "Sigmoid Platt Scaling (cv=5)"],
-    ].map(([k,v]) => `<div class="stat-row"><span style="font-family:var(--font-mono);color:var(--text-secondary);">${k}</span><strong style="font-family:var(--font-mono);">${v}</strong></div>`).join("");
-  }
 }
 
 function renderRocSvg(auc) {
   const svg = document.getElementById("roc-svg");
   if (!svg) return;
-  // Build a plausible concave ROC curve approximated from AUC
   const pts = [[0,0],[0.02,0.20],[0.05,0.38],[0.10,0.55],[0.20,0.72],[0.35,0.83],[0.55,0.91],[0.75,0.96],[0.90,0.98],[1,1]];
   const W=300, H=220, PAD=36;
   const scX = x => PAD + x*(W-PAD*2);
@@ -636,46 +736,25 @@ function renderRocSvg(auc) {
   const diagD = `M${scX(0)},${scY(0)} L${scX(1)},${scY(1)}`;
   svg.innerHTML = `
     <rect width="${W}" height="${H}" rx="6" fill="#161A22"/>
-    <!-- Axes -->
     <line x1="${PAD}" y1="${PAD}" x2="${PAD}" y2="${H-PAD}" stroke="#2A3141" stroke-width="1"/>
     <line x1="${PAD}" y1="${H-PAD}" x2="${W-PAD}" y2="${H-PAD}" stroke="#2A3141" stroke-width="1"/>
-    <!-- Diagonal chance line -->
     <path d="${diagD}" stroke="#475569" stroke-width="1" stroke-dasharray="4,4" fill="none"/>
-    <!-- ROC fill -->
     <path d="${pathD} L${scX(1)},${scY(0)} Z" fill="rgba(99,102,241,0.12)"/>
-    <!-- ROC line -->
     <path d="${pathD}" stroke="#6366F1" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-    <!-- AUC Label -->
     <text x="${W/2}" y="${PAD+18}" text-anchor="middle" font-size="12" fill="#94A3B8" font-family="Inter,sans-serif">AUC = ${auc.toFixed(4)}</text>
-    <!-- Axis Labels -->
-    <text x="${PAD + (W-PAD*2)/2}" y="${H-4}" text-anchor="middle" font-size="10" fill="#64748B" font-family="Inter,sans-serif">False Positive Rate</text>
-    <text x="10" y="${PAD + (H-PAD*2)/2}" text-anchor="middle" font-size="10" fill="#64748B" font-family="Inter,sans-serif" transform="rotate(-90,10,${PAD+(H-PAD*2)/2})">True Positive Rate</text>
   `;
 }
 
 // ─── Initialisation ────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   if (window.lucide) lucide.createIcons();
+  initSplashAndAuth();
   initNav();
   initSimulator();
   initLoanCalc();
   loadHistory();
   updateStepUI();
 
-  // EMI preview live update
-  ["s4_amount","s4_dur"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener("input", updateEmiPreview);
-  });
-
-  // Age display sync
-  const ageEl = document.getElementById("s1_age");
-  const ageVal = document.getElementById("s1_age_val");
-  if (ageEl && ageVal) {
-    ageEl.addEventListener("input", () => ageVal.textContent = ageEl.value);
-  }
-
-  // Refresh history button
   const refreshBtn = document.getElementById("refreshHistBtn");
   if (refreshBtn) refreshBtn.addEventListener("click", loadHistory);
 });

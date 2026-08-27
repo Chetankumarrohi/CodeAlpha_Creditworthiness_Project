@@ -66,3 +66,24 @@ class LoanEmiRequest(BaseModel):
     principal: float = Field(1000000.0, gt=0, le=100000000)
     annual_rate: float = Field(9.5, ge=1.0, le=45.0)
     tenure_years: int = Field(5, ge=1, le=30)
+
+
+# Auth Schemas
+class UserLoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+class UserRegisterRequest(BaseModel):
+    email: str
+    password: str
+    full_name: str
+
+
+class AuthTokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user_id: str
+    email: str
+    full_name: str
+    role: str

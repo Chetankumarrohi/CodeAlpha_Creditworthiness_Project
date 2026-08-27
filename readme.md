@@ -1,92 +1,112 @@
-# ⚡ Nova Credit AI — Enterprise Credit Scoring & Risk Platform
+# Nova Credit AI — Institutional Credit Risk & Financial Intelligence Platform
 
-An enterprise-grade, production-ready AI Financial Intelligence system built with **Scikit-Learn**, **CatBoost**, **FastAPI**, **ReportLab**, and **Streamlit**.
-
----
-
-## 🌟 Key Architecture & Features
-
-- **Unified Scikit-Learn Pipeline (`ml/pipeline.py`)**: Reproducible `Pipeline` object wrapping domain feature engineering, column imputation, and standard scaling to eliminate training-serving skew.
-- **Calibrated ML Probability Model (`ml/calibrator.py`)**: Calibrated default risk probabilities using `CalibratedClassifierCV` (Platt Sigmoid Calibration), tracking ROC-AUC, PR-AUC, F1, Specificity, and Brier Score.
-- **Proprietary Nova Credit Score Engine (`ml/nova_score.py`)**: Maps calibrated probabilities and financial multipliers (DTI, savings liquidity, tenure) into a 300 to 850 score.
-- **Financial Underwriting Decision Engine (`ml/decision_engine.py`)**: Evaluates policy rules (FOIR $\le 50\%$, Disposable Income, Liquidity Reserve Ratio) independently of ML risk predictions (`APPROVED`, `CONDITIONAL`, `REJECTED`).
-- **SHAP Explainability (`ml/explainer.py`)**: TreeExplainer contributions for global and applicant-level feature impacts.
-- **Real-Time What-If Credit Simulator**: Dynamic sliders for income, existing EMI, savings, loan amount, and tenure with real-time Nova Score recalculations and credit improvement action tips.
-- **FastAPI Enterprise REST API (`backend/main.py`)**: Versioned `/api/v1` endpoints with Pydantic v2 schemas and SQLite persistent assessment logging.
-- **PDF Credit Report Generator (`backend/pdf_generator.py`)**: One-click downloadable institutional PDF Credit Assessment reports via ReportLab.
-- **Pytest Automated Test Suite (`tests/`)**: Unit tests covering pipeline execution, decision engine policy rules, and FastAPI REST endpoints.
+> **Nova Credit AI** is an explainable financial-intelligence platform that combines machine-learning credit-risk assessment, proprietary risk scoring, affordability analysis, loan intelligence, scenario simulation, and personalized financial insights within a production-oriented fintech architecture.
 
 ---
 
-## 🏗️ Repository Architecture
+## 🚀 Live Demo & Client Dashboard
 
-```
-Creditworthiness_Project/
-├── backend/
-│   ├── main.py                # FastAPI REST API Application (/api/v1)
-│   ├── database.py            # SQLite database persistence
-│   ├── schemas.py             # Pydantic v2 validation models
-│   └── pdf_generator.py       # ReportLab PDF Credit Assessment report generator
-├── app/
-│   └── app.py                 # Enterprise Streamlit Glassmorphic Dashboard
-├── ml/
-│   ├── pipeline.py            # Custom sklearn transformers & pipeline builder
-│   ├── train.py               # Stratified 5-fold CV evaluation & benchmark script
-│   ├── calibrator.py          # Probability calibration module
-│   ├── explainer.py           # SHAP feature contribution explainer
-│   ├── nova_score.py          # Proprietary Nova Credit Score (300-850) algorithm
-│   └── decision_engine.py     # Policy underwriting decision engine
-├── models/                    # Model pipeline binary (credit_pipeline.pkl)
-├── data/                      # German Credit Dataset
-├── reports/                   # Model benchmark telemetry (model_benchmark_report.json)
-└── tests/                     # Pytest test suite (test_pipeline, test_decision_engine, test_api)
-```
+The interactive client dashboard is running live at:
+**[http://localhost:8085](http://localhost:8085)**
+
+### Features:
+- **5-Step Credit Intake Wizard**: Personal → Employment → Financials → Credit Request → Review
+- **Nova Credit Score (300–850)**: Proprietary log-odds metric derived from calibrated ML output
+- **Underwriting Decision Engine**: Multi-state decisioning based on FOIR, DTI, disposable income, and liquidity rules
+- **SHAP Feature Attribution**: Transparent positive and negative risk driver identification
+- **Model Intelligence Dashboard**: Live model health, 5-Fold CV metrics, holdout confusion matrix, ROC curve, and threshold analysis
+- **PDF Report Generation**: Instant institutional underwriting assessment downloads
 
 ---
 
-## 📊 Champion Model Benchmark Matrix
+## 🏗 System Architecture
 
-| Model | ROC-AUC | 95% Confidence Interval | PR-AUC | Brier Score |
-| :--- | :---: | :---: | :---: | :---: |
-| 🏆 **CatBoost (Calibrated)** | **0.7603** | **[0.7255, 0.7929]** | **0.8568** | **0.1852** |
-| 🥈 **Logistic Regression** | 0.7575 | [0.7209, 0.7892] | 0.8602 | 0.1990 |
-| 🥉 **Random Forest** | 0.7552 | [0.7207, 0.7891] | 0.8477 | 0.1884 |
-| ⚡ **XGBoost** | 0.7478 | [0.7123, 0.7821] | 0.8464 | 0.1933 |
-| 🌲 **ExtraTrees** | 0.7386 | [0.7037, 0.7751] | 0.8409 | 0.1901 |
-
----
-
-## 🚀 Quickstart Guide
-
-### 1. Launch Streamlit Dashboard
-```bash
-./run.sh
 ```
-Open [http://localhost:8501](http://localhost:8501) in your browser.
-
-### 2. Launch FastAPI REST API & Web Server
-```bash
-./run.sh server
-```
-Open [http://localhost:8085](http://localhost:8085) for the web client or test `/api/v1/health` & `/api/v1/assess`.
-
-### 3. Run Pytest Test Suite
-```bash
-./run.sh test
-```
-
-### 4. Retrain Calibrated Pipeline
-```bash
-./run.sh train
+                               ┌──────────────────────────┐
+                               │  Applicant Form Intake   │
+                               └────────────┬─────────────┘
+                                            │
+                               ┌────────────▼─────────────┐
+                               │  Schema & Preprocessing  │
+                               └────────────┬─────────────┘
+                                            │
+                               ┌────────────▼─────────────┐
+                               │  CatBoost ML Pipeline    │
+                               └────────────┬─────────────┘
+                                            │
+                               ┌────────────▼─────────────┐
+                               │ Calibrated Probability   │
+                               │   (Platt Sigmoid ECE)    │
+                               └────────────┬─────────────┘
+                                            │
+                        ┌───────────────────┴───────────────────┐
+                        │                                       │
+           ┌────────────▼─────────────┐           ┌─────────────▼────────────┐
+           │   Nova Score Generator   │           │    Underwriting Policy   │
+           │  (Log-Odds 300–850 Band) │           │  (FOIR / DTI / Capacity) │
+           └────────────┬─────────────┘           └─────────────┬────────────┘
+                        │                                       │
+                        └───────────────────┬───────────────────┘
+                                            │
+                               ┌────────────▼─────────────┐
+                               │ SHAP Explainer & Drivers │
+                               └────────────┬─────────────┘
+                                            │
+                               ┌────────────▼─────────────┐
+                               │   Underwriting Verdict   │
+                               └──────────────────────────┘
 ```
 
 ---
 
-## 🐳 Docker Container Deployment
+## 📊 Champion Model Metrics (Statlog German Credit Benchmark)
+
+| Metric | Holdout (N=200) | 5-Fold Cross Validation |
+| :--- | :---: | :---: |
+| **Champion Architecture** | **CatBoost (Tuned)** | **CatBoost (Tuned)** |
+| **ROC-AUC** | **0.7686** | **0.7697** |
+| **PR-AUC** | **0.8630** | **0.8683** |
+| **Calibration (ECE)** | **1.67%** (Sigmoid Platt) | — |
+| **Brier Score** | **0.1673** | **0.1862** |
+| **F1-Score** | **0.8477** | **0.7897** |
+
+---
+
+## 🛠 Technology Stack
+
+- **Frontend**: HTML5, Vanilla CSS3 (Custom Restrained Dark Fintech Design Tokens), JavaScript (ES6+ SPA Router), Lucide Icons
+- **Backend**: FastAPI, Pydantic v2, SQLAlchemy ORM, ReportLab PDF Engine
+- **Machine Learning**: CatBoost, Scikit-Learn, SHAP, Optuna, Joblib
+- **Database & Storage**: SQLite (Development) / PostgreSQL-ready SQLAlchemy Engine
+- **Containerization & Testing**: Docker, Docker Compose, Pytest
+
+---
+
+## 🏃 Running Locally
 
 ```bash
-# Build and start services via Docker Compose
-docker-compose up --build
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Train and validate ML pipeline
+python ml/train.py
+
+# 3. Launch FastAPI server
+python -m uvicorn backend.main:app --host 0.0.0.0 --port 8085
 ```
-- Streamlit Dashboard: `http://localhost:8501`
-- FastAPI REST API: `http://localhost:8085`
+
+Navigate to `http://localhost:8085` in your browser.
+
+---
+
+## 🐳 Docker Deployment
+
+```bash
+docker-compose up --build -d
+```
+
+---
+
+## 📜 Legal & Model Disclaimers
+
+> **Disclaimer**: Nova Credit Score is a proprietary model-derived risk metric developed for analytical and demonstration purposes. It is **not** a credit bureau score and does not represent CIBIL, Experian, Equifax, CRIF, or FICO scores. All predictions should be evaluated alongside human underwriting judgment.
