@@ -7,7 +7,9 @@
 ## 🚀 Live Demo & Client Dashboard
 
 The interactive client dashboard is running live at:
-**[http://localhost:8085](http://localhost:8085)**
+- 🌐 **Public Live URL**: **[https://c4d1fc047258fc.lhr.life](https://c4d1fc047258fc.lhr.life)**
+- 💻 **Local URL**: **[http://localhost:8085](http://localhost:8085)**
+
 
 ### Features:
 - **5-Step Credit Intake Wizard**: Personal → Employment → Financials → Credit Request → Review
