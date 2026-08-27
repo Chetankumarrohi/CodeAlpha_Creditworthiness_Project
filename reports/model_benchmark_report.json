@@ -1,0 +1,272 @@
+{
+  "champion_model": "CatBoost (Tuned)",
+  "champion_cv_roc_auc": 0.7697,
+  "holdout_test_metrics": {
+    "roc_auc": 0.7686,
+    "pr_auc": 0.863,
+    "accuracy": 0.77,
+    "balanced_accuracy": 0.6738,
+    "f1_score": 0.8477,
+    "precision": 0.7901,
+    "recall_good": 0.9143,
+    "recall_bad": 0.4333,
+    "specificity": 0.4333,
+    "brier_score": 0.1673,
+    "log_loss": 0.5096,
+    "false_approvals_bad": 34,
+    "false_rejections_good": 12,
+    "confusion_matrix": [
+      [
+        26,
+        34
+      ],
+      [
+        12,
+        128
+      ]
+    ]
+  },
+  "cv_benchmark_matrix": {
+    "CatBoost (Tuned)": {
+      "roc_auc": 0.7697,
+      "pr_auc": 0.8683,
+      "accuracy": 0.7238,
+      "balanced_accuracy": 0.7122,
+      "f1_score": 0.7897,
+      "precision": 0.8452,
+      "recall_good": 0.7411,
+      "recall_bad": 0.6833,
+      "specificity": 0.6833,
+      "brier_score": 0.1862,
+      "log_loss": 0.5527,
+      "false_approvals_bad": 76,
+      "false_rejections_good": 145,
+      "confusion_matrix": [
+        [
+          164,
+          76
+        ],
+        [
+          145,
+          415
+        ]
+      ]
+    },
+    "ExtraTrees (Tuned)": {
+      "roc_auc": 0.751,
+      "pr_auc": 0.8622,
+      "accuracy": 0.6887,
+      "balanced_accuracy": 0.6979,
+      "f1_score": 0.7522,
+      "precision": 0.8494,
+      "recall_good": 0.675,
+      "recall_bad": 0.7208,
+      "specificity": 0.7208,
+      "brier_score": 0.1979,
+      "log_loss": 0.5793,
+      "false_approvals_bad": 67,
+      "false_rejections_good": 182,
+      "confusion_matrix": [
+        [
+          173,
+          67
+        ],
+        [
+          182,
+          378
+        ]
+      ]
+    },
+    "RandomForest": {
+      "roc_auc": 0.763,
+      "pr_auc": 0.851,
+      "accuracy": 0.7163,
+      "balanced_accuracy": 0.708,
+      "f1_score": 0.7824,
+      "precision": 0.8447,
+      "recall_good": 0.7286,
+      "recall_bad": 0.6875,
+      "specificity": 0.6875,
+      "brier_score": 0.188,
+      "log_loss": 0.5593,
+      "false_approvals_bad": 75,
+      "false_rejections_good": 152,
+      "confusion_matrix": [
+        [
+          165,
+          75
+        ],
+        [
+          152,
+          408
+        ]
+      ]
+    },
+    "XGBoost": {
+      "roc_auc": 0.7537,
+      "pr_auc": 0.8573,
+      "accuracy": 0.715,
+      "balanced_accuracy": 0.7012,
+      "f1_score": 0.7833,
+      "precision": 0.8374,
+      "recall_good": 0.7357,
+      "recall_bad": 0.6667,
+      "specificity": 0.6667,
+      "brier_score": 0.1906,
+      "log_loss": 0.5645,
+      "false_approvals_bad": 80,
+      "false_rejections_good": 148,
+      "confusion_matrix": [
+        [
+          160,
+          80
+        ],
+        [
+          148,
+          412
+        ]
+      ]
+    },
+    "HistGradientBoosting": {
+      "roc_auc": 0.7337,
+      "pr_auc": 0.8432,
+      "accuracy": 0.7125,
+      "balanced_accuracy": 0.6708,
+      "f1_score": 0.7905,
+      "precision": 0.8067,
+      "recall_good": 0.775,
+      "recall_bad": 0.5667,
+      "specificity": 0.5667,
+      "brier_score": 0.1984,
+      "log_loss": 0.6331,
+      "false_approvals_bad": 104,
+      "false_rejections_good": 126,
+      "confusion_matrix": [
+        [
+          136,
+          104
+        ],
+        [
+          126,
+          434
+        ]
+      ]
+    },
+    "LogisticRegression": {
+      "roc_auc": 0.749,
+      "pr_auc": 0.8626,
+      "accuracy": 0.6887,
+      "balanced_accuracy": 0.6908,
+      "f1_score": 0.7552,
+      "precision": 0.8403,
+      "recall_good": 0.6857,
+      "recall_bad": 0.6958,
+      "specificity": 0.6958,
+      "brier_score": 0.2017,
+      "log_loss": 0.5893,
+      "false_approvals_bad": 73,
+      "false_rejections_good": 176,
+      "confusion_matrix": [
+        [
+          167,
+          73
+        ],
+        [
+          176,
+          384
+        ]
+      ]
+    }
+  },
+  "threshold_optimization": [
+    {
+      "threshold": 0.35,
+      "approval_rate": 94.0,
+      "default_rate_in_approved": 26.6,
+      "recall_bad": 0.1667,
+      "f1_score": 0.8415,
+      "balanced_accuracy": 0.5762,
+      "false_approvals_bad": 50,
+      "false_rejections_good": 2
+    },
+    {
+      "threshold": 0.4,
+      "approval_rate": 92.0,
+      "default_rate_in_approved": 26.1,
+      "recall_bad": 0.2,
+      "f1_score": 0.8395,
+      "balanced_accuracy": 0.5857,
+      "false_approvals_bad": 48,
+      "false_rejections_good": 4
+    },
+    {
+      "threshold": 0.45,
+      "approval_rate": 87.0,
+      "default_rate_in_approved": 23.6,
+      "recall_bad": 0.3167,
+      "f1_score": 0.8471,
+      "balanced_accuracy": 0.6333,
+      "false_approvals_bad": 41,
+      "false_rejections_good": 7
+    },
+    {
+      "threshold": 0.5,
+      "approval_rate": 81.0,
+      "default_rate_in_approved": 21.0,
+      "recall_bad": 0.4333,
+      "f1_score": 0.8477,
+      "balanced_accuracy": 0.6738,
+      "false_approvals_bad": 34,
+      "false_rejections_good": 12
+    },
+    {
+      "threshold": 0.55,
+      "approval_rate": 76.5,
+      "default_rate_in_approved": 19.0,
+      "recall_bad": 0.5167,
+      "f1_score": 0.8464,
+      "balanced_accuracy": 0.7012,
+      "false_approvals_bad": 29,
+      "false_rejections_good": 16
+    },
+    {
+      "threshold": 0.6,
+      "approval_rate": 70.0,
+      "default_rate_in_approved": 18.6,
+      "recall_bad": 0.5667,
+      "f1_score": 0.8143,
+      "balanced_accuracy": 0.6905,
+      "false_approvals_bad": 26,
+      "false_rejections_good": 26
+    },
+    {
+      "threshold": 0.65,
+      "approval_rate": 59.5,
+      "default_rate_in_approved": 16.0,
+      "recall_bad": 0.6833,
+      "f1_score": 0.7722,
+      "balanced_accuracy": 0.6988,
+      "false_approvals_bad": 19,
+      "false_rejections_good": 40
+    },
+    {
+      "threshold": 0.7,
+      "approval_rate": 53.0,
+      "default_rate_in_approved": 15.1,
+      "recall_bad": 0.7333,
+      "f1_score": 0.7317,
+      "balanced_accuracy": 0.6881,
+      "false_approvals_bad": 16,
+      "false_rejections_good": 50
+    }
+  ],
+  "best_hyperparameters": {
+    "iterations": 300,
+    "depth": 4,
+    "learning_rate": 0.030767105027257758,
+    "l2_leaf_reg": 11.174493787217246
+  },
+  "is_calibrated": true,
+  "calibration_method": "sigmoid_platt",
+  "generated_timestamp": "2026-08-27T10:21:22.442703+00:00"
+}

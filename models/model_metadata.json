@@ -1,0 +1,109 @@
+{
+  "champion_model": "ExtraTrees",
+  "best_roc_auc": 0.7683,
+  "all_metrics": {
+    "CatBoost": {
+      "roc_auc": 0.7608,
+      "accuracy": 0.725,
+      "f1_score": 0.7925,
+      "precision": 0.84,
+      "recall": 0.75,
+      "confusion_matrix": [
+        [
+          40,
+          20
+        ],
+        [
+          35,
+          105
+        ]
+      ]
+    },
+    "RandomForest": {
+      "roc_auc": 0.7657,
+      "accuracy": 0.69,
+      "f1_score": 0.7578,
+      "precision": 0.8362,
+      "recall": 0.6929,
+      "confusion_matrix": [
+        [
+          41,
+          19
+        ],
+        [
+          43,
+          97
+        ]
+      ]
+    },
+    "HistGradientBoosting": {
+      "roc_auc": 0.7411,
+      "accuracy": 0.72,
+      "f1_score": 0.7926,
+      "precision": 0.8231,
+      "recall": 0.7643,
+      "confusion_matrix": [
+        [
+          37,
+          23
+        ],
+        [
+          33,
+          107
+        ]
+      ]
+    },
+    "ExtraTrees": {
+      "roc_auc": 0.7683,
+      "accuracy": 0.7,
+      "f1_score": 0.7674,
+      "precision": 0.839,
+      "recall": 0.7071,
+      "confusion_matrix": [
+        [
+          41,
+          19
+        ],
+        [
+          41,
+          99
+        ]
+      ]
+    }
+  },
+  "feature_count": 30,
+  "training_samples": 800,
+  "test_samples": 200,
+  "feature_importances": {
+    "Checking account_none": 0.18844034672225113,
+    "Checking_Score": 0.07634980195555105,
+    "Log_Duration": 0.06265405101270918,
+    "Duration": 0.056898498270398015,
+    "Credit_to_Age": 0.045371265244746446,
+    "Credit_per_Month": 0.04404168208696264,
+    "Credit amount": 0.04230003625756578,
+    "Log_Credit": 0.040129720635598214,
+    "Purpose_radio/TV": 0.037325869596192864,
+    "Age": 0.03629307716541115,
+    "Saving accounts_none": 0.03506125989984528,
+    "Savings_Score": 0.031050090749562432,
+    "Job": 0.029087123255661165,
+    "Sex_male": 0.028229606265196928,
+    "Age_Group_adult": 0.024486882072385023,
+    "Housing_own": 0.024073269491129437,
+    "Checking account_moderate": 0.02271910553032547,
+    "Age_Group_early_adult": 0.0212431440700005,
+    "Purpose_car": 0.019690240113887026,
+    "Saving accounts_rich": 0.019128286028925346,
+    "Purpose_education": 0.01702208260415156,
+    "Housing_rent": 0.015034135070576006,
+    "Saving accounts_moderate": 0.01469928276652927,
+    "Checking account_rich": 0.014213504381028853,
+    "Purpose_furniture/equipment": 0.01361091755609502,
+    "Age_Group_senior": 0.012107062044155379,
+    "Saving accounts_quite rich": 0.010890593071527932,
+    "Purpose_repairs": 0.010792017051656147,
+    "Purpose_vacation/others": 0.00511773513079813,
+    "Purpose_domestic appliances": 0.0019393138991765154
+  }
+}

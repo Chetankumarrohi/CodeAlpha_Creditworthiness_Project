@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Nova Credit AI — Institutional Underwriting & Financial Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- ════════════════════════ SIDEBAR ════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand-icon"><i data-lucide="shield" style="width:15px;height:15px;stroke:white;"></i></div>
+      <span class="brand-name">NOVA CREDIT</span>
+      <span class="brand-ver">v2.2</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div>
+        <div class="nav-group-label">Overview</div>
+        <ul class="nav-list">
+          <li><a class="nav-item active" data-tab="overview"><i data-lucide="layout-grid"></i><span>Financial Overview</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="nav-group-label">Credit Intelligence</div>
+        <ul class="nav-list">
+          <li><a class="nav-item" data-tab="assessment"><i data-lucide="user-check"></i><span>Credit Assessment</span></a></li>
+          <li><a class="nav-item" data-tab="simulator"><i data-lucide="sliders"></i><span>What-If Simulator</span></a></li>
+          <li><a class="nav-item" data-tab="history"><i data-lucide="clock"></i><span>Assessment History</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="nav-group-label">Loan Intelligence</div>
+        <ul class="nav-list">
+          <li><a class="nav-item" data-tab="calculator"><i data-lucide="calculator"></i><span>Loan & Amortization</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="nav-group-label">Wealth Intelligence</div>
+        <ul class="nav-list">
+          <li><a class="nav-item" data-tab="funds"><i data-lucide="trending-up"></i><span>Fund Explorer</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="nav-group-label">AI & Analytics</div>
+        <ul class="nav-list">
+          <li><a class="nav-item" data-tab="telemetry"><i data-lucide="cpu"></i><span>Model Intelligence</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="avatar">CK</div>
+      <div class="user-info">
+        <span class="user-name">Underwriting Desk</span>
+        <span class="user-role">Risk Officer</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ════════════════════════ WORKSPACE ════════════════════════ -->
+  <main class="workspace">
+    <header class="topbar">
+      <div class="page-title" id="pageTitle">Financial Overview</div>
+      <div class="topbar-right">
+        <div class="status-chip">
+          <span class="dot dot-green" id="modelDot"></span>
+          <span id="modelStatus">Champion CatBoost · Platt Calibrated</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- ══════════ SECTION: OVERVIEW ══════════ -->
+      <section class="view-section active" id="view-overview">
+        <div class="hero-row">
+          <div class="hero-metric">
+            <span class="metric-lbl">Nova Credit Score</span>
+            <span class="metric-val" style="color:var(--text-primary);" id="ov-score">—</span>
+            <span class="metric-sub"><span class="pill pill-neutral" id="ov-tier">—</span></span>
+          </div>
+          <div class="hero-metric">
+            <span class="metric-lbl">Risk Profile</span>
+            <span class="metric-val" id="ov-risk">—</span>
+            <span class="metric-sub" id="ov-prob">— Calibrated</span>
+          </div>
+          <div class="hero-metric">
+            <span class="metric-lbl">Debt Obligation (FOIR)</span>
+            <span class="metric-val" id="ov-foir">—</span>
+            <span class="metric-sub" style="color:var(--text-muted);">Cap: 50.0% Max</span>
+          </div>
+          <div class="hero-metric">
+            <span class="metric-lbl">Eligibility Verdict</span>
+            <span class="metric-val" style="font-size:18px;" id="ov-decision">—</span>
+            <span class="metric-sub"><span class="pill pill-neutral" id="ov-dec-pill">Run Assessment</span></span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title"><i data-lucide="activity"></i>Financial Health & Capacity</div>
+                <div class="panel-sub">Live from most recent assessment</div>
+              </div>
+            </div>
+            <div class="stat-list" id="ov-health">
+              <div class="stat-row"><span>Run your first credit assessment to see live metrics</span><strong>—</strong></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title"><i data-lucide="bar-chart-2"></i>SHAP Key Risk Drivers</div>
+                <div class="panel-sub">Feature attribution from last assessment</div>
+              </div>
+            </div>
+            <div id="ov-drivers">
+              <p style="font-size:12px;color:var(--text-muted);padding:8px 0;">No assessment run yet. Submit a credit profile to see SHAP drivers.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title"><i data-lucide="clock"></i>Recent Underwriting Assessments</div>
+              <div class="panel-sub">Persisted in SQLAlchemy audit ledger</div>
+            </div>
+            <button class="btn btn-primary" onclick="document.querySelector('[data-tab=assessment]').click()">
+              <i data-lucide="plus"></i><span>New Assessment</span>
+            </button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Applicant</th><th>Loan</th><th>Nova Score</th><th>Risk Band</th><th>P(Good)</th><th>Verdict</th></tr></thead>
+              <tbody id="ov-history-table"><tr><td colspan="7" style="text-align:center;padding:16px;color:var(--text-muted);">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <p class="legal">Nova Credit Score is Nova's proprietary model-derived risk metric. It is not a credit bureau score and does not represent CIBIL, Experian, Equifax, CRIF, or FICO scores. Outputs are for institutional research and analytical purposes only.</p>
+      </section>
+
+      <!-- ══════════ SECTION: ASSESSMENT (5-Step Wizard) ══════════ -->
+      <section class="view-section" id="view-assessment">
+        <!-- Step form + Result pane -->
+        <div class="grid-2" id="assessment-grid">
+          <!-- LEFT: Wizard Form -->
+          <div class="panel" id="wizard-panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title"><i data-lucide="user-check"></i>Credit Underwriting Profile</div>
+                <div class="panel-sub">Five-step verified applicant intake form</div>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="step-progress" id="stepProgress">
+              <div class="step-item">
+                <div class="step-circle active" id="sc-1">01</div>
+                <span class="step-label active" id="sl-1">Personal</span>
+                <div class="step-connector" id="scon-1"></div>
+              </div>
+              <div class="step-item">
+                <div class="step-circle" id="sc-2">02</div>
+                <span class="step-label" id="sl-2">Employment</span>
+                <div class="step-connector" id="scon-2"></div>
+              </div>
+              <div class="step-item">
+                <div class="step-circle" id="sc-3">03</div>
+                <span class="step-label" id="sl-3">Financials</span>
+                <div class="step-connector" id="scon-3"></div>
+              </div>
+              <div class="step-item">
+                <div class="step-circle" id="sc-4">04</div>
+                <span class="step-label" id="sl-4">Credit</span>
+                <div class="step-connector" id="scon-4"></div>
+              </div>
+              <div class="step-item">
+                <div class="step-circle" id="sc-5">05</div>
+                <span class="step-label" id="sl-5">Review</span>
+              </div>
+            </div>
+
+            <!-- Step 1: Personal -->
+            <div class="step-panel active" id="step-1">
+              <div class="form-grid">
+                <div class="field span-2">
+                  <label>Full Legal Name</label>
+                  <input type="text" id="s1_name" value="Rohan Verma" placeholder="As on official documentation"/>
+                </div>
+                <div class="field">
+                  <label>Age <span class="lbl-val" id="s1_age_val">32</span></label>
+                  <input type="number" id="s1_age" value="32" min="18" max="85"/>
+                </div>
+                <div class="field">
+                  <label>Gender</label>
+                  <select id="s1_sex"><option value="male">Male</option><option value="female">Female</option></select>
+                </div>
+                <div class="field span-2">
+                  <label>Housing Status</label>
+                  <select id="s1_housing">
+                    <option value="own">Own House</option>
+                    <option value="rent">Rented</option>
+                    <option value="free">Free / Employer Provided</option>
+                  </select>
+                </div>
+              </div>
+              <div class="step-nav">
+                <span style="font-size:12px;color:var(--text-muted);">Step 1 of 5</span>
+                <button class="btn btn-primary" onclick="nextStep(2)"><span>Employment Details</span><i data-lucide="arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Step 2: Employment -->
+            <div class="step-panel" id="step-2">
+              <div class="form-grid">
+                <div class="field span-2">
+                  <label>Employment Type</label>
+                  <select id="s2_job">
+                    <option value="skilled">Skilled Employee</option>
+                    <option value="highly skilled">Highly Skilled / Manager</option>
+                    <option value="unskilled">Unskilled Worker</option>
+                    <option value="unemployed">Unemployed / Self-employed</option>
+                  </select>
+                </div>
+                <div class="field span-2">
+                  <label>Loan Purpose</label>
+                  <select id="s2_purpose">
+                    <option value="car">Vehicle / Car</option>
+                    <option value="furniture/equipment">Furniture / Equipment</option>
+                    <option value="radio/TV">Consumer Electronics</option>
+                    <option value="domestic appliances">Domestic Appliances</option>
+                    <option value="repairs">Repairs / Renovation</option>
+                    <option value="education">Education</option>
+                    <option value="business">Business</option>
+                    <option value="vacation">Vacation</option>
+                    <option value="others">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="step-nav">
+                <button class="btn btn-secondary" onclick="nextStep(1)"><i data-lucide="arrow-left"></i><span>Back</span></button>
+                <button class="btn btn-primary" onclick="nextStep(3)"><span>Financial Profile</span><i data-lucide="arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Step 3: Financials -->
+            <div class="step-panel" id="step-3">
+              <div class="form-grid">
+                <div class="field">
+                  <label>Monthly Net Income (₹)</label>
+                  <input type="number" id="s3_income" value="90000" min="5000" placeholder="e.g. 90000"/>
+                </div>
+                <div class="field">
+                  <label>Existing Monthly EMIs (₹)</label>
+                  <input type="number" id="s3_emi" value="5000" min="0" placeholder="e.g. 5000"/>
+                </div>
+                <div class="field">
+                  <label>Emergency Savings (₹)</label>
+                  <input type="number" id="s3_savings" value="250000" min="0" placeholder="e.g. 250000"/>
+                </div>
+                <div class="field">
+                  <label>Savings Account Standing</label>
+                  <select id="s3_saving_acc">
+                    <option value="rich">Rich (> ₹10 Lakhs)</option>
+                    <option value="quite rich">Quite Rich (₹5L–₹10L)</option>
+                    <option value="moderate" selected>Moderate (₹1L–₹5L)</option>
+                    <option value="little">Little (< ₹1L)</option>
+                    <option value="none">None</option>
+                  </select>
+                </div>
+                <div class="field span-2">
+                  <label>Checking Account Status</label>
+                  <select id="s3_check_acc">
+                    <option value="rich">Rich (> ₹2 Lakhs)</option>
+                    <option value="moderate" selected>Moderate</option>
+                    <option value="little">Little (< ₹50k)</option>
+                    <option value="none">No Checking Account</option>
+                  </select>
+                </div>
+              </div>
+              <div class="step-nav">
+                <button class="btn btn-secondary" onclick="nextStep(2)"><i data-lucide="arrow-left"></i><span>Back</span></button>
+                <button class="btn btn-primary" onclick="nextStep(4)"><span>Credit Request</span><i data-lucide="arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Step 4: Credit Request -->
+            <div class="step-panel" id="step-4">
+              <div class="form-grid">
+                <div class="field">
+                  <label>Requested Loan Amount (₹)</label>
+                  <input type="number" id="s4_amount" value="200000" min="1000" placeholder="e.g. 200000"/>
+                </div>
+                <div class="field">
+                  <label>Repayment Tenure (Months)</label>
+                  <input type="number" id="s4_dur" value="18" min="6" max="84" placeholder="e.g. 18"/>
+                </div>
+                <div class="field span-2" style="background:var(--surface-elevated);padding:12px;border-radius:var(--r-md);border:1px solid var(--border-dim);">
+                  <p style="font-size:11px;color:var(--text-muted);">Estimated Monthly EMI at 10.5% p.a.</p>
+                  <p style="font-family:var(--font-mono);font-size:20px;font-weight:700;margin-top:4px;" id="s4_emi_preview">₹ —</p>
+                </div>
+              </div>
+              <div class="step-nav">
+                <button class="btn btn-secondary" onclick="nextStep(3)"><i data-lucide="arrow-left"></i><span>Back</span></button>
+                <button class="btn btn-primary" onclick="nextStep(5)"><span>Review & Submit</span><i data-lucide="arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Step 5: Review & Submit -->
+            <div class="step-panel" id="step-5">
+              <div class="stat-list" id="review-summary"></div>
+              <div class="step-nav">
+                <button class="btn btn-secondary" onclick="nextStep(4)"><i data-lucide="arrow-left"></i><span>Edit</span></button>
+                <button class="btn btn-primary" id="submitBtn" onclick="submitAssessment()">
+                  <i data-lucide="zap"></i><span>Execute Underwriting Assessment</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Result Pane -->
+          <div class="panel" id="result-panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title"><i data-lucide="shield-check"></i>Underwriting Output</div>
+                <div class="panel-sub">ML Risk · Nova Score · Policy Engine · SHAP</div>
+              </div>
+            </div>
+            <div id="result-content">
+              <div style="text-align:center;padding:56px 16px;color:var(--text-muted);">
+                <i data-lucide="file-search" style="width:40px;height:40px;stroke:var(--text-dim);margin-bottom:14px;"></i>
+                <p style="font-size:13px;line-height:1.6;">Complete the 5-step applicant profile form and click <strong style="color:var(--text-secondary);">Execute Underwriting Assessment</strong> to trigger the calibrated CatBoost pipeline, Nova Score log-odds calculation, and SHAP feature attribution.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ SECTION: SIMULATOR ══════════ -->
+      <section class="view-section" id="view-simulator">
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-head"><div><div class="panel-title"><i data-lucide="sliders"></i>Real-Time Scenario Parameters</div><div class="panel-sub">Adjust to see instant Nova Score recalculation</div></div></div>
+            <div class="form-grid">
+              <div class="field span-2">
+                <label>Monthly Net Income <span class="lbl-val" id="sim_v_income">₹75,000</span></label>
+                <input type="range" id="sim_income" min="20000" max="300000" step="5000" value="75000"/>
+              </div>
+              <div class="field span-2">
+                <label>Requested Loan Amount <span class="lbl-val" id="sim_v_credit">₹2,00,000</span></label>
+                <input type="range" id="sim_credit" min="20000" max="1000000" step="10000" value="200000"/>
+              </div>
+              <div class="field span-2">
+                <label>Repayment Tenure <span class="lbl-val" id="sim_v_dur">24 Months</span></label>
+                <input type="range" id="sim_duration" min="6" max="60" step="6" value="24"/>
+              </div>
+              <div class="field span-2">
+                <label>Existing Monthly EMIs <span class="lbl-val" id="sim_v_emi">₹5,000</span></label>
+                <input type="range" id="sim_emi" min="0" max="100000" step="2000" value="5000"/>
+              </div>
+              <div class="field span-2">
+                <label>Emergency Savings <span class="lbl-val" id="sim_v_sav">₹80,000</span></label>
+                <input type="range" id="sim_savings" min="0" max="1000000" step="10000" value="80000"/>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><div class="panel-title"><i data-lucide="trending-up"></i>Simulated Output</div><div class="panel-sub">Live projection from policy engine</div></div></div>
+            <div id="simResult"><div style="text-align:center;padding:40px;"><div class="spinner"></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ SECTION: HISTORY ══════════ -->
+      <section class="view-section" id="view-history">
+        <div class="panel">
+          <div class="panel-head">
+            <div><div class="panel-title"><i data-lucide="clock"></i>Assessment Audit Ledger</div><div class="panel-sub">SQLAlchemy-persisted chronological record</div></div>
+            <button class="btn btn-secondary" id="refreshHistBtn"><i data-lucide="refresh-cw"></i><span>Refresh</span></button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Timestamp</th><th>Applicant</th><th>Loan</th><th>Nova Score</th><th>Risk Band</th><th>P(Good)</th><th>Verdict</th><th>Report</th></tr></thead>
+              <tbody id="hist-table"><tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text-muted);">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ SECTION: CALCULATOR ══════════ -->
+      <section class="view-section" id="view-calculator">
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-head"><div><div class="panel-title"><i data-lucide="calculator"></i>Loan Amortization</div><div class="panel-sub">Compound interest schedule calculator</div></div></div>
+            <form id="loanForm" class="form-grid">
+              <div class="field span-2"><label>Principal (₹)</label><input type="number" id="emi_principal" value="1000000"/></div>
+              <div class="field"><label>Annual Rate (%)</label><input type="number" id="emi_rate" value="9.5" step="0.1"/></div>
+              <div class="field"><label>Tenure (Years)</label><input type="number" id="emi_tenure" value="5" min="1" max="30"/></div>
+              <div class="field span-2" style="margin-top:6px;"><button type="submit" class="btn btn-primary btn-block"><i data-lucide="percent"></i><span>Calculate</span></button></div>
+            </form>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><div class="panel-title"><i data-lucide="pie-chart"></i>Payment Breakdown</div></div></div>
+            <div class="stat-list">
+              <div class="stat-row" style="padding:14px 12px;"><span style="font-size:14px;font-weight:600;">Monthly EMI</span><strong id="r_emi" style="font-size:22px;color:var(--primary);">₹21,002</strong></div>
+              <div class="stat-row"><span>Total Interest Payable</span><strong id="r_interest">₹2,60,118</strong></div>
+              <div class="stat-row"><span>Total Outlay (P + I)</span><strong id="r_total">₹12,60,118</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ SECTION: FUND EXPLORER ══════════ -->
+      <section class="view-section" id="view-funds">
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title"><i data-lucide="trending-up"></i>Direct Mutual Fund Explorer</div><div class="panel-sub">Benchmark returns for top-rated Indian funds</div></div></div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Rank</th><th>Fund Name</th><th>Category</th><th>1Y Return</th><th>3Y CAGR</th></tr></thead>
+              <tbody>
+                <tr><td><span class="pill pill-success">#1</span></td><td><strong>Nippon India Large Cap Fund</strong></td><td>Large Cap</td><td style="color:var(--success);font-family:var(--font-mono);font-weight:700;">+34.2%</td><td style="color:var(--info);font-family:var(--font-mono);font-weight:700;">+22.5%</td></tr>
+                <tr><td><span class="pill pill-success">#2</span></td><td><strong>Motilal Oswal Midcap Fund</strong></td><td>Mid Cap</td><td style="color:var(--success);font-family:var(--font-mono);font-weight:700;">+48.5%</td><td style="color:var(--info);font-family:var(--font-mono);font-weight:700;">+31.4%</td></tr>
+                <tr><td><span class="pill pill-success">#3</span></td><td><strong>Quant Small Cap Fund</strong></td><td>Small Cap</td><td style="color:var(--success);font-family:var(--font-mono);font-weight:700;">+52.1%</td><td style="color:var(--info);font-family:var(--font-mono);font-weight:700;">+36.8%</td></tr>
+                <tr><td><span class="pill pill-success">#4</span></td><td><strong>Parag Parikh Flexi Cap Fund</strong></td><td>Flexi Cap</td><td style="color:var(--success);font-family:var(--font-mono);font-weight:700;">+38.9%</td><td style="color:var(--info);font-family:var(--font-mono);font-weight:700;">+24.1%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ SECTION: MODEL INTELLIGENCE ══════════ -->
+      <section class="view-section" id="view-telemetry">
+
+        <!-- Model Status Row -->
+        <div class="grid-4" style="margin-bottom:20px;" id="ml-status-row">
+          <div class="panel" style="margin-bottom:0;">
+            <span class="metric-lbl">Champion Architecture</span>
+            <div class="metric-val" style="font-size:18px;" id="ml-model-name">CatBoost (Tuned)</div>
+            <div class="metric-sub"><span class="pill pill-success" id="ml-health-badge">Healthy</span></div>
+          </div>
+          <div class="panel" style="margin-bottom:0;">
+            <span class="metric-lbl">CV ROC-AUC (5-Fold)</span>
+            <div class="metric-val" style="font-size:26px;" id="ml-roc">0.7697</div>
+            <div class="metric-sub" style="color:var(--text-muted);">Holdout: <span id="ml-roc-holdout">0.7686</span></div>
+          </div>
+          <div class="panel" style="margin-bottom:0;">
+            <span class="metric-lbl">Calibration (ECE)</span>
+            <div class="metric-val" style="font-size:26px;" id="ml-ece">1.67%</div>
+            <div class="metric-sub"><span class="pill pill-success" id="ml-cal-badge">Sigmoid Platt</span></div>
+          </div>
+          <div class="panel" style="margin-bottom:0;">
+            <span class="metric-lbl">Brier Score</span>
+            <div class="metric-val" style="font-size:26px;" id="ml-brier">0.1673</div>
+            <div class="metric-sub" style="color:var(--text-muted);">Lower is better</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Left column -->
+          <div>
+            <!-- Holdout Metrics Table -->
+            <div class="panel">
+              <div class="panel-head"><div><div class="panel-title"><i data-lucide="table"></i>Holdout Test Set Metrics (N=200)</div><div class="panel-sub">Untouched partition, evaluated once after tuning</div></div></div>
+              <div class="table-wrap">
+                <table class="data-table" id="ml-holdout-table">
+                  <thead><tr><th>Metric</th><th>Value</th><th>Credit Relevance</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Confusion Matrix -->
+            <div class="panel">
+              <div class="panel-head"><div><div class="panel-title"><i data-lucide="grid"></i>Confusion Matrix — Holdout N=200</div><div class="panel-sub">Default threshold τ=0.50</div></div></div>
+              <div id="conf-matrix-container" style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;">
+                <div class="conf-grid" id="conf-matrix">
+                  <!-- rendered by JS -->
+                </div>
+                <div style="font-size:11px;color:var(--text-muted);line-height:1.8;max-width:200px;">
+                  <p style="margin-bottom:6px;"><strong style="color:var(--text-secondary);">Key credit risk metrics:</strong></p>
+                  <p>False Approvals (Bad borrowers approved): <strong id="cm-fa" style="color:var(--danger);">34</strong></p>
+                  <p>False Rejections (Good borrowers denied): <strong id="cm-fr" style="color:var(--warning);">12</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div>
+            <!-- ROC-AUC visual -->
+            <div class="panel">
+              <div class="panel-head"><div><div class="panel-title"><i data-lucide="activity"></i>ROC-AUC Curve (Approximated)</div><div class="panel-sub">True positive vs. false positive rate sweep</div></div></div>
+              <svg class="roc-svg" viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" id="roc-svg">
+                <!-- Rendered by JS -->
+              </svg>
+            </div>
+
+            <!-- Threshold Analysis -->
+            <div class="panel">
+              <div class="panel-head"><div><div class="panel-title"><i data-lucide="sliders"></i>Threshold Optimization Analysis</div><div class="panel-sub">Trade-off: false approvals vs. false rejections</div></div></div>
+              <div class="bar-chart" id="threshold-chart"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Model Comparison Table -->
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title"><i data-lucide="layers"></i>Model Benchmark Comparison (Stratified 5-Fold CV)</div><div class="panel-sub">Champion row highlighted — Optuna-tuned</div></div></div>
+          <div class="table-wrap">
+            <table class="data-table" id="ml-comparison-table">
+              <thead><tr><th>Model</th><th>ROC-AUC</th><th>PR-AUC</th><th>F1</th><th>Balanced Acc.</th><th>Recall (Good)</th><th>Recall (Bad)</th><th>Brier Score</th><th>Status</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Feature Importance (SHAP Global) -->
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title"><i data-lucide="bar-chart-2"></i>Global Feature Importance (SHAP-Informed Ranking)</div><div class="panel-sub">Based on domain knowledge + CatBoost feature_importances_</div></div></div>
+          <div class="bar-chart" id="feature-importance-chart"></div>
+        </div>
+
+        <!-- Model Health Checklist -->
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title"><i data-lucide="shield-check"></i>Model Operational Health Checklist</div><div class="panel-sub">Verified at application startup</div></div></div>
+          <div class="stat-list" id="ml-health-list"></div>
+          <p class="legal" style="margin-top:12px;">Drift monitoring is not yet implemented. A baseline was not established at deployment time; this is tracked as a known limitation in the project roadmap.</p>
+        </div>
+
+        <!-- Hyperparameters -->
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title"><i data-lucide="settings"></i>Champion Hyperparameters (Optuna 100 Trials)</div><div class="panel-sub">Tuned on 5-Fold CV ROC-AUC objective</div></div></div>
+          <div class="stat-list" id="ml-hyperparams"></div>
+        </div>
+
+      </section>
+
+    </div><!-- /content -->
+  </main>
+</div><!-- /app-shell -->
+
+<script src="app.js"></script>
+</body>
+</html>

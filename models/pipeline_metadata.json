@@ -1,0 +1,28 @@
+{
+  "pipeline_version": "3.0.0",
+  "champion_model": "CatBoost (Tuned)",
+  "artifact_path": "/Users/chetankumarrohilla/Desktop/Creditworthiness_Project/models/nova_credit_pipeline.joblib",
+  "training_timestamp": "2026-08-27T10:21:22.443279+00:00",
+  "training_observations": 1000,
+  "target_classes": {
+    "0": "Bad Credit (Default)",
+    "1": "Good Credit (Non-default)"
+  },
+  "features_expected": [
+    "Age",
+    "Sex",
+    "Job",
+    "Housing",
+    "Saving accounts",
+    "Checking account",
+    "Credit amount",
+    "Duration",
+    "Purpose"
+  ],
+  "cv_roc_auc": 0.7697,
+  "holdout_roc_auc": 0.7686,
+  "recommended_decision_threshold": 0.45,
+  "is_calibrated": true,
+  "calibration_method": "sigmoid_platt",
+  "academic_dataset": "Statlog German Credit Data (UCI)"
+}

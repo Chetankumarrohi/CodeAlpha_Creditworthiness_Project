@@ -1,0 +1,8048 @@
+[
+  {
+    "id": "98f6710d-8bbe-4c98-bbe7-36f333a0a125",
+    "userId": "e3df8854-3866-4dcf-8846-13800f9d8a0f",
+    "createdAt": "2026-07-24T06:15:27.505096+00:00",
+    "input": {
+      "principal": 200000,
+      "annualRate": 2,
+      "tenureYears": 10
+    },
+    "result": {
+      "principal": 200000.0,
+      "annualRate": 2.0,
+      "tenureYears": 10,
+      "monthlyEmi": 1840.27,
+      "totalInterest": 20832.29,
+      "totalPayment": 220832.29,
+      "formatted": {
+        "principal": "\u20b92.00 L",
+        "monthlyEmi": "\u20b91,840",
+        "totalInterest": "\u20b920,832",
+        "totalPayment": "\u20b92.21 L"
+      },
+      "schedule": [
+        {
+          "month": 1,
+          "emi": 1840.27,
+          "principal": 1506.94,
+          "interest": 333.33,
+          "balance": 198493.06
+        },
+        {
+          "month": 2,
+          "emi": 1840.27,
+          "principal": 1509.45,
+          "interest": 330.82,
+          "balance": 196983.62
+        },
+        {
+          "month": 3,
+          "emi": 1840.27,
+          "principal": 1511.96,
+          "interest": 328.31,
+          "balance": 195471.65
+        },
+        {
+          "month": 4,
+          "emi": 1840.27,
+          "principal": 1514.48,
+          "interest": 325.79,
+          "balance": 193957.17
+        },
+        {
+          "month": 5,
+          "emi": 1840.27,
+          "principal": 1517.01,
+          "interest": 323.26,
+          "balance": 192440.16
+        },
+        {
+          "month": 6,
+          "emi": 1840.27,
+          "principal": 1519.54,
+          "interest": 320.73,
+          "balance": 190920.63
+        },
+        {
+          "month": 7,
+          "emi": 1840.27,
+          "principal": 1522.07,
+          "interest": 318.2,
+          "balance": 189398.56
+        },
+        {
+          "month": 8,
+          "emi": 1840.27,
+          "principal": 1524.6,
+          "interest": 315.66,
+          "balance": 187873.96
+        },
+        {
+          "month": 9,
+          "emi": 1840.27,
+          "principal": 1527.15,
+          "interest": 313.12,
+          "balance": 186346.81
+        },
+        {
+          "month": 10,
+          "emi": 1840.27,
+          "principal": 1529.69,
+          "interest": 310.58,
+          "balance": 184817.12
+        },
+        {
+          "month": 11,
+          "emi": 1840.27,
+          "principal": 1532.24,
+          "interest": 308.03,
+          "balance": 183284.88
+        },
+        {
+          "month": 12,
+          "emi": 1840.27,
+          "principal": 1534.79,
+          "interest": 305.47,
+          "balance": 181750.08
+        },
+        {
+          "month": 13,
+          "emi": 1840.27,
+          "principal": 1537.35,
+          "interest": 302.92,
+          "balance": 180212.73
+        },
+        {
+          "month": 14,
+          "emi": 1840.27,
+          "principal": 1539.91,
+          "interest": 300.35,
+          "balance": 178672.82
+        },
+        {
+          "month": 15,
+          "emi": 1840.27,
+          "principal": 1542.48,
+          "interest": 297.79,
+          "balance": 177130.34
+        },
+        {
+          "month": 16,
+          "emi": 1840.27,
+          "principal": 1545.05,
+          "interest": 295.22,
+          "balance": 175585.28
+        },
+        {
+          "month": 17,
+          "emi": 1840.27,
+          "principal": 1547.63,
+          "interest": 292.64,
+          "balance": 174037.66
+        },
+        {
+          "month": 18,
+          "emi": 1840.27,
+          "principal": 1550.21,
+          "interest": 290.06,
+          "balance": 172487.45
+        },
+        {
+          "month": 19,
+          "emi": 1840.27,
+          "principal": 1552.79,
+          "interest": 287.48,
+          "balance": 170934.66
+        },
+        {
+          "month": 20,
+          "emi": 1840.27,
+          "principal": 1555.38,
+          "interest": 284.89,
+          "balance": 169379.28
+        },
+        {
+          "month": 21,
+          "emi": 1840.27,
+          "principal": 1557.97,
+          "interest": 282.3,
+          "balance": 167821.31
+        },
+        {
+          "month": 22,
+          "emi": 1840.27,
+          "principal": 1560.57,
+          "interest": 279.7,
+          "balance": 166260.75
+        },
+        {
+          "month": 23,
+          "emi": 1840.27,
+          "principal": 1563.17,
+          "interest": 277.1,
+          "balance": 164697.58
+        },
+        {
+          "month": 24,
+          "emi": 1840.27,
+          "principal": 1565.77,
+          "interest": 274.5,
+          "balance": 163131.8
+        },
+        {
+          "month": 25,
+          "emi": 1840.27,
+          "principal": 1568.38,
+          "interest": 271.89,
+          "balance": 161563.42
+        },
+        {
+          "month": 26,
+          "emi": 1840.27,
+          "principal": 1571.0,
+          "interest": 269.27,
+          "balance": 159992.43
+        },
+        {
+          "month": 27,
+          "emi": 1840.27,
+          "principal": 1573.62,
+          "interest": 266.65,
+          "balance": 158418.81
+        },
+        {
+          "month": 28,
+          "emi": 1840.27,
+          "principal": 1576.24,
+          "interest": 264.03,
+          "balance": 156842.57
+        },
+        {
+          "month": 29,
+          "emi": 1840.27,
+          "principal": 1578.86,
+          "interest": 261.4,
+          "balance": 155263.71
+        },
+        {
+          "month": 30,
+          "emi": 1840.27,
+          "principal": 1581.5,
+          "interest": 258.77,
+          "balance": 153682.21
+        },
+        {
+          "month": 31,
+          "emi": 1840.27,
+          "principal": 1584.13,
+          "interest": 256.14,
+          "balance": 152098.08
+        },
+        {
+          "month": 32,
+          "emi": 1840.27,
+          "principal": 1586.77,
+          "interest": 253.5,
+          "balance": 150511.31
+        },
+        {
+          "month": 33,
+          "emi": 1840.27,
+          "principal": 1589.42,
+          "interest": 250.85,
+          "balance": 148921.89
+        },
+        {
+          "month": 34,
+          "emi": 1840.27,
+          "principal": 1592.07,
+          "interest": 248.2,
+          "balance": 147329.82
+        },
+        {
+          "month": 35,
+          "emi": 1840.27,
+          "principal": 1594.72,
+          "interest": 245.55,
+          "balance": 145735.11
+        },
+        {
+          "month": 36,
+          "emi": 1840.27,
+          "principal": 1597.38,
+          "interest": 242.89,
+          "balance": 144137.73
+        },
+        {
+          "month": 37,
+          "emi": 1840.27,
+          "principal": 1600.04,
+          "interest": 240.23,
+          "balance": 142537.69
+        },
+        {
+          "month": 38,
+          "emi": 1840.27,
+          "principal": 1602.71,
+          "interest": 237.56,
+          "balance": 140934.98
+        },
+        {
+          "month": 39,
+          "emi": 1840.27,
+          "principal": 1605.38,
+          "interest": 234.89,
+          "balance": 139329.6
+        },
+        {
+          "month": 40,
+          "emi": 1840.27,
+          "principal": 1608.05,
+          "interest": 232.22,
+          "balance": 137721.55
+        },
+        {
+          "month": 41,
+          "emi": 1840.27,
+          "principal": 1610.73,
+          "interest": 229.54,
+          "balance": 136110.82
+        },
+        {
+          "month": 42,
+          "emi": 1840.27,
+          "principal": 1613.42,
+          "interest": 226.85,
+          "balance": 134497.4
+        },
+        {
+          "month": 43,
+          "emi": 1840.27,
+          "principal": 1616.11,
+          "interest": 224.16,
+          "balance": 132881.29
+        },
+        {
+          "month": 44,
+          "emi": 1840.27,
+          "principal": 1618.8,
+          "interest": 221.47,
+          "balance": 131262.49
+        },
+        {
+          "month": 45,
+          "emi": 1840.27,
+          "principal": 1621.5,
+          "interest": 218.77,
+          "balance": 129641.0
+        },
+        {
+          "month": 46,
+          "emi": 1840.27,
+          "principal": 1624.2,
+          "interest": 216.07,
+          "balance": 128016.79
+        },
+        {
+          "month": 47,
+          "emi": 1840.27,
+          "principal": 1626.91,
+          "interest": 213.36,
+          "balance": 126389.89
+        },
+        {
+          "month": 48,
+          "emi": 1840.27,
+          "principal": 1629.62,
+          "interest": 210.65,
+          "balance": 124760.27
+        },
+        {
+          "month": 49,
+          "emi": 1840.27,
+          "principal": 1632.34,
+          "interest": 207.93,
+          "balance": 123127.93
+        },
+        {
+          "month": 50,
+          "emi": 1840.27,
+          "principal": 1635.06,
+          "interest": 205.21,
+          "balance": 121492.88
+        },
+        {
+          "month": 51,
+          "emi": 1840.27,
+          "principal": 1637.78,
+          "interest": 202.49,
+          "balance": 119855.1
+        },
+        {
+          "month": 52,
+          "emi": 1840.27,
+          "principal": 1640.51,
+          "interest": 199.76,
+          "balance": 118214.58
+        },
+        {
+          "month": 53,
+          "emi": 1840.27,
+          "principal": 1643.24,
+          "interest": 197.02,
+          "balance": 116571.34
+        },
+        {
+          "month": 54,
+          "emi": 1840.27,
+          "principal": 1645.98,
+          "interest": 194.29,
+          "balance": 114925.36
+        },
+        {
+          "month": 55,
+          "emi": 1840.27,
+          "principal": 1648.73,
+          "interest": 191.54,
+          "balance": 113276.63
+        },
+        {
+          "month": 56,
+          "emi": 1840.27,
+          "principal": 1651.47,
+          "interest": 188.79,
+          "balance": 111625.16
+        },
+        {
+          "month": 57,
+          "emi": 1840.27,
+          "principal": 1654.23,
+          "interest": 186.04,
+          "balance": 109970.93
+        },
+        {
+          "month": 58,
+          "emi": 1840.27,
+          "principal": 1656.98,
+          "interest": 183.28,
+          "balance": 108313.94
+        },
+        {
+          "month": 59,
+          "emi": 1840.27,
+          "principal": 1659.75,
+          "interest": 180.52,
+          "balance": 106654.2
+        },
+        {
+          "month": 60,
+          "emi": 1840.27,
+          "principal": 1662.51,
+          "interest": 177.76,
+          "balance": 104991.69
+        },
+        {
+          "month": 61,
+          "emi": 1840.27,
+          "principal": 1665.28,
+          "interest": 174.99,
+          "balance": 103326.4
+        },
+        {
+          "month": 62,
+          "emi": 1840.27,
+          "principal": 1668.06,
+          "interest": 172.21,
+          "balance": 101658.34
+        },
+        {
+          "month": 63,
+          "emi": 1840.27,
+          "principal": 1670.84,
+          "interest": 169.43,
+          "balance": 99987.51
+        },
+        {
+          "month": 64,
+          "emi": 1840.27,
+          "principal": 1673.62,
+          "interest": 166.65,
+          "balance": 98313.88
+        },
+        {
+          "month": 65,
+          "emi": 1840.27,
+          "principal": 1676.41,
+          "interest": 163.86,
+          "balance": 96637.47
+        },
+        {
+          "month": 66,
+          "emi": 1840.27,
+          "principal": 1679.21,
+          "interest": 161.06,
+          "balance": 94958.26
+        },
+        {
+          "month": 67,
+          "emi": 1840.27,
+          "principal": 1682.01,
+          "interest": 158.26,
+          "balance": 93276.26
+        },
+        {
+          "month": 68,
+          "emi": 1840.27,
+          "principal": 1684.81,
+          "interest": 155.46,
+          "balance": 91591.45
+        },
+        {
+          "month": 69,
+          "emi": 1840.27,
+          "principal": 1687.62,
+          "interest": 152.65,
+          "balance": 89903.83
+        },
+        {
+          "month": 70,
+          "emi": 1840.27,
+          "principal": 1690.43,
+          "interest": 149.84,
+          "balance": 88213.4
+        },
+        {
+          "month": 71,
+          "emi": 1840.27,
+          "principal": 1693.25,
+          "interest": 147.02,
+          "balance": 86520.16
+        },
+        {
+          "month": 72,
+          "emi": 1840.27,
+          "principal": 1696.07,
+          "interest": 144.2,
+          "balance": 84824.09
+        },
+        {
+          "month": 73,
+          "emi": 1840.27,
+          "principal": 1698.9,
+          "interest": 141.37,
+          "balance": 83125.19
+        },
+        {
+          "month": 74,
+          "emi": 1840.27,
+          "principal": 1701.73,
+          "interest": 138.54,
+          "balance": 81423.47
+        },
+        {
+          "month": 75,
+          "emi": 1840.27,
+          "principal": 1704.56,
+          "interest": 135.71,
+          "balance": 79718.9
+        },
+        {
+          "month": 76,
+          "emi": 1840.27,
+          "principal": 1707.4,
+          "interest": 132.86,
+          "balance": 78011.5
+        },
+        {
+          "month": 77,
+          "emi": 1840.27,
+          "principal": 1710.25,
+          "interest": 130.02,
+          "balance": 76301.25
+        },
+        {
+          "month": 78,
+          "emi": 1840.27,
+          "principal": 1713.1,
+          "interest": 127.17,
+          "balance": 74588.15
+        },
+        {
+          "month": 79,
+          "emi": 1840.27,
+          "principal": 1715.96,
+          "interest": 124.31,
+          "balance": 72872.19
+        },
+        {
+          "month": 80,
+          "emi": 1840.27,
+          "principal": 1718.82,
+          "interest": 121.45,
+          "balance": 71153.38
+        },
+        {
+          "month": 81,
+          "emi": 1840.27,
+          "principal": 1721.68,
+          "interest": 118.59,
+          "balance": 69431.7
+        },
+        {
+          "month": 82,
+          "emi": 1840.27,
+          "principal": 1724.55,
+          "interest": 115.72,
+          "balance": 67707.15
+        },
+        {
+          "month": 83,
+          "emi": 1840.27,
+          "principal": 1727.42,
+          "interest": 112.85,
+          "balance": 65979.72
+        },
+        {
+          "month": 84,
+          "emi": 1840.27,
+          "principal": 1730.3,
+          "interest": 109.97,
+          "balance": 64249.42
+        },
+        {
+          "month": 85,
+          "emi": 1840.27,
+          "principal": 1733.19,
+          "interest": 107.08,
+          "balance": 62516.23
+        },
+        {
+          "month": 86,
+          "emi": 1840.27,
+          "principal": 1736.08,
+          "interest": 104.19,
+          "balance": 60780.16
+        },
+        {
+          "month": 87,
+          "emi": 1840.27,
+          "principal": 1738.97,
+          "interest": 101.3,
+          "balance": 59041.19
+        },
+        {
+          "month": 88,
+          "emi": 1840.27,
+          "principal": 1741.87,
+          "interest": 98.4,
+          "balance": 57299.32
+        },
+        {
+          "month": 89,
+          "emi": 1840.27,
+          "principal": 1744.77,
+          "interest": 95.5,
+          "balance": 55554.55
+        },
+        {
+          "month": 90,
+          "emi": 1840.27,
+          "principal": 1747.68,
+          "interest": 92.59,
+          "balance": 53806.87
+        },
+        {
+          "month": 91,
+          "emi": 1840.27,
+          "principal": 1750.59,
+          "interest": 89.68,
+          "balance": 52056.28
+        },
+        {
+          "month": 92,
+          "emi": 1840.27,
+          "principal": 1753.51,
+          "interest": 86.76,
+          "balance": 50302.77
+        },
+        {
+          "month": 93,
+          "emi": 1840.27,
+          "principal": 1756.43,
+          "interest": 83.84,
+          "balance": 48546.34
+        },
+        {
+          "month": 94,
+          "emi": 1840.27,
+          "principal": 1759.36,
+          "interest": 80.91,
+          "balance": 46786.98
+        },
+        {
+          "month": 95,
+          "emi": 1840.27,
+          "principal": 1762.29,
+          "interest": 77.98,
+          "balance": 45024.69
+        },
+        {
+          "month": 96,
+          "emi": 1840.27,
+          "principal": 1765.23,
+          "interest": 75.04,
+          "balance": 43259.47
+        },
+        {
+          "month": 97,
+          "emi": 1840.27,
+          "principal": 1768.17,
+          "interest": 72.1,
+          "balance": 41491.3
+        },
+        {
+          "month": 98,
+          "emi": 1840.27,
+          "principal": 1771.12,
+          "interest": 69.15,
+          "balance": 39720.18
+        },
+        {
+          "month": 99,
+          "emi": 1840.27,
+          "principal": 1774.07,
+          "interest": 66.2,
+          "balance": 37946.11
+        },
+        {
+          "month": 100,
+          "emi": 1840.27,
+          "principal": 1777.03,
+          "interest": 63.24,
+          "balance": 36169.08
+        },
+        {
+          "month": 101,
+          "emi": 1840.27,
+          "principal": 1779.99,
+          "interest": 60.28,
+          "balance": 34389.1
+        },
+        {
+          "month": 102,
+          "emi": 1840.27,
+          "principal": 1782.95,
+          "interest": 57.32,
+          "balance": 32606.14
+        },
+        {
+          "month": 103,
+          "emi": 1840.27,
+          "principal": 1785.93,
+          "interest": 54.34,
+          "balance": 30820.22
+        },
+        {
+          "month": 104,
+          "emi": 1840.27,
+          "principal": 1788.9,
+          "interest": 51.37,
+          "balance": 29031.32
+        },
+        {
+          "month": 105,
+          "emi": 1840.27,
+          "principal": 1791.88,
+          "interest": 48.39,
+          "balance": 27239.43
+        },
+        {
+          "month": 106,
+          "emi": 1840.27,
+          "principal": 1794.87,
+          "interest": 45.4,
+          "balance": 25444.56
+        },
+        {
+          "month": 107,
+          "emi": 1840.27,
+          "principal": 1797.86,
+          "interest": 42.41,
+          "balance": 23646.7
+        },
+        {
+          "month": 108,
+          "emi": 1840.27,
+          "principal": 1800.86,
+          "interest": 39.41,
+          "balance": 21845.84
+        },
+        {
+          "month": 109,
+          "emi": 1840.27,
+          "principal": 1803.86,
+          "interest": 36.41,
+          "balance": 20041.98
+        },
+        {
+          "month": 110,
+          "emi": 1840.27,
+          "principal": 1806.87,
+          "interest": 33.4,
+          "balance": 18235.12
+        },
+        {
+          "month": 111,
+          "emi": 1840.27,
+          "principal": 1809.88,
+          "interest": 30.39,
+          "balance": 16425.24
+        },
+        {
+          "month": 112,
+          "emi": 1840.27,
+          "principal": 1812.89,
+          "interest": 27.38,
+          "balance": 14612.35
+        },
+        {
+          "month": 113,
+          "emi": 1840.27,
+          "principal": 1815.92,
+          "interest": 24.35,
+          "balance": 12796.43
+        },
+        {
+          "month": 114,
+          "emi": 1840.27,
+          "principal": 1818.94,
+          "interest": 21.33,
+          "balance": 10977.49
+        },
+        {
+          "month": 115,
+          "emi": 1840.27,
+          "principal": 1821.97,
+          "interest": 18.3,
+          "balance": 9155.52
+        },
+        {
+          "month": 116,
+          "emi": 1840.27,
+          "principal": 1825.01,
+          "interest": 15.26,
+          "balance": 7330.51
+        },
+        {
+          "month": 117,
+          "emi": 1840.27,
+          "principal": 1828.05,
+          "interest": 12.22,
+          "balance": 5502.46
+        },
+        {
+          "month": 118,
+          "emi": 1840.27,
+          "principal": 1831.1,
+          "interest": 9.17,
+          "balance": 3671.36
+        },
+        {
+          "month": 119,
+          "emi": 1840.27,
+          "principal": 1834.15,
+          "interest": 6.12,
+          "balance": 1837.21
+        },
+        {
+          "month": 120,
+          "emi": 1840.27,
+          "principal": 1837.21,
+          "interest": 3.06,
+          "balance": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "id": "c18e40bb-d943-4047-8cf1-37c216288559",
+    "userId": "e3df8854-3866-4dcf-8846-13800f9d8a0f",
+    "createdAt": "2026-07-24T09:46:22.546616+00:00",
+    "input": {
+      "principal": 8000000,
+      "annualRate": 2.1,
+      "tenureYears": 15
+    },
+    "result": {
+      "principal": 8000000.0,
+      "annualRate": 2.1,
+      "tenureYears": 15,
+      "monthlyEmi": 51849.9,
+      "totalInterest": 1332981.29,
+      "totalPayment": 9332981.29,
+      "formatted": {
+        "principal": "\u20b980.00 L",
+        "monthlyEmi": "\u20b951,850",
+        "totalInterest": "\u20b913.33 L",
+        "totalPayment": "\u20b993.33 L"
+      },
+      "schedule": [
+        {
+          "month": 1,
+          "emi": 51849.9,
+          "principal": 37849.9,
+          "interest": 14000.0,
+          "balance": 7962150.1
+        },
+        {
+          "month": 2,
+          "emi": 51849.9,
+          "principal": 37916.13,
+          "interest": 13933.76,
+          "balance": 7924233.97
+        },
+        {
+          "month": 3,
+          "emi": 51849.9,
+          "principal": 37982.49,
+          "interest": 13867.41,
+          "balance": 7886251.48
+        },
+        {
+          "month": 4,
+          "emi": 51849.9,
+          "principal": 38048.96,
+          "interest": 13800.94,
+          "balance": 7848202.53
+        },
+        {
+          "month": 5,
+          "emi": 51849.9,
+          "principal": 38115.54,
+          "interest": 13734.35,
+          "balance": 7810086.99
+        },
+        {
+          "month": 6,
+          "emi": 51849.9,
+          "principal": 38182.24,
+          "interest": 13667.65,
+          "balance": 7771904.74
+        },
+        {
+          "month": 7,
+          "emi": 51849.9,
+          "principal": 38249.06,
+          "interest": 13600.83,
+          "balance": 7733655.68
+        },
+        {
+          "month": 8,
+          "emi": 51849.9,
+          "principal": 38316.0,
+          "interest": 13533.9,
+          "balance": 7695339.68
+        },
+        {
+          "month": 9,
+          "emi": 51849.9,
+          "principal": 38383.05,
+          "interest": 13466.84,
+          "balance": 7656956.63
+        },
+        {
+          "month": 10,
+          "emi": 51849.9,
+          "principal": 38450.22,
+          "interest": 13399.67,
+          "balance": 7618506.41
+        },
+        {
+          "month": 11,
+          "emi": 51849.9,
+          "principal": 38517.51,
+          "interest": 13332.39,
+          "balance": 7579988.9
+        },
+        {
+          "month": 12,
+          "emi": 51849.9,
+          "principal": 38584.92,
+          "interest": 13264.98,
+          "balance": 7541403.98
+        },
+        {
+          "month": 13,
+          "emi": 51849.9,
+          "principal": 38652.44,
+          "interest": 13197.46,
+          "balance": 7502751.54
+        },
+        {
+          "month": 14,
+          "emi": 51849.9,
+          "principal": 38720.08,
+          "interest": 13129.82,
+          "balance": 7464031.46
+        },
+        {
+          "month": 15,
+          "emi": 51849.9,
+          "principal": 38787.84,
+          "interest": 13062.06,
+          "balance": 7425243.62
+        },
+        {
+          "month": 16,
+          "emi": 51849.9,
+          "principal": 38855.72,
+          "interest": 12994.18,
+          "balance": 7386387.9
+        },
+        {
+          "month": 17,
+          "emi": 51849.9,
+          "principal": 38923.72,
+          "interest": 12926.18,
+          "balance": 7347464.18
+        },
+        {
+          "month": 18,
+          "emi": 51849.9,
+          "principal": 38991.83,
+          "interest": 12858.06,
+          "balance": 7308472.35
+        },
+        {
+          "month": 19,
+          "emi": 51849.9,
+          "principal": 39060.07,
+          "interest": 12789.83,
+          "balance": 7269412.28
+        },
+        {
+          "month": 20,
+          "emi": 51849.9,
+          "principal": 39128.42,
+          "interest": 12721.47,
+          "balance": 7230283.86
+        },
+        {
+          "month": 21,
+          "emi": 51849.9,
+          "principal": 39196.9,
+          "interest": 12653.0,
+          "balance": 7191086.96
+        },
+        {
+          "month": 22,
+          "emi": 51849.9,
+          "principal": 39265.49,
+          "interest": 12584.4,
+          "balance": 7151821.46
+        },
+        {
+          "month": 23,
+          "emi": 51849.9,
+          "principal": 39334.21,
+          "interest": 12515.69,
+          "balance": 7112487.25
+        },
+        {
+          "month": 24,
+          "emi": 51849.9,
+          "principal": 39403.04,
+          "interest": 12446.85,
+          "balance": 7073084.21
+        },
+        {
+          "month": 25,
+          "emi": 51849.9,
+          "principal": 39472.0,
+          "interest": 12377.9,
+          "balance": 7033612.21
+        },
+        {
+          "month": 26,
+          "emi": 51849.9,
+          "principal": 39541.07,
+          "interest": 12308.82,
+          "balance": 6994071.14
+        },
+        {
+          "month": 27,
+          "emi": 51849.9,
+          "principal": 39610.27,
+          "interest": 12239.62,
+          "balance": 6954460.87
+        },
+        {
+          "month": 28,
+          "emi": 51849.9,
+          "principal": 39679.59,
+          "interest": 12170.31,
+          "balance": 6914781.28
+        },
+        {
+          "month": 29,
+          "emi": 51849.9,
+          "principal": 39749.03,
+          "interest": 12100.87,
+          "balance": 6875032.25
+        },
+        {
+          "month": 30,
+          "emi": 51849.9,
+          "principal": 39818.59,
+          "interest": 12031.31,
+          "balance": 6835213.66
+        },
+        {
+          "month": 31,
+          "emi": 51849.9,
+          "principal": 39888.27,
+          "interest": 11961.62,
+          "balance": 6795325.39
+        },
+        {
+          "month": 32,
+          "emi": 51849.9,
+          "principal": 39958.08,
+          "interest": 11891.82,
+          "balance": 6755367.31
+        },
+        {
+          "month": 33,
+          "emi": 51849.9,
+          "principal": 40028.0,
+          "interest": 11821.89,
+          "balance": 6715339.31
+        },
+        {
+          "month": 34,
+          "emi": 51849.9,
+          "principal": 40098.05,
+          "interest": 11751.84,
+          "balance": 6675241.25
+        },
+        {
+          "month": 35,
+          "emi": 51849.9,
+          "principal": 40168.22,
+          "interest": 11681.67,
+          "balance": 6635073.03
+        },
+        {
+          "month": 36,
+          "emi": 51849.9,
+          "principal": 40238.52,
+          "interest": 11611.38,
+          "balance": 6594834.51
+        },
+        {
+          "month": 37,
+          "emi": 51849.9,
+          "principal": 40308.94,
+          "interest": 11540.96,
+          "balance": 6554525.58
+        },
+        {
+          "month": 38,
+          "emi": 51849.9,
+          "principal": 40379.48,
+          "interest": 11470.42,
+          "balance": 6514146.1
+        },
+        {
+          "month": 39,
+          "emi": 51849.9,
+          "principal": 40450.14,
+          "interest": 11399.76,
+          "balance": 6473695.96
+        },
+        {
+          "month": 40,
+          "emi": 51849.9,
+          "principal": 40520.93,
+          "interest": 11328.97,
+          "balance": 6433175.03
+        },
+        {
+          "month": 41,
+          "emi": 51849.9,
+          "principal": 40591.84,
+          "interest": 11258.06,
+          "balance": 6392583.19
+        },
+        {
+          "month": 42,
+          "emi": 51849.9,
+          "principal": 40662.88,
+          "interest": 11187.02,
+          "balance": 6351920.32
+        },
+        {
+          "month": 43,
+          "emi": 51849.9,
+          "principal": 40734.04,
+          "interest": 11115.86,
+          "balance": 6311186.28
+        },
+        {
+          "month": 44,
+          "emi": 51849.9,
+          "principal": 40805.32,
+          "interest": 11044.58,
+          "balance": 6270380.96
+        },
+        {
+          "month": 45,
+          "emi": 51849.9,
+          "principal": 40876.73,
+          "interest": 10973.17,
+          "balance": 6229504.23
+        },
+        {
+          "month": 46,
+          "emi": 51849.9,
+          "principal": 40948.26,
+          "interest": 10901.63,
+          "balance": 6188555.97
+        },
+        {
+          "month": 47,
+          "emi": 51849.9,
+          "principal": 41019.92,
+          "interest": 10829.97,
+          "balance": 6147536.04
+        },
+        {
+          "month": 48,
+          "emi": 51849.9,
+          "principal": 41091.71,
+          "interest": 10758.19,
+          "balance": 6106444.34
+        },
+        {
+          "month": 49,
+          "emi": 51849.9,
+          "principal": 41163.62,
+          "interest": 10686.28,
+          "balance": 6065280.72
+        },
+        {
+          "month": 50,
+          "emi": 51849.9,
+          "principal": 41235.65,
+          "interest": 10614.24,
+          "balance": 6024045.06
+        },
+        {
+          "month": 51,
+          "emi": 51849.9,
+          "principal": 41307.82,
+          "interest": 10542.08,
+          "balance": 5982737.25
+        },
+        {
+          "month": 52,
+          "emi": 51849.9,
+          "principal": 41380.11,
+          "interest": 10469.79,
+          "balance": 5941357.14
+        },
+        {
+          "month": 53,
+          "emi": 51849.9,
+          "principal": 41452.52,
+          "interest": 10397.37,
+          "balance": 5899904.62
+        },
+        {
+          "month": 54,
+          "emi": 51849.9,
+          "principal": 41525.06,
+          "interest": 10324.83,
+          "balance": 5858379.56
+        },
+        {
+          "month": 55,
+          "emi": 51849.9,
+          "principal": 41597.73,
+          "interest": 10252.16,
+          "balance": 5816781.82
+        },
+        {
+          "month": 56,
+          "emi": 51849.9,
+          "principal": 41670.53,
+          "interest": 10179.37,
+          "balance": 5775111.3
+        },
+        {
+          "month": 57,
+          "emi": 51849.9,
+          "principal": 41743.45,
+          "interest": 10106.44,
+          "balance": 5733367.84
+        },
+        {
+          "month": 58,
+          "emi": 51849.9,
+          "principal": 41816.5,
+          "interest": 10033.39,
+          "balance": 5691551.34
+        },
+        {
+          "month": 59,
+          "emi": 51849.9,
+          "principal": 41889.68,
+          "interest": 9960.21,
+          "balance": 5649661.66
+        },
+        {
+          "month": 60,
+          "emi": 51849.9,
+          "principal": 41962.99,
+          "interest": 9886.91,
+          "balance": 5607698.67
+        },
+        {
+          "month": 61,
+          "emi": 51849.9,
+          "principal": 42036.42,
+          "interest": 9813.47,
+          "balance": 5565662.25
+        },
+        {
+          "month": 62,
+          "emi": 51849.9,
+          "principal": 42109.99,
+          "interest": 9739.91,
+          "balance": 5523552.26
+        },
+        {
+          "month": 63,
+          "emi": 51849.9,
+          "principal": 42183.68,
+          "interest": 9666.22,
+          "balance": 5481368.58
+        },
+        {
+          "month": 64,
+          "emi": 51849.9,
+          "principal": 42257.5,
+          "interest": 9592.4,
+          "balance": 5439111.08
+        },
+        {
+          "month": 65,
+          "emi": 51849.9,
+          "principal": 42331.45,
+          "interest": 9518.44,
+          "balance": 5396779.63
+        },
+        {
+          "month": 66,
+          "emi": 51849.9,
+          "principal": 42405.53,
+          "interest": 9444.36,
+          "balance": 5354374.1
+        },
+        {
+          "month": 67,
+          "emi": 51849.9,
+          "principal": 42479.74,
+          "interest": 9370.15,
+          "balance": 5311894.36
+        },
+        {
+          "month": 68,
+          "emi": 51849.9,
+          "principal": 42554.08,
+          "interest": 9295.82,
+          "balance": 5269340.28
+        },
+        {
+          "month": 69,
+          "emi": 51849.9,
+          "principal": 42628.55,
+          "interest": 9221.35,
+          "balance": 5226711.72
+        },
+        {
+          "month": 70,
+          "emi": 51849.9,
+          "principal": 42703.15,
+          "interest": 9146.75,
+          "balance": 5184008.57
+        },
+        {
+          "month": 71,
+          "emi": 51849.9,
+          "principal": 42777.88,
+          "interest": 9072.02,
+          "balance": 5141230.69
+        },
+        {
+          "month": 72,
+          "emi": 51849.9,
+          "principal": 42852.74,
+          "interest": 8997.15,
+          "balance": 5098377.95
+        },
+        {
+          "month": 73,
+          "emi": 51849.9,
+          "principal": 42927.73,
+          "interest": 8922.16,
+          "balance": 5055450.22
+        },
+        {
+          "month": 74,
+          "emi": 51849.9,
+          "principal": 43002.86,
+          "interest": 8847.04,
+          "balance": 5012447.36
+        },
+        {
+          "month": 75,
+          "emi": 51849.9,
+          "principal": 43078.11,
+          "interest": 8771.78,
+          "balance": 4969369.24
+        },
+        {
+          "month": 76,
+          "emi": 51849.9,
+          "principal": 43153.5,
+          "interest": 8696.4,
+          "balance": 4926215.74
+        },
+        {
+          "month": 77,
+          "emi": 51849.9,
+          "principal": 43229.02,
+          "interest": 8620.88,
+          "balance": 4882986.73
+        },
+        {
+          "month": 78,
+          "emi": 51849.9,
+          "principal": 43304.67,
+          "interest": 8545.23,
+          "balance": 4839682.06
+        },
+        {
+          "month": 79,
+          "emi": 51849.9,
+          "principal": 43380.45,
+          "interest": 8469.44,
+          "balance": 4796301.6
+        },
+        {
+          "month": 80,
+          "emi": 51849.9,
+          "principal": 43456.37,
+          "interest": 8393.53,
+          "balance": 4752845.24
+        },
+        {
+          "month": 81,
+          "emi": 51849.9,
+          "principal": 43532.42,
+          "interest": 8317.48,
+          "balance": 4709312.82
+        },
+        {
+          "month": 82,
+          "emi": 51849.9,
+          "principal": 43608.6,
+          "interest": 8241.3,
+          "balance": 4665704.22
+        },
+        {
+          "month": 83,
+          "emi": 51849.9,
+          "principal": 43684.91,
+          "interest": 8164.98,
+          "balance": 4622019.31
+        },
+        {
+          "month": 84,
+          "emi": 51849.9,
+          "principal": 43761.36,
+          "interest": 8088.53,
+          "balance": 4578257.94
+        },
+        {
+          "month": 85,
+          "emi": 51849.9,
+          "principal": 43837.94,
+          "interest": 8011.95,
+          "balance": 4534420.0
+        },
+        {
+          "month": 86,
+          "emi": 51849.9,
+          "principal": 43914.66,
+          "interest": 7935.24,
+          "balance": 4490505.34
+        },
+        {
+          "month": 87,
+          "emi": 51849.9,
+          "principal": 43991.51,
+          "interest": 7858.38,
+          "balance": 4446513.83
+        },
+        {
+          "month": 88,
+          "emi": 51849.9,
+          "principal": 44068.5,
+          "interest": 7781.4,
+          "balance": 4402445.33
+        },
+        {
+          "month": 89,
+          "emi": 51849.9,
+          "principal": 44145.62,
+          "interest": 7704.28,
+          "balance": 4358299.71
+        },
+        {
+          "month": 90,
+          "emi": 51849.9,
+          "principal": 44222.87,
+          "interest": 7627.02,
+          "balance": 4314076.84
+        },
+        {
+          "month": 91,
+          "emi": 51849.9,
+          "principal": 44300.26,
+          "interest": 7549.63,
+          "balance": 4269776.58
+        },
+        {
+          "month": 92,
+          "emi": 51849.9,
+          "principal": 44377.79,
+          "interest": 7472.11,
+          "balance": 4225398.79
+        },
+        {
+          "month": 93,
+          "emi": 51849.9,
+          "principal": 44455.45,
+          "interest": 7394.45,
+          "balance": 4180943.35
+        },
+        {
+          "month": 94,
+          "emi": 51849.9,
+          "principal": 44533.25,
+          "interest": 7316.65,
+          "balance": 4136410.1
+        },
+        {
+          "month": 95,
+          "emi": 51849.9,
+          "principal": 44611.18,
+          "interest": 7238.72,
+          "balance": 4091798.92
+        },
+        {
+          "month": 96,
+          "emi": 51849.9,
+          "principal": 44689.25,
+          "interest": 7160.65,
+          "balance": 4047109.67
+        },
+        {
+          "month": 97,
+          "emi": 51849.9,
+          "principal": 44767.45,
+          "interest": 7082.44,
+          "balance": 4002342.22
+        },
+        {
+          "month": 98,
+          "emi": 51849.9,
+          "principal": 44845.8,
+          "interest": 7004.1,
+          "balance": 3957496.42
+        },
+        {
+          "month": 99,
+          "emi": 51849.9,
+          "principal": 44924.28,
+          "interest": 6925.62,
+          "balance": 3912572.15
+        },
+        {
+          "month": 100,
+          "emi": 51849.9,
+          "principal": 45002.89,
+          "interest": 6847.0,
+          "balance": 3867569.25
+        },
+        {
+          "month": 101,
+          "emi": 51849.9,
+          "principal": 45081.65,
+          "interest": 6768.25,
+          "balance": 3822487.6
+        },
+        {
+          "month": 102,
+          "emi": 51849.9,
+          "principal": 45160.54,
+          "interest": 6689.35,
+          "balance": 3777327.06
+        },
+        {
+          "month": 103,
+          "emi": 51849.9,
+          "principal": 45239.57,
+          "interest": 6610.32,
+          "balance": 3732087.48
+        },
+        {
+          "month": 104,
+          "emi": 51849.9,
+          "principal": 45318.74,
+          "interest": 6531.15,
+          "balance": 3686768.74
+        },
+        {
+          "month": 105,
+          "emi": 51849.9,
+          "principal": 45398.05,
+          "interest": 6451.85,
+          "balance": 3641370.69
+        },
+        {
+          "month": 106,
+          "emi": 51849.9,
+          "principal": 45477.5,
+          "interest": 6372.4,
+          "balance": 3595893.19
+        },
+        {
+          "month": 107,
+          "emi": 51849.9,
+          "principal": 45557.08,
+          "interest": 6292.81,
+          "balance": 3550336.11
+        },
+        {
+          "month": 108,
+          "emi": 51849.9,
+          "principal": 45636.81,
+          "interest": 6213.09,
+          "balance": 3504699.3
+        },
+        {
+          "month": 109,
+          "emi": 51849.9,
+          "principal": 45716.67,
+          "interest": 6133.22,
+          "balance": 3458982.63
+        },
+        {
+          "month": 110,
+          "emi": 51849.9,
+          "principal": 45796.68,
+          "interest": 6053.22,
+          "balance": 3413185.95
+        },
+        {
+          "month": 111,
+          "emi": 51849.9,
+          "principal": 45876.82,
+          "interest": 5973.08,
+          "balance": 3367309.13
+        },
+        {
+          "month": 112,
+          "emi": 51849.9,
+          "principal": 45957.11,
+          "interest": 5892.79,
+          "balance": 3321352.03
+        },
+        {
+          "month": 113,
+          "emi": 51849.9,
+          "principal": 46037.53,
+          "interest": 5812.37,
+          "balance": 3275314.5
+        },
+        {
+          "month": 114,
+          "emi": 51849.9,
+          "principal": 46118.1,
+          "interest": 5731.8,
+          "balance": 3229196.4
+        },
+        {
+          "month": 115,
+          "emi": 51849.9,
+          "principal": 46198.8,
+          "interest": 5651.09,
+          "balance": 3182997.6
+        },
+        {
+          "month": 116,
+          "emi": 51849.9,
+          "principal": 46279.65,
+          "interest": 5570.25,
+          "balance": 3136717.95
+        },
+        {
+          "month": 117,
+          "emi": 51849.9,
+          "principal": 46360.64,
+          "interest": 5489.26,
+          "balance": 3090357.31
+        },
+        {
+          "month": 118,
+          "emi": 51849.9,
+          "principal": 46441.77,
+          "interest": 5408.13,
+          "balance": 3043915.54
+        },
+        {
+          "month": 119,
+          "emi": 51849.9,
+          "principal": 46523.04,
+          "interest": 5326.85,
+          "balance": 2997392.49
+        },
+        {
+          "month": 120,
+          "emi": 51849.9,
+          "principal": 46604.46,
+          "interest": 5245.44,
+          "balance": 2950788.04
+        },
+        {
+          "month": 121,
+          "emi": 51849.9,
+          "principal": 46686.02,
+          "interest": 5163.88,
+          "balance": 2904102.02
+        },
+        {
+          "month": 122,
+          "emi": 51849.9,
+          "principal": 46767.72,
+          "interest": 5082.18,
+          "balance": 2857334.3
+        },
+        {
+          "month": 123,
+          "emi": 51849.9,
+          "principal": 46849.56,
+          "interest": 5000.34,
+          "balance": 2810484.74
+        },
+        {
+          "month": 124,
+          "emi": 51849.9,
+          "principal": 46931.55,
+          "interest": 4918.35,
+          "balance": 2763553.19
+        },
+        {
+          "month": 125,
+          "emi": 51849.9,
+          "principal": 47013.68,
+          "interest": 4836.22,
+          "balance": 2716539.51
+        },
+        {
+          "month": 126,
+          "emi": 51849.9,
+          "principal": 47095.95,
+          "interest": 4753.94,
+          "balance": 2669443.56
+        },
+        {
+          "month": 127,
+          "emi": 51849.9,
+          "principal": 47178.37,
+          "interest": 4671.53,
+          "balance": 2622265.19
+        },
+        {
+          "month": 128,
+          "emi": 51849.9,
+          "principal": 47260.93,
+          "interest": 4588.96,
+          "balance": 2575004.26
+        },
+        {
+          "month": 129,
+          "emi": 51849.9,
+          "principal": 47343.64,
+          "interest": 4506.26,
+          "balance": 2527660.62
+        },
+        {
+          "month": 130,
+          "emi": 51849.9,
+          "principal": 47426.49,
+          "interest": 4423.41,
+          "balance": 2480234.13
+        },
+        {
+          "month": 131,
+          "emi": 51849.9,
+          "principal": 47509.49,
+          "interest": 4340.41,
+          "balance": 2432724.65
+        },
+        {
+          "month": 132,
+          "emi": 51849.9,
+          "principal": 47592.63,
+          "interest": 4257.27,
+          "balance": 2385132.02
+        },
+        {
+          "month": 133,
+          "emi": 51849.9,
+          "principal": 47675.92,
+          "interest": 4173.98,
+          "balance": 2337456.1
+        },
+        {
+          "month": 134,
+          "emi": 51849.9,
+          "principal": 47759.35,
+          "interest": 4090.55,
+          "balance": 2289696.75
+        },
+        {
+          "month": 135,
+          "emi": 51849.9,
+          "principal": 47842.93,
+          "interest": 4006.97,
+          "balance": 2241853.83
+        },
+        {
+          "month": 136,
+          "emi": 51849.9,
+          "principal": 47926.65,
+          "interest": 3923.24,
+          "balance": 2193927.18
+        },
+        {
+          "month": 137,
+          "emi": 51849.9,
+          "principal": 48010.52,
+          "interest": 3839.37,
+          "balance": 2145916.65
+        },
+        {
+          "month": 138,
+          "emi": 51849.9,
+          "principal": 48094.54,
+          "interest": 3755.35,
+          "balance": 2097822.11
+        },
+        {
+          "month": 139,
+          "emi": 51849.9,
+          "principal": 48178.71,
+          "interest": 3671.19,
+          "balance": 2049643.4
+        },
+        {
+          "month": 140,
+          "emi": 51849.9,
+          "principal": 48263.02,
+          "interest": 3586.88,
+          "balance": 2001380.38
+        },
+        {
+          "month": 141,
+          "emi": 51849.9,
+          "principal": 48347.48,
+          "interest": 3502.42,
+          "balance": 1953032.9
+        },
+        {
+          "month": 142,
+          "emi": 51849.9,
+          "principal": 48432.09,
+          "interest": 3417.81,
+          "balance": 1904600.81
+        },
+        {
+          "month": 143,
+          "emi": 51849.9,
+          "principal": 48516.84,
+          "interest": 3333.05,
+          "balance": 1856083.97
+        },
+        {
+          "month": 144,
+          "emi": 51849.9,
+          "principal": 48601.75,
+          "interest": 3248.15,
+          "balance": 1807482.22
+        },
+        {
+          "month": 145,
+          "emi": 51849.9,
+          "principal": 48686.8,
+          "interest": 3163.09,
+          "balance": 1758795.42
+        },
+        {
+          "month": 146,
+          "emi": 51849.9,
+          "principal": 48772.0,
+          "interest": 3077.89,
+          "balance": 1710023.41
+        },
+        {
+          "month": 147,
+          "emi": 51849.9,
+          "principal": 48857.36,
+          "interest": 2992.54,
+          "balance": 1661166.06
+        },
+        {
+          "month": 148,
+          "emi": 51849.9,
+          "principal": 48942.86,
+          "interest": 2907.04,
+          "balance": 1612223.2
+        },
+        {
+          "month": 149,
+          "emi": 51849.9,
+          "principal": 49028.51,
+          "interest": 2821.39,
+          "balance": 1563194.7
+        },
+        {
+          "month": 150,
+          "emi": 51849.9,
+          "principal": 49114.31,
+          "interest": 2735.59,
+          "balance": 1514080.39
+        },
+        {
+          "month": 151,
+          "emi": 51849.9,
+          "principal": 49200.26,
+          "interest": 2649.64,
+          "balance": 1464880.14
+        },
+        {
+          "month": 152,
+          "emi": 51849.9,
+          "principal": 49286.36,
+          "interest": 2563.54,
+          "balance": 1415593.78
+        },
+        {
+          "month": 153,
+          "emi": 51849.9,
+          "principal": 49372.61,
+          "interest": 2477.29,
+          "balance": 1366221.17
+        },
+        {
+          "month": 154,
+          "emi": 51849.9,
+          "principal": 49459.01,
+          "interest": 2390.89,
+          "balance": 1316762.17
+        },
+        {
+          "month": 155,
+          "emi": 51849.9,
+          "principal": 49545.56,
+          "interest": 2304.33,
+          "balance": 1267216.6
+        },
+        {
+          "month": 156,
+          "emi": 51849.9,
+          "principal": 49632.27,
+          "interest": 2217.63,
+          "balance": 1217584.34
+        },
+        {
+          "month": 157,
+          "emi": 51849.9,
+          "principal": 49719.12,
+          "interest": 2130.77,
+          "balance": 1167865.21
+        },
+        {
+          "month": 158,
+          "emi": 51849.9,
+          "principal": 49806.13,
+          "interest": 2043.76,
+          "balance": 1118059.08
+        },
+        {
+          "month": 159,
+          "emi": 51849.9,
+          "principal": 49893.29,
+          "interest": 1956.6,
+          "balance": 1068165.79
+        },
+        {
+          "month": 160,
+          "emi": 51849.9,
+          "principal": 49980.61,
+          "interest": 1869.29,
+          "balance": 1018185.18
+        },
+        {
+          "month": 161,
+          "emi": 51849.9,
+          "principal": 50068.07,
+          "interest": 1781.82,
+          "balance": 968117.11
+        },
+        {
+          "month": 162,
+          "emi": 51849.9,
+          "principal": 50155.69,
+          "interest": 1694.2,
+          "balance": 917961.42
+        },
+        {
+          "month": 163,
+          "emi": 51849.9,
+          "principal": 50243.46,
+          "interest": 1606.43,
+          "balance": 867717.95
+        },
+        {
+          "month": 164,
+          "emi": 51849.9,
+          "principal": 50331.39,
+          "interest": 1518.51,
+          "balance": 817386.57
+        },
+        {
+          "month": 165,
+          "emi": 51849.9,
+          "principal": 50419.47,
+          "interest": 1430.43,
+          "balance": 766967.1
+        },
+        {
+          "month": 166,
+          "emi": 51849.9,
+          "principal": 50507.7,
+          "interest": 1342.19,
+          "balance": 716459.39
+        },
+        {
+          "month": 167,
+          "emi": 51849.9,
+          "principal": 50596.09,
+          "interest": 1253.8,
+          "balance": 665863.3
+        },
+        {
+          "month": 168,
+          "emi": 51849.9,
+          "principal": 50684.64,
+          "interest": 1165.26,
+          "balance": 615178.66
+        },
+        {
+          "month": 169,
+          "emi": 51849.9,
+          "principal": 50773.33,
+          "interest": 1076.56,
+          "balance": 564405.33
+        },
+        {
+          "month": 170,
+          "emi": 51849.9,
+          "principal": 50862.19,
+          "interest": 987.71,
+          "balance": 513543.14
+        },
+        {
+          "month": 171,
+          "emi": 51849.9,
+          "principal": 50951.2,
+          "interest": 898.7,
+          "balance": 462591.95
+        },
+        {
+          "month": 172,
+          "emi": 51849.9,
+          "principal": 51040.36,
+          "interest": 809.54,
+          "balance": 411551.59
+        },
+        {
+          "month": 173,
+          "emi": 51849.9,
+          "principal": 51129.68,
+          "interest": 720.22,
+          "balance": 360421.91
+        },
+        {
+          "month": 174,
+          "emi": 51849.9,
+          "principal": 51219.16,
+          "interest": 630.74,
+          "balance": 309202.75
+        },
+        {
+          "month": 175,
+          "emi": 51849.9,
+          "principal": 51308.79,
+          "interest": 541.1,
+          "balance": 257893.96
+        },
+        {
+          "month": 176,
+          "emi": 51849.9,
+          "principal": 51398.58,
+          "interest": 451.31,
+          "balance": 206495.38
+        },
+        {
+          "month": 177,
+          "emi": 51849.9,
+          "principal": 51488.53,
+          "interest": 361.37,
+          "balance": 155006.85
+        },
+        {
+          "month": 178,
+          "emi": 51849.9,
+          "principal": 51578.63,
+          "interest": 271.26,
+          "balance": 103428.21
+        },
+        {
+          "month": 179,
+          "emi": 51849.9,
+          "principal": 51668.9,
+          "interest": 181.0,
+          "balance": 51759.32
+        },
+        {
+          "month": 180,
+          "emi": 51849.9,
+          "principal": 51759.32,
+          "interest": 90.58,
+          "balance": 0
+        }
+      ]
+    }
+  },
+  {
+    "id": "373f6397-b7c2-4a07-8020-322b9b84652a",
+    "userId": "e3df8854-3866-4dcf-8846-13800f9d8a0f",
+    "createdAt": "2026-07-24T09:46:37.393869+00:00",
+    "input": {
+      "principal": 8000000,
+      "annualRate": 2,
+      "tenureYears": 15
+    },
+    "result": {
+      "principal": 8000000.0,
+      "annualRate": 2.0,
+      "tenureYears": 15,
+      "monthlyEmi": 51480.7,
+      "totalInterest": 1266525.29,
+      "totalPayment": 9266525.29,
+      "formatted": {
+        "principal": "\u20b980.00 L",
+        "monthlyEmi": "\u20b951,481",
+        "totalInterest": "\u20b912.67 L",
+        "totalPayment": "\u20b992.67 L"
+      },
+      "schedule": [
+        {
+          "month": 1,
+          "emi": 51480.7,
+          "principal": 38147.36,
+          "interest": 13333.33,
+          "balance": 7961852.64
+        },
+        {
+          "month": 2,
+          "emi": 51480.7,
+          "principal": 38210.94,
+          "interest": 13269.75,
+          "balance": 7923641.7
+        },
+        {
+          "month": 3,
+          "emi": 51480.7,
+          "principal": 38274.63,
+          "interest": 13206.07,
+          "balance": 7885367.07
+        },
+        {
+          "month": 4,
+          "emi": 51480.7,
+          "principal": 38338.42,
+          "interest": 13142.28,
+          "balance": 7847028.65
+        },
+        {
+          "month": 5,
+          "emi": 51480.7,
+          "principal": 38402.31,
+          "interest": 13078.38,
+          "balance": 7808626.34
+        },
+        {
+          "month": 6,
+          "emi": 51480.7,
+          "principal": 38466.32,
+          "interest": 13014.38,
+          "balance": 7770160.02
+        },
+        {
+          "month": 7,
+          "emi": 51480.7,
+          "principal": 38530.43,
+          "interest": 12950.27,
+          "balance": 7731629.59
+        },
+        {
+          "month": 8,
+          "emi": 51480.7,
+          "principal": 38594.65,
+          "interest": 12886.05,
+          "balance": 7693034.94
+        },
+        {
+          "month": 9,
+          "emi": 51480.7,
+          "principal": 38658.97,
+          "interest": 12821.72,
+          "balance": 7654375.97
+        },
+        {
+          "month": 10,
+          "emi": 51480.7,
+          "principal": 38723.4,
+          "interest": 12757.29,
+          "balance": 7615652.57
+        },
+        {
+          "month": 11,
+          "emi": 51480.7,
+          "principal": 38787.94,
+          "interest": 12692.75,
+          "balance": 7576864.63
+        },
+        {
+          "month": 12,
+          "emi": 51480.7,
+          "principal": 38852.59,
+          "interest": 12628.11,
+          "balance": 7538012.04
+        },
+        {
+          "month": 13,
+          "emi": 51480.7,
+          "principal": 38917.34,
+          "interest": 12563.35,
+          "balance": 7499094.69
+        },
+        {
+          "month": 14,
+          "emi": 51480.7,
+          "principal": 38982.2,
+          "interest": 12498.49,
+          "balance": 7460112.49
+        },
+        {
+          "month": 15,
+          "emi": 51480.7,
+          "principal": 39047.18,
+          "interest": 12433.52,
+          "balance": 7421065.31
+        },
+        {
+          "month": 16,
+          "emi": 51480.7,
+          "principal": 39112.25,
+          "interest": 12368.44,
+          "balance": 7381953.06
+        },
+        {
+          "month": 17,
+          "emi": 51480.7,
+          "principal": 39177.44,
+          "interest": 12303.26,
+          "balance": 7342775.62
+        },
+        {
+          "month": 18,
+          "emi": 51480.7,
+          "principal": 39242.74,
+          "interest": 12237.96,
+          "balance": 7303532.88
+        },
+        {
+          "month": 19,
+          "emi": 51480.7,
+          "principal": 39308.14,
+          "interest": 12172.55,
+          "balance": 7264224.74
+        },
+        {
+          "month": 20,
+          "emi": 51480.7,
+          "principal": 39373.65,
+          "interest": 12107.04,
+          "balance": 7224851.09
+        },
+        {
+          "month": 21,
+          "emi": 51480.7,
+          "principal": 39439.28,
+          "interest": 12041.42,
+          "balance": 7185411.81
+        },
+        {
+          "month": 22,
+          "emi": 51480.7,
+          "principal": 39505.01,
+          "interest": 11975.69,
+          "balance": 7145906.8
+        },
+        {
+          "month": 23,
+          "emi": 51480.7,
+          "principal": 39570.85,
+          "interest": 11909.84,
+          "balance": 7106335.95
+        },
+        {
+          "month": 24,
+          "emi": 51480.7,
+          "principal": 39636.8,
+          "interest": 11843.89,
+          "balance": 7066699.15
+        },
+        {
+          "month": 25,
+          "emi": 51480.7,
+          "principal": 39702.86,
+          "interest": 11777.83,
+          "balance": 7026996.28
+        },
+        {
+          "month": 26,
+          "emi": 51480.7,
+          "principal": 39769.04,
+          "interest": 11711.66,
+          "balance": 6987227.25
+        },
+        {
+          "month": 27,
+          "emi": 51480.7,
+          "principal": 39835.32,
+          "interest": 11645.38,
+          "balance": 6947391.93
+        },
+        {
+          "month": 28,
+          "emi": 51480.7,
+          "principal": 39901.71,
+          "interest": 11578.99,
+          "balance": 6907490.22
+        },
+        {
+          "month": 29,
+          "emi": 51480.7,
+          "principal": 39968.21,
+          "interest": 11512.48,
+          "balance": 6867522.01
+        },
+        {
+          "month": 30,
+          "emi": 51480.7,
+          "principal": 40034.83,
+          "interest": 11445.87,
+          "balance": 6827487.18
+        },
+        {
+          "month": 31,
+          "emi": 51480.7,
+          "principal": 40101.55,
+          "interest": 11379.15,
+          "balance": 6787385.63
+        },
+        {
+          "month": 32,
+          "emi": 51480.7,
+          "principal": 40168.39,
+          "interest": 11312.31,
+          "balance": 6747217.24
+        },
+        {
+          "month": 33,
+          "emi": 51480.7,
+          "principal": 40235.33,
+          "interest": 11245.36,
+          "balance": 6706981.91
+        },
+        {
+          "month": 34,
+          "emi": 51480.7,
+          "principal": 40302.39,
+          "interest": 11178.3,
+          "balance": 6666679.52
+        },
+        {
+          "month": 35,
+          "emi": 51480.7,
+          "principal": 40369.56,
+          "interest": 11111.13,
+          "balance": 6626309.95
+        },
+        {
+          "month": 36,
+          "emi": 51480.7,
+          "principal": 40436.85,
+          "interest": 11043.85,
+          "balance": 6585873.11
+        },
+        {
+          "month": 37,
+          "emi": 51480.7,
+          "principal": 40504.24,
+          "interest": 10976.46,
+          "balance": 6545368.87
+        },
+        {
+          "month": 38,
+          "emi": 51480.7,
+          "principal": 40571.75,
+          "interest": 10908.95,
+          "balance": 6504797.12
+        },
+        {
+          "month": 39,
+          "emi": 51480.7,
+          "principal": 40639.37,
+          "interest": 10841.33,
+          "balance": 6464157.75
+        },
+        {
+          "month": 40,
+          "emi": 51480.7,
+          "principal": 40707.1,
+          "interest": 10773.6,
+          "balance": 6423450.65
+        },
+        {
+          "month": 41,
+          "emi": 51480.7,
+          "principal": 40774.94,
+          "interest": 10705.75,
+          "balance": 6382675.71
+        },
+        {
+          "month": 42,
+          "emi": 51480.7,
+          "principal": 40842.9,
+          "interest": 10637.79,
+          "balance": 6341832.8
+        },
+        {
+          "month": 43,
+          "emi": 51480.7,
+          "principal": 40910.97,
+          "interest": 10569.72,
+          "balance": 6300921.83
+        },
+        {
+          "month": 44,
+          "emi": 51480.7,
+          "principal": 40979.16,
+          "interest": 10501.54,
+          "balance": 6259942.67
+        },
+        {
+          "month": 45,
+          "emi": 51480.7,
+          "principal": 41047.46,
+          "interest": 10433.24,
+          "balance": 6218895.21
+        },
+        {
+          "month": 46,
+          "emi": 51480.7,
+          "principal": 41115.87,
+          "interest": 10364.83,
+          "balance": 6177779.34
+        },
+        {
+          "month": 47,
+          "emi": 51480.7,
+          "principal": 41184.4,
+          "interest": 10296.3,
+          "balance": 6136594.94
+        },
+        {
+          "month": 48,
+          "emi": 51480.7,
+          "principal": 41253.04,
+          "interest": 10227.66,
+          "balance": 6095341.9
+        },
+        {
+          "month": 49,
+          "emi": 51480.7,
+          "principal": 41321.79,
+          "interest": 10158.9,
+          "balance": 6054020.11
+        },
+        {
+          "month": 50,
+          "emi": 51480.7,
+          "principal": 41390.66,
+          "interest": 10090.03,
+          "balance": 6012629.45
+        },
+        {
+          "month": 51,
+          "emi": 51480.7,
+          "principal": 41459.65,
+          "interest": 10021.05,
+          "balance": 5971169.8
+        },
+        {
+          "month": 52,
+          "emi": 51480.7,
+          "principal": 41528.75,
+          "interest": 9951.95,
+          "balance": 5929641.06
+        },
+        {
+          "month": 53,
+          "emi": 51480.7,
+          "principal": 41597.96,
+          "interest": 9882.74,
+          "balance": 5888043.09
+        },
+        {
+          "month": 54,
+          "emi": 51480.7,
+          "principal": 41667.29,
+          "interest": 9813.41,
+          "balance": 5846375.8
+        },
+        {
+          "month": 55,
+          "emi": 51480.7,
+          "principal": 41736.74,
+          "interest": 9743.96,
+          "balance": 5804639.07
+        },
+        {
+          "month": 56,
+          "emi": 51480.7,
+          "principal": 41806.3,
+          "interest": 9674.4,
+          "balance": 5762832.77
+        },
+        {
+          "month": 57,
+          "emi": 51480.7,
+          "principal": 41875.97,
+          "interest": 9604.72,
+          "balance": 5720956.8
+        },
+        {
+          "month": 58,
+          "emi": 51480.7,
+          "principal": 41945.77,
+          "interest": 9534.93,
+          "balance": 5679011.03
+        },
+        {
+          "month": 59,
+          "emi": 51480.7,
+          "principal": 42015.68,
+          "interest": 9465.02,
+          "balance": 5636995.35
+        },
+        {
+          "month": 60,
+          "emi": 51480.7,
+          "principal": 42085.7,
+          "interest": 9394.99,
+          "balance": 5594909.65
+        },
+        {
+          "month": 61,
+          "emi": 51480.7,
+          "principal": 42155.85,
+          "interest": 9324.85,
+          "balance": 5552753.8
+        },
+        {
+          "month": 62,
+          "emi": 51480.7,
+          "principal": 42226.11,
+          "interest": 9254.59,
+          "balance": 5510527.69
+        },
+        {
+          "month": 63,
+          "emi": 51480.7,
+          "principal": 42296.48,
+          "interest": 9184.21,
+          "balance": 5468231.21
+        },
+        {
+          "month": 64,
+          "emi": 51480.7,
+          "principal": 42366.98,
+          "interest": 9113.72,
+          "balance": 5425864.23
+        },
+        {
+          "month": 65,
+          "emi": 51480.7,
+          "principal": 42437.59,
+          "interest": 9043.11,
+          "balance": 5383426.64
+        },
+        {
+          "month": 66,
+          "emi": 51480.7,
+          "principal": 42508.32,
+          "interest": 8972.38,
+          "balance": 5340918.32
+        },
+        {
+          "month": 67,
+          "emi": 51480.7,
+          "principal": 42579.17,
+          "interest": 8901.53,
+          "balance": 5298339.16
+        },
+        {
+          "month": 68,
+          "emi": 51480.7,
+          "principal": 42650.13,
+          "interest": 8830.57,
+          "balance": 5255689.03
+        },
+        {
+          "month": 69,
+          "emi": 51480.7,
+          "principal": 42721.21,
+          "interest": 8759.48,
+          "balance": 5212967.81
+        },
+        {
+          "month": 70,
+          "emi": 51480.7,
+          "principal": 42792.42,
+          "interest": 8688.28,
+          "balance": 5170175.4
+        },
+        {
+          "month": 71,
+          "emi": 51480.7,
+          "principal": 42863.74,
+          "interest": 8616.96,
+          "balance": 5127311.66
+        },
+        {
+          "month": 72,
+          "emi": 51480.7,
+          "principal": 42935.18,
+          "interest": 8545.52,
+          "balance": 5084376.48
+        },
+        {
+          "month": 73,
+          "emi": 51480.7,
+          "principal": 43006.74,
+          "interest": 8473.96,
+          "balance": 5041369.75
+        },
+        {
+          "month": 74,
+          "emi": 51480.7,
+          "principal": 43078.41,
+          "interest": 8402.28,
+          "balance": 4998291.34
+        },
+        {
+          "month": 75,
+          "emi": 51480.7,
+          "principal": 43150.21,
+          "interest": 8330.49,
+          "balance": 4955141.13
+        },
+        {
+          "month": 76,
+          "emi": 51480.7,
+          "principal": 43222.13,
+          "interest": 8258.57,
+          "balance": 4911919.0
+        },
+        {
+          "month": 77,
+          "emi": 51480.7,
+          "principal": 43294.16,
+          "interest": 8186.53,
+          "balance": 4868624.83
+        },
+        {
+          "month": 78,
+          "emi": 51480.7,
+          "principal": 43366.32,
+          "interest": 8114.37,
+          "balance": 4825258.51
+        },
+        {
+          "month": 79,
+          "emi": 51480.7,
+          "principal": 43438.6,
+          "interest": 8042.1,
+          "balance": 4781819.91
+        },
+        {
+          "month": 80,
+          "emi": 51480.7,
+          "principal": 43511.0,
+          "interest": 7969.7,
+          "balance": 4738308.92
+        },
+        {
+          "month": 81,
+          "emi": 51480.7,
+          "principal": 43583.51,
+          "interest": 7897.18,
+          "balance": 4694725.4
+        },
+        {
+          "month": 82,
+          "emi": 51480.7,
+          "principal": 43656.15,
+          "interest": 7824.54,
+          "balance": 4651069.25
+        },
+        {
+          "month": 83,
+          "emi": 51480.7,
+          "principal": 43728.91,
+          "interest": 7751.78,
+          "balance": 4607340.34
+        },
+        {
+          "month": 84,
+          "emi": 51480.7,
+          "principal": 43801.8,
+          "interest": 7678.9,
+          "balance": 4563538.54
+        },
+        {
+          "month": 85,
+          "emi": 51480.7,
+          "principal": 43874.8,
+          "interest": 7605.9,
+          "balance": 4519663.74
+        },
+        {
+          "month": 86,
+          "emi": 51480.7,
+          "principal": 43947.92,
+          "interest": 7532.77,
+          "balance": 4475715.82
+        },
+        {
+          "month": 87,
+          "emi": 51480.7,
+          "principal": 44021.17,
+          "interest": 7459.53,
+          "balance": 4431694.65
+        },
+        {
+          "month": 88,
+          "emi": 51480.7,
+          "principal": 44094.54,
+          "interest": 7386.16,
+          "balance": 4387600.11
+        },
+        {
+          "month": 89,
+          "emi": 51480.7,
+          "principal": 44168.03,
+          "interest": 7312.67,
+          "balance": 4343432.08
+        },
+        {
+          "month": 90,
+          "emi": 51480.7,
+          "principal": 44241.64,
+          "interest": 7239.05,
+          "balance": 4299190.44
+        },
+        {
+          "month": 91,
+          "emi": 51480.7,
+          "principal": 44315.38,
+          "interest": 7165.32,
+          "balance": 4254875.06
+        },
+        {
+          "month": 92,
+          "emi": 51480.7,
+          "principal": 44389.24,
+          "interest": 7091.46,
+          "balance": 4210485.82
+        },
+        {
+          "month": 93,
+          "emi": 51480.7,
+          "principal": 44463.22,
+          "interest": 7017.48,
+          "balance": 4166022.6
+        },
+        {
+          "month": 94,
+          "emi": 51480.7,
+          "principal": 44537.33,
+          "interest": 6943.37,
+          "balance": 4121485.28
+        },
+        {
+          "month": 95,
+          "emi": 51480.7,
+          "principal": 44611.55,
+          "interest": 6869.14,
+          "balance": 4076873.72
+        },
+        {
+          "month": 96,
+          "emi": 51480.7,
+          "principal": 44685.91,
+          "interest": 6794.79,
+          "balance": 4032187.82
+        },
+        {
+          "month": 97,
+          "emi": 51480.7,
+          "principal": 44760.38,
+          "interest": 6720.31,
+          "balance": 3987427.43
+        },
+        {
+          "month": 98,
+          "emi": 51480.7,
+          "principal": 44834.98,
+          "interest": 6645.71,
+          "balance": 3942592.45
+        },
+        {
+          "month": 99,
+          "emi": 51480.7,
+          "principal": 44909.71,
+          "interest": 6570.99,
+          "balance": 3897682.74
+        },
+        {
+          "month": 100,
+          "emi": 51480.7,
+          "principal": 44984.56,
+          "interest": 6496.14,
+          "balance": 3852698.18
+        },
+        {
+          "month": 101,
+          "emi": 51480.7,
+          "principal": 45059.53,
+          "interest": 6421.16,
+          "balance": 3807638.65
+        },
+        {
+          "month": 102,
+          "emi": 51480.7,
+          "principal": 45134.63,
+          "interest": 6346.06,
+          "balance": 3762504.02
+        },
+        {
+          "month": 103,
+          "emi": 51480.7,
+          "principal": 45209.86,
+          "interest": 6270.84,
+          "balance": 3717294.16
+        },
+        {
+          "month": 104,
+          "emi": 51480.7,
+          "principal": 45285.21,
+          "interest": 6195.49,
+          "balance": 3672008.96
+        },
+        {
+          "month": 105,
+          "emi": 51480.7,
+          "principal": 45360.68,
+          "interest": 6120.01,
+          "balance": 3626648.28
+        },
+        {
+          "month": 106,
+          "emi": 51480.7,
+          "principal": 45436.28,
+          "interest": 6044.41,
+          "balance": 3581211.99
+        },
+        {
+          "month": 107,
+          "emi": 51480.7,
+          "principal": 45512.01,
+          "interest": 5968.69,
+          "balance": 3535699.99
+        },
+        {
+          "month": 108,
+          "emi": 51480.7,
+          "principal": 45587.86,
+          "interest": 5892.83,
+          "balance": 3490112.12
+        },
+        {
+          "month": 109,
+          "emi": 51480.7,
+          "principal": 45663.84,
+          "interest": 5816.85,
+          "balance": 3444448.28
+        },
+        {
+          "month": 110,
+          "emi": 51480.7,
+          "principal": 45739.95,
+          "interest": 5740.75,
+          "balance": 3398708.33
+        },
+        {
+          "month": 111,
+          "emi": 51480.7,
+          "principal": 45816.18,
+          "interest": 5664.51,
+          "balance": 3352892.15
+        },
+        {
+          "month": 112,
+          "emi": 51480.7,
+          "principal": 45892.54,
+          "interest": 5588.15,
+          "balance": 3306999.61
+        },
+        {
+          "month": 113,
+          "emi": 51480.7,
+          "principal": 45969.03,
+          "interest": 5511.67,
+          "balance": 3261030.58
+        },
+        {
+          "month": 114,
+          "emi": 51480.7,
+          "principal": 46045.65,
+          "interest": 5435.05,
+          "balance": 3214984.93
+        },
+        {
+          "month": 115,
+          "emi": 51480.7,
+          "principal": 46122.39,
+          "interest": 5358.31,
+          "balance": 3168862.54
+        },
+        {
+          "month": 116,
+          "emi": 51480.7,
+          "principal": 46199.26,
+          "interest": 5281.44,
+          "balance": 3122663.28
+        },
+        {
+          "month": 117,
+          "emi": 51480.7,
+          "principal": 46276.26,
+          "interest": 5204.44,
+          "balance": 3076387.03
+        },
+        {
+          "month": 118,
+          "emi": 51480.7,
+          "principal": 46353.38,
+          "interest": 5127.31,
+          "balance": 3030033.64
+        },
+        {
+          "month": 119,
+          "emi": 51480.7,
+          "principal": 46430.64,
+          "interest": 5050.06,
+          "balance": 2983603.0
+        },
+        {
+          "month": 120,
+          "emi": 51480.7,
+          "principal": 46508.02,
+          "interest": 4972.67,
+          "balance": 2937094.98
+        },
+        {
+          "month": 121,
+          "emi": 51480.7,
+          "principal": 46585.54,
+          "interest": 4895.16,
+          "balance": 2890509.44
+        },
+        {
+          "month": 122,
+          "emi": 51480.7,
+          "principal": 46663.18,
+          "interest": 4817.52,
+          "balance": 2843846.26
+        },
+        {
+          "month": 123,
+          "emi": 51480.7,
+          "principal": 46740.95,
+          "interest": 4739.74,
+          "balance": 2797105.31
+        },
+        {
+          "month": 124,
+          "emi": 51480.7,
+          "principal": 46818.85,
+          "interest": 4661.84,
+          "balance": 2750286.45
+        },
+        {
+          "month": 125,
+          "emi": 51480.7,
+          "principal": 46896.89,
+          "interest": 4583.81,
+          "balance": 2703389.57
+        },
+        {
+          "month": 126,
+          "emi": 51480.7,
+          "principal": 46975.05,
+          "interest": 4505.65,
+          "balance": 2656414.52
+        },
+        {
+          "month": 127,
+          "emi": 51480.7,
+          "principal": 47053.34,
+          "interest": 4427.36,
+          "balance": 2609361.18
+        },
+        {
+          "month": 128,
+          "emi": 51480.7,
+          "principal": 47131.76,
+          "interest": 4348.94,
+          "balance": 2562229.42
+        },
+        {
+          "month": 129,
+          "emi": 51480.7,
+          "principal": 47210.31,
+          "interest": 4270.38,
+          "balance": 2515019.11
+        },
+        {
+          "month": 130,
+          "emi": 51480.7,
+          "principal": 47289.0,
+          "interest": 4191.7,
+          "balance": 2467730.11
+        },
+        {
+          "month": 131,
+          "emi": 51480.7,
+          "principal": 47367.81,
+          "interest": 4112.88,
+          "balance": 2420362.3
+        },
+        {
+          "month": 132,
+          "emi": 51480.7,
+          "principal": 47446.76,
+          "interest": 4033.94,
+          "balance": 2372915.54
+        },
+        {
+          "month": 133,
+          "emi": 51480.7,
+          "principal": 47525.84,
+          "interest": 3954.86,
+          "balance": 2325389.7
+        },
+        {
+          "month": 134,
+          "emi": 51480.7,
+          "principal": 47605.05,
+          "interest": 3875.65,
+          "balance": 2277784.66
+        },
+        {
+          "month": 135,
+          "emi": 51480.7,
+          "principal": 47684.39,
+          "interest": 3796.31,
+          "balance": 2230100.27
+        },
+        {
+          "month": 136,
+          "emi": 51480.7,
+          "principal": 47763.86,
+          "interest": 3716.83,
+          "balance": 2182336.41
+        },
+        {
+          "month": 137,
+          "emi": 51480.7,
+          "principal": 47843.47,
+          "interest": 3637.23,
+          "balance": 2134492.94
+        },
+        {
+          "month": 138,
+          "emi": 51480.7,
+          "principal": 47923.21,
+          "interest": 3557.49,
+          "balance": 2086569.73
+        },
+        {
+          "month": 139,
+          "emi": 51480.7,
+          "principal": 48003.08,
+          "interest": 3477.62,
+          "balance": 2038566.65
+        },
+        {
+          "month": 140,
+          "emi": 51480.7,
+          "principal": 48083.08,
+          "interest": 3397.61,
+          "balance": 1990483.57
+        },
+        {
+          "month": 141,
+          "emi": 51480.7,
+          "principal": 48163.22,
+          "interest": 3317.47,
+          "balance": 1942320.34
+        },
+        {
+          "month": 142,
+          "emi": 51480.7,
+          "principal": 48243.5,
+          "interest": 3237.2,
+          "balance": 1894076.85
+        },
+        {
+          "month": 143,
+          "emi": 51480.7,
+          "principal": 48323.9,
+          "interest": 3156.79,
+          "balance": 1845752.95
+        },
+        {
+          "month": 144,
+          "emi": 51480.7,
+          "principal": 48404.44,
+          "interest": 3076.25,
+          "balance": 1797348.5
+        },
+        {
+          "month": 145,
+          "emi": 51480.7,
+          "principal": 48485.12,
+          "interest": 2995.58,
+          "balance": 1748863.39
+        },
+        {
+          "month": 146,
+          "emi": 51480.7,
+          "principal": 48565.92,
+          "interest": 2914.77,
+          "balance": 1700297.47
+        },
+        {
+          "month": 147,
+          "emi": 51480.7,
+          "principal": 48646.87,
+          "interest": 2833.83,
+          "balance": 1651650.6
+        },
+        {
+          "month": 148,
+          "emi": 51480.7,
+          "principal": 48727.95,
+          "interest": 2752.75,
+          "balance": 1602922.65
+        },
+        {
+          "month": 149,
+          "emi": 51480.7,
+          "principal": 48809.16,
+          "interest": 2671.54,
+          "balance": 1554113.5
+        },
+        {
+          "month": 150,
+          "emi": 51480.7,
+          "principal": 48890.51,
+          "interest": 2590.19,
+          "balance": 1505222.99
+        },
+        {
+          "month": 151,
+          "emi": 51480.7,
+          "principal": 48971.99,
+          "interest": 2508.7,
+          "balance": 1456251.0
+        },
+        {
+          "month": 152,
+          "emi": 51480.7,
+          "principal": 49053.61,
+          "interest": 2427.08,
+          "balance": 1407197.39
+        },
+        {
+          "month": 153,
+          "emi": 51480.7,
+          "principal": 49135.37,
+          "interest": 2345.33,
+          "balance": 1358062.02
+        },
+        {
+          "month": 154,
+          "emi": 51480.7,
+          "principal": 49217.26,
+          "interest": 2263.44,
+          "balance": 1308844.76
+        },
+        {
+          "month": 155,
+          "emi": 51480.7,
+          "principal": 49299.29,
+          "interest": 2181.41,
+          "balance": 1259545.47
+        },
+        {
+          "month": 156,
+          "emi": 51480.7,
+          "principal": 49381.45,
+          "interest": 2099.24,
+          "balance": 1210164.02
+        },
+        {
+          "month": 157,
+          "emi": 51480.7,
+          "principal": 49463.76,
+          "interest": 2016.94,
+          "balance": 1160700.26
+        },
+        {
+          "month": 158,
+          "emi": 51480.7,
+          "principal": 49546.2,
+          "interest": 1934.5,
+          "balance": 1111154.07
+        },
+        {
+          "month": 159,
+          "emi": 51480.7,
+          "principal": 49628.77,
+          "interest": 1851.92,
+          "balance": 1061525.29
+        },
+        {
+          "month": 160,
+          "emi": 51480.7,
+          "principal": 49711.49,
+          "interest": 1769.21,
+          "balance": 1011813.81
+        },
+        {
+          "month": 161,
+          "emi": 51480.7,
+          "principal": 49794.34,
+          "interest": 1686.36,
+          "balance": 962019.47
+        },
+        {
+          "month": 162,
+          "emi": 51480.7,
+          "principal": 49877.33,
+          "interest": 1603.37,
+          "balance": 912142.14
+        },
+        {
+          "month": 163,
+          "emi": 51480.7,
+          "principal": 49960.46,
+          "interest": 1520.24,
+          "balance": 862181.68
+        },
+        {
+          "month": 164,
+          "emi": 51480.7,
+          "principal": 50043.73,
+          "interest": 1436.97,
+          "balance": 812137.95
+        },
+        {
+          "month": 165,
+          "emi": 51480.7,
+          "principal": 50127.13,
+          "interest": 1353.56,
+          "balance": 762010.82
+        },
+        {
+          "month": 166,
+          "emi": 51480.7,
+          "principal": 50210.68,
+          "interest": 1270.02,
+          "balance": 711800.14
+        },
+        {
+          "month": 167,
+          "emi": 51480.7,
+          "principal": 50294.36,
+          "interest": 1186.33,
+          "balance": 661505.78
+        },
+        {
+          "month": 168,
+          "emi": 51480.7,
+          "principal": 50378.19,
+          "interest": 1102.51,
+          "balance": 611127.59
+        },
+        {
+          "month": 169,
+          "emi": 51480.7,
+          "principal": 50462.15,
+          "interest": 1018.55,
+          "balance": 560665.44
+        },
+        {
+          "month": 170,
+          "emi": 51480.7,
+          "principal": 50546.25,
+          "interest": 934.44,
+          "balance": 510119.19
+        },
+        {
+          "month": 171,
+          "emi": 51480.7,
+          "principal": 50630.5,
+          "interest": 850.2,
+          "balance": 459488.69
+        },
+        {
+          "month": 172,
+          "emi": 51480.7,
+          "principal": 50714.88,
+          "interest": 765.81,
+          "balance": 408773.81
+        },
+        {
+          "month": 173,
+          "emi": 51480.7,
+          "principal": 50799.41,
+          "interest": 681.29,
+          "balance": 357974.4
+        },
+        {
+          "month": 174,
+          "emi": 51480.7,
+          "principal": 50884.07,
+          "interest": 596.62,
+          "balance": 307090.33
+        },
+        {
+          "month": 175,
+          "emi": 51480.7,
+          "principal": 50968.88,
+          "interest": 511.82,
+          "balance": 256121.45
+        },
+        {
+          "month": 176,
+          "emi": 51480.7,
+          "principal": 51053.83,
+          "interest": 426.87,
+          "balance": 205067.62
+        },
+        {
+          "month": 177,
+          "emi": 51480.7,
+          "principal": 51138.92,
+          "interest": 341.78,
+          "balance": 153928.71
+        },
+        {
+          "month": 178,
+          "emi": 51480.7,
+          "principal": 51224.15,
+          "interest": 256.55,
+          "balance": 102704.56
+        },
+        {
+          "month": 179,
+          "emi": 51480.7,
+          "principal": 51309.52,
+          "interest": 171.17,
+          "balance": 51395.04
+        },
+        {
+          "month": 180,
+          "emi": 51480.7,
+          "principal": 51395.04,
+          "interest": 85.66,
+          "balance": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "id": "8bd87ae2-1f6a-4571-87d8-cfb545442886",
+    "userId": "e3df8854-3866-4dcf-8846-13800f9d8a0f",
+    "createdAt": "2026-07-24T09:46:39.988252+00:00",
+    "input": {
+      "principal": 8000000,
+      "annualRate": 2.1,
+      "tenureYears": 15
+    },
+    "result": {
+      "principal": 8000000.0,
+      "annualRate": 2.1,
+      "tenureYears": 15,
+      "monthlyEmi": 51849.9,
+      "totalInterest": 1332981.29,
+      "totalPayment": 9332981.29,
+      "formatted": {
+        "principal": "\u20b980.00 L",
+        "monthlyEmi": "\u20b951,850",
+        "totalInterest": "\u20b913.33 L",
+        "totalPayment": "\u20b993.33 L"
+      },
+      "schedule": [
+        {
+          "month": 1,
+          "emi": 51849.9,
+          "principal": 37849.9,
+          "interest": 14000.0,
+          "balance": 7962150.1
+        },
+        {
+          "month": 2,
+          "emi": 51849.9,
+          "principal": 37916.13,
+          "interest": 13933.76,
+          "balance": 7924233.97
+        },
+        {
+          "month": 3,
+          "emi": 51849.9,
+          "principal": 37982.49,
+          "interest": 13867.41,
+          "balance": 7886251.48
+        },
+        {
+          "month": 4,
+          "emi": 51849.9,
+          "principal": 38048.96,
+          "interest": 13800.94,
+          "balance": 7848202.53
+        },
+        {
+          "month": 5,
+          "emi": 51849.9,
+          "principal": 38115.54,
+          "interest": 13734.35,
+          "balance": 7810086.99
+        },
+        {
+          "month": 6,
+          "emi": 51849.9,
+          "principal": 38182.24,
+          "interest": 13667.65,
+          "balance": 7771904.74
+        },
+        {
+          "month": 7,
+          "emi": 51849.9,
+          "principal": 38249.06,
+          "interest": 13600.83,
+          "balance": 7733655.68
+        },
+        {
+          "month": 8,
+          "emi": 51849.9,
+          "principal": 38316.0,
+          "interest": 13533.9,
+          "balance": 7695339.68
+        },
+        {
+          "month": 9,
+          "emi": 51849.9,
+          "principal": 38383.05,
+          "interest": 13466.84,
+          "balance": 7656956.63
+        },
+        {
+          "month": 10,
+          "emi": 51849.9,
+          "principal": 38450.22,
+          "interest": 13399.67,
+          "balance": 7618506.41
+        },
+        {
+          "month": 11,
+          "emi": 51849.9,
+          "principal": 38517.51,
+          "interest": 13332.39,
+          "balance": 7579988.9
+        },
+        {
+          "month": 12,
+          "emi": 51849.9,
+          "principal": 38584.92,
+          "interest": 13264.98,
+          "balance": 7541403.98
+        },
+        {
+          "month": 13,
+          "emi": 51849.9,
+          "principal": 38652.44,
+          "interest": 13197.46,
+          "balance": 7502751.54
+        },
+        {
+          "month": 14,
+          "emi": 51849.9,
+          "principal": 38720.08,
+          "interest": 13129.82,
+          "balance": 7464031.46
+        },
+        {
+          "month": 15,
+          "emi": 51849.9,
+          "principal": 38787.84,
+          "interest": 13062.06,
+          "balance": 7425243.62
+        },
+        {
+          "month": 16,
+          "emi": 51849.9,
+          "principal": 38855.72,
+          "interest": 12994.18,
+          "balance": 7386387.9
+        },
+        {
+          "month": 17,
+          "emi": 51849.9,
+          "principal": 38923.72,
+          "interest": 12926.18,
+          "balance": 7347464.18
+        },
+        {
+          "month": 18,
+          "emi": 51849.9,
+          "principal": 38991.83,
+          "interest": 12858.06,
+          "balance": 7308472.35
+        },
+        {
+          "month": 19,
+          "emi": 51849.9,
+          "principal": 39060.07,
+          "interest": 12789.83,
+          "balance": 7269412.28
+        },
+        {
+          "month": 20,
+          "emi": 51849.9,
+          "principal": 39128.42,
+          "interest": 12721.47,
+          "balance": 7230283.86
+        },
+        {
+          "month": 21,
+          "emi": 51849.9,
+          "principal": 39196.9,
+          "interest": 12653.0,
+          "balance": 7191086.96
+        },
+        {
+          "month": 22,
+          "emi": 51849.9,
+          "principal": 39265.49,
+          "interest": 12584.4,
+          "balance": 7151821.46
+        },
+        {
+          "month": 23,
+          "emi": 51849.9,
+          "principal": 39334.21,
+          "interest": 12515.69,
+          "balance": 7112487.25
+        },
+        {
+          "month": 24,
+          "emi": 51849.9,
+          "principal": 39403.04,
+          "interest": 12446.85,
+          "balance": 7073084.21
+        },
+        {
+          "month": 25,
+          "emi": 51849.9,
+          "principal": 39472.0,
+          "interest": 12377.9,
+          "balance": 7033612.21
+        },
+        {
+          "month": 26,
+          "emi": 51849.9,
+          "principal": 39541.07,
+          "interest": 12308.82,
+          "balance": 6994071.14
+        },
+        {
+          "month": 27,
+          "emi": 51849.9,
+          "principal": 39610.27,
+          "interest": 12239.62,
+          "balance": 6954460.87
+        },
+        {
+          "month": 28,
+          "emi": 51849.9,
+          "principal": 39679.59,
+          "interest": 12170.31,
+          "balance": 6914781.28
+        },
+        {
+          "month": 29,
+          "emi": 51849.9,
+          "principal": 39749.03,
+          "interest": 12100.87,
+          "balance": 6875032.25
+        },
+        {
+          "month": 30,
+          "emi": 51849.9,
+          "principal": 39818.59,
+          "interest": 12031.31,
+          "balance": 6835213.66
+        },
+        {
+          "month": 31,
+          "emi": 51849.9,
+          "principal": 39888.27,
+          "interest": 11961.62,
+          "balance": 6795325.39
+        },
+        {
+          "month": 32,
+          "emi": 51849.9,
+          "principal": 39958.08,
+          "interest": 11891.82,
+          "balance": 6755367.31
+        },
+        {
+          "month": 33,
+          "emi": 51849.9,
+          "principal": 40028.0,
+          "interest": 11821.89,
+          "balance": 6715339.31
+        },
+        {
+          "month": 34,
+          "emi": 51849.9,
+          "principal": 40098.05,
+          "interest": 11751.84,
+          "balance": 6675241.25
+        },
+        {
+          "month": 35,
+          "emi": 51849.9,
+          "principal": 40168.22,
+          "interest": 11681.67,
+          "balance": 6635073.03
+        },
+        {
+          "month": 36,
+          "emi": 51849.9,
+          "principal": 40238.52,
+          "interest": 11611.38,
+          "balance": 6594834.51
+        },
+        {
+          "month": 37,
+          "emi": 51849.9,
+          "principal": 40308.94,
+          "interest": 11540.96,
+          "balance": 6554525.58
+        },
+        {
+          "month": 38,
+          "emi": 51849.9,
+          "principal": 40379.48,
+          "interest": 11470.42,
+          "balance": 6514146.1
+        },
+        {
+          "month": 39,
+          "emi": 51849.9,
+          "principal": 40450.14,
+          "interest": 11399.76,
+          "balance": 6473695.96
+        },
+        {
+          "month": 40,
+          "emi": 51849.9,
+          "principal": 40520.93,
+          "interest": 11328.97,
+          "balance": 6433175.03
+        },
+        {
+          "month": 41,
+          "emi": 51849.9,
+          "principal": 40591.84,
+          "interest": 11258.06,
+          "balance": 6392583.19
+        },
+        {
+          "month": 42,
+          "emi": 51849.9,
+          "principal": 40662.88,
+          "interest": 11187.02,
+          "balance": 6351920.32
+        },
+        {
+          "month": 43,
+          "emi": 51849.9,
+          "principal": 40734.04,
+          "interest": 11115.86,
+          "balance": 6311186.28
+        },
+        {
+          "month": 44,
+          "emi": 51849.9,
+          "principal": 40805.32,
+          "interest": 11044.58,
+          "balance": 6270380.96
+        },
+        {
+          "month": 45,
+          "emi": 51849.9,
+          "principal": 40876.73,
+          "interest": 10973.17,
+          "balance": 6229504.23
+        },
+        {
+          "month": 46,
+          "emi": 51849.9,
+          "principal": 40948.26,
+          "interest": 10901.63,
+          "balance": 6188555.97
+        },
+        {
+          "month": 47,
+          "emi": 51849.9,
+          "principal": 41019.92,
+          "interest": 10829.97,
+          "balance": 6147536.04
+        },
+        {
+          "month": 48,
+          "emi": 51849.9,
+          "principal": 41091.71,
+          "interest": 10758.19,
+          "balance": 6106444.34
+        },
+        {
+          "month": 49,
+          "emi": 51849.9,
+          "principal": 41163.62,
+          "interest": 10686.28,
+          "balance": 6065280.72
+        },
+        {
+          "month": 50,
+          "emi": 51849.9,
+          "principal": 41235.65,
+          "interest": 10614.24,
+          "balance": 6024045.06
+        },
+        {
+          "month": 51,
+          "emi": 51849.9,
+          "principal": 41307.82,
+          "interest": 10542.08,
+          "balance": 5982737.25
+        },
+        {
+          "month": 52,
+          "emi": 51849.9,
+          "principal": 41380.11,
+          "interest": 10469.79,
+          "balance": 5941357.14
+        },
+        {
+          "month": 53,
+          "emi": 51849.9,
+          "principal": 41452.52,
+          "interest": 10397.37,
+          "balance": 5899904.62
+        },
+        {
+          "month": 54,
+          "emi": 51849.9,
+          "principal": 41525.06,
+          "interest": 10324.83,
+          "balance": 5858379.56
+        },
+        {
+          "month": 55,
+          "emi": 51849.9,
+          "principal": 41597.73,
+          "interest": 10252.16,
+          "balance": 5816781.82
+        },
+        {
+          "month": 56,
+          "emi": 51849.9,
+          "principal": 41670.53,
+          "interest": 10179.37,
+          "balance": 5775111.3
+        },
+        {
+          "month": 57,
+          "emi": 51849.9,
+          "principal": 41743.45,
+          "interest": 10106.44,
+          "balance": 5733367.84
+        },
+        {
+          "month": 58,
+          "emi": 51849.9,
+          "principal": 41816.5,
+          "interest": 10033.39,
+          "balance": 5691551.34
+        },
+        {
+          "month": 59,
+          "emi": 51849.9,
+          "principal": 41889.68,
+          "interest": 9960.21,
+          "balance": 5649661.66
+        },
+        {
+          "month": 60,
+          "emi": 51849.9,
+          "principal": 41962.99,
+          "interest": 9886.91,
+          "balance": 5607698.67
+        },
+        {
+          "month": 61,
+          "emi": 51849.9,
+          "principal": 42036.42,
+          "interest": 9813.47,
+          "balance": 5565662.25
+        },
+        {
+          "month": 62,
+          "emi": 51849.9,
+          "principal": 42109.99,
+          "interest": 9739.91,
+          "balance": 5523552.26
+        },
+        {
+          "month": 63,
+          "emi": 51849.9,
+          "principal": 42183.68,
+          "interest": 9666.22,
+          "balance": 5481368.58
+        },
+        {
+          "month": 64,
+          "emi": 51849.9,
+          "principal": 42257.5,
+          "interest": 9592.4,
+          "balance": 5439111.08
+        },
+        {
+          "month": 65,
+          "emi": 51849.9,
+          "principal": 42331.45,
+          "interest": 9518.44,
+          "balance": 5396779.63
+        },
+        {
+          "month": 66,
+          "emi": 51849.9,
+          "principal": 42405.53,
+          "interest": 9444.36,
+          "balance": 5354374.1
+        },
+        {
+          "month": 67,
+          "emi": 51849.9,
+          "principal": 42479.74,
+          "interest": 9370.15,
+          "balance": 5311894.36
+        },
+        {
+          "month": 68,
+          "emi": 51849.9,
+          "principal": 42554.08,
+          "interest": 9295.82,
+          "balance": 5269340.28
+        },
+        {
+          "month": 69,
+          "emi": 51849.9,
+          "principal": 42628.55,
+          "interest": 9221.35,
+          "balance": 5226711.72
+        },
+        {
+          "month": 70,
+          "emi": 51849.9,
+          "principal": 42703.15,
+          "interest": 9146.75,
+          "balance": 5184008.57
+        },
+        {
+          "month": 71,
+          "emi": 51849.9,
+          "principal": 42777.88,
+          "interest": 9072.02,
+          "balance": 5141230.69
+        },
+        {
+          "month": 72,
+          "emi": 51849.9,
+          "principal": 42852.74,
+          "interest": 8997.15,
+          "balance": 5098377.95
+        },
+        {
+          "month": 73,
+          "emi": 51849.9,
+          "principal": 42927.73,
+          "interest": 8922.16,
+          "balance": 5055450.22
+        },
+        {
+          "month": 74,
+          "emi": 51849.9,
+          "principal": 43002.86,
+          "interest": 8847.04,
+          "balance": 5012447.36
+        },
+        {
+          "month": 75,
+          "emi": 51849.9,
+          "principal": 43078.11,
+          "interest": 8771.78,
+          "balance": 4969369.24
+        },
+        {
+          "month": 76,
+          "emi": 51849.9,
+          "principal": 43153.5,
+          "interest": 8696.4,
+          "balance": 4926215.74
+        },
+        {
+          "month": 77,
+          "emi": 51849.9,
+          "principal": 43229.02,
+          "interest": 8620.88,
+          "balance": 4882986.73
+        },
+        {
+          "month": 78,
+          "emi": 51849.9,
+          "principal": 43304.67,
+          "interest": 8545.23,
+          "balance": 4839682.06
+        },
+        {
+          "month": 79,
+          "emi": 51849.9,
+          "principal": 43380.45,
+          "interest": 8469.44,
+          "balance": 4796301.6
+        },
+        {
+          "month": 80,
+          "emi": 51849.9,
+          "principal": 43456.37,
+          "interest": 8393.53,
+          "balance": 4752845.24
+        },
+        {
+          "month": 81,
+          "emi": 51849.9,
+          "principal": 43532.42,
+          "interest": 8317.48,
+          "balance": 4709312.82
+        },
+        {
+          "month": 82,
+          "emi": 51849.9,
+          "principal": 43608.6,
+          "interest": 8241.3,
+          "balance": 4665704.22
+        },
+        {
+          "month": 83,
+          "emi": 51849.9,
+          "principal": 43684.91,
+          "interest": 8164.98,
+          "balance": 4622019.31
+        },
+        {
+          "month": 84,
+          "emi": 51849.9,
+          "principal": 43761.36,
+          "interest": 8088.53,
+          "balance": 4578257.94
+        },
+        {
+          "month": 85,
+          "emi": 51849.9,
+          "principal": 43837.94,
+          "interest": 8011.95,
+          "balance": 4534420.0
+        },
+        {
+          "month": 86,
+          "emi": 51849.9,
+          "principal": 43914.66,
+          "interest": 7935.24,
+          "balance": 4490505.34
+        },
+        {
+          "month": 87,
+          "emi": 51849.9,
+          "principal": 43991.51,
+          "interest": 7858.38,
+          "balance": 4446513.83
+        },
+        {
+          "month": 88,
+          "emi": 51849.9,
+          "principal": 44068.5,
+          "interest": 7781.4,
+          "balance": 4402445.33
+        },
+        {
+          "month": 89,
+          "emi": 51849.9,
+          "principal": 44145.62,
+          "interest": 7704.28,
+          "balance": 4358299.71
+        },
+        {
+          "month": 90,
+          "emi": 51849.9,
+          "principal": 44222.87,
+          "interest": 7627.02,
+          "balance": 4314076.84
+        },
+        {
+          "month": 91,
+          "emi": 51849.9,
+          "principal": 44300.26,
+          "interest": 7549.63,
+          "balance": 4269776.58
+        },
+        {
+          "month": 92,
+          "emi": 51849.9,
+          "principal": 44377.79,
+          "interest": 7472.11,
+          "balance": 4225398.79
+        },
+        {
+          "month": 93,
+          "emi": 51849.9,
+          "principal": 44455.45,
+          "interest": 7394.45,
+          "balance": 4180943.35
+        },
+        {
+          "month": 94,
+          "emi": 51849.9,
+          "principal": 44533.25,
+          "interest": 7316.65,
+          "balance": 4136410.1
+        },
+        {
+          "month": 95,
+          "emi": 51849.9,
+          "principal": 44611.18,
+          "interest": 7238.72,
+          "balance": 4091798.92
+        },
+        {
+          "month": 96,
+          "emi": 51849.9,
+          "principal": 44689.25,
+          "interest": 7160.65,
+          "balance": 4047109.67
+        },
+        {
+          "month": 97,
+          "emi": 51849.9,
+          "principal": 44767.45,
+          "interest": 7082.44,
+          "balance": 4002342.22
+        },
+        {
+          "month": 98,
+          "emi": 51849.9,
+          "principal": 44845.8,
+          "interest": 7004.1,
+          "balance": 3957496.42
+        },
+        {
+          "month": 99,
+          "emi": 51849.9,
+          "principal": 44924.28,
+          "interest": 6925.62,
+          "balance": 3912572.15
+        },
+        {
+          "month": 100,
+          "emi": 51849.9,
+          "principal": 45002.89,
+          "interest": 6847.0,
+          "balance": 3867569.25
+        },
+        {
+          "month": 101,
+          "emi": 51849.9,
+          "principal": 45081.65,
+          "interest": 6768.25,
+          "balance": 3822487.6
+        },
+        {
+          "month": 102,
+          "emi": 51849.9,
+          "principal": 45160.54,
+          "interest": 6689.35,
+          "balance": 3777327.06
+        },
+        {
+          "month": 103,
+          "emi": 51849.9,
+          "principal": 45239.57,
+          "interest": 6610.32,
+          "balance": 3732087.48
+        },
+        {
+          "month": 104,
+          "emi": 51849.9,
+          "principal": 45318.74,
+          "interest": 6531.15,
+          "balance": 3686768.74
+        },
+        {
+          "month": 105,
+          "emi": 51849.9,
+          "principal": 45398.05,
+          "interest": 6451.85,
+          "balance": 3641370.69
+        },
+        {
+          "month": 106,
+          "emi": 51849.9,
+          "principal": 45477.5,
+          "interest": 6372.4,
+          "balance": 3595893.19
+        },
+        {
+          "month": 107,
+          "emi": 51849.9,
+          "principal": 45557.08,
+          "interest": 6292.81,
+          "balance": 3550336.11
+        },
+        {
+          "month": 108,
+          "emi": 51849.9,
+          "principal": 45636.81,
+          "interest": 6213.09,
+          "balance": 3504699.3
+        },
+        {
+          "month": 109,
+          "emi": 51849.9,
+          "principal": 45716.67,
+          "interest": 6133.22,
+          "balance": 3458982.63
+        },
+        {
+          "month": 110,
+          "emi": 51849.9,
+          "principal": 45796.68,
+          "interest": 6053.22,
+          "balance": 3413185.95
+        },
+        {
+          "month": 111,
+          "emi": 51849.9,
+          "principal": 45876.82,
+          "interest": 5973.08,
+          "balance": 3367309.13
+        },
+        {
+          "month": 112,
+          "emi": 51849.9,
+          "principal": 45957.11,
+          "interest": 5892.79,
+          "balance": 3321352.03
+        },
+        {
+          "month": 113,
+          "emi": 51849.9,
+          "principal": 46037.53,
+          "interest": 5812.37,
+          "balance": 3275314.5
+        },
+        {
+          "month": 114,
+          "emi": 51849.9,
+          "principal": 46118.1,
+          "interest": 5731.8,
+          "balance": 3229196.4
+        },
+        {
+          "month": 115,
+          "emi": 51849.9,
+          "principal": 46198.8,
+          "interest": 5651.09,
+          "balance": 3182997.6
+        },
+        {
+          "month": 116,
+          "emi": 51849.9,
+          "principal": 46279.65,
+          "interest": 5570.25,
+          "balance": 3136717.95
+        },
+        {
+          "month": 117,
+          "emi": 51849.9,
+          "principal": 46360.64,
+          "interest": 5489.26,
+          "balance": 3090357.31
+        },
+        {
+          "month": 118,
+          "emi": 51849.9,
+          "principal": 46441.77,
+          "interest": 5408.13,
+          "balance": 3043915.54
+        },
+        {
+          "month": 119,
+          "emi": 51849.9,
+          "principal": 46523.04,
+          "interest": 5326.85,
+          "balance": 2997392.49
+        },
+        {
+          "month": 120,
+          "emi": 51849.9,
+          "principal": 46604.46,
+          "interest": 5245.44,
+          "balance": 2950788.04
+        },
+        {
+          "month": 121,
+          "emi": 51849.9,
+          "principal": 46686.02,
+          "interest": 5163.88,
+          "balance": 2904102.02
+        },
+        {
+          "month": 122,
+          "emi": 51849.9,
+          "principal": 46767.72,
+          "interest": 5082.18,
+          "balance": 2857334.3
+        },
+        {
+          "month": 123,
+          "emi": 51849.9,
+          "principal": 46849.56,
+          "interest": 5000.34,
+          "balance": 2810484.74
+        },
+        {
+          "month": 124,
+          "emi": 51849.9,
+          "principal": 46931.55,
+          "interest": 4918.35,
+          "balance": 2763553.19
+        },
+        {
+          "month": 125,
+          "emi": 51849.9,
+          "principal": 47013.68,
+          "interest": 4836.22,
+          "balance": 2716539.51
+        },
+        {
+          "month": 126,
+          "emi": 51849.9,
+          "principal": 47095.95,
+          "interest": 4753.94,
+          "balance": 2669443.56
+        },
+        {
+          "month": 127,
+          "emi": 51849.9,
+          "principal": 47178.37,
+          "interest": 4671.53,
+          "balance": 2622265.19
+        },
+        {
+          "month": 128,
+          "emi": 51849.9,
+          "principal": 47260.93,
+          "interest": 4588.96,
+          "balance": 2575004.26
+        },
+        {
+          "month": 129,
+          "emi": 51849.9,
+          "principal": 47343.64,
+          "interest": 4506.26,
+          "balance": 2527660.62
+        },
+        {
+          "month": 130,
+          "emi": 51849.9,
+          "principal": 47426.49,
+          "interest": 4423.41,
+          "balance": 2480234.13
+        },
+        {
+          "month": 131,
+          "emi": 51849.9,
+          "principal": 47509.49,
+          "interest": 4340.41,
+          "balance": 2432724.65
+        },
+        {
+          "month": 132,
+          "emi": 51849.9,
+          "principal": 47592.63,
+          "interest": 4257.27,
+          "balance": 2385132.02
+        },
+        {
+          "month": 133,
+          "emi": 51849.9,
+          "principal": 47675.92,
+          "interest": 4173.98,
+          "balance": 2337456.1
+        },
+        {
+          "month": 134,
+          "emi": 51849.9,
+          "principal": 47759.35,
+          "interest": 4090.55,
+          "balance": 2289696.75
+        },
+        {
+          "month": 135,
+          "emi": 51849.9,
+          "principal": 47842.93,
+          "interest": 4006.97,
+          "balance": 2241853.83
+        },
+        {
+          "month": 136,
+          "emi": 51849.9,
+          "principal": 47926.65,
+          "interest": 3923.24,
+          "balance": 2193927.18
+        },
+        {
+          "month": 137,
+          "emi": 51849.9,
+          "principal": 48010.52,
+          "interest": 3839.37,
+          "balance": 2145916.65
+        },
+        {
+          "month": 138,
+          "emi": 51849.9,
+          "principal": 48094.54,
+          "interest": 3755.35,
+          "balance": 2097822.11
+        },
+        {
+          "month": 139,
+          "emi": 51849.9,
+          "principal": 48178.71,
+          "interest": 3671.19,
+          "balance": 2049643.4
+        },
+        {
+          "month": 140,
+          "emi": 51849.9,
+          "principal": 48263.02,
+          "interest": 3586.88,
+          "balance": 2001380.38
+        },
+        {
+          "month": 141,
+          "emi": 51849.9,
+          "principal": 48347.48,
+          "interest": 3502.42,
+          "balance": 1953032.9
+        },
+        {
+          "month": 142,
+          "emi": 51849.9,
+          "principal": 48432.09,
+          "interest": 3417.81,
+          "balance": 1904600.81
+        },
+        {
+          "month": 143,
+          "emi": 51849.9,
+          "principal": 48516.84,
+          "interest": 3333.05,
+          "balance": 1856083.97
+        },
+        {
+          "month": 144,
+          "emi": 51849.9,
+          "principal": 48601.75,
+          "interest": 3248.15,
+          "balance": 1807482.22
+        },
+        {
+          "month": 145,
+          "emi": 51849.9,
+          "principal": 48686.8,
+          "interest": 3163.09,
+          "balance": 1758795.42
+        },
+        {
+          "month": 146,
+          "emi": 51849.9,
+          "principal": 48772.0,
+          "interest": 3077.89,
+          "balance": 1710023.41
+        },
+        {
+          "month": 147,
+          "emi": 51849.9,
+          "principal": 48857.36,
+          "interest": 2992.54,
+          "balance": 1661166.06
+        },
+        {
+          "month": 148,
+          "emi": 51849.9,
+          "principal": 48942.86,
+          "interest": 2907.04,
+          "balance": 1612223.2
+        },
+        {
+          "month": 149,
+          "emi": 51849.9,
+          "principal": 49028.51,
+          "interest": 2821.39,
+          "balance": 1563194.7
+        },
+        {
+          "month": 150,
+          "emi": 51849.9,
+          "principal": 49114.31,
+          "interest": 2735.59,
+          "balance": 1514080.39
+        },
+        {
+          "month": 151,
+          "emi": 51849.9,
+          "principal": 49200.26,
+          "interest": 2649.64,
+          "balance": 1464880.14
+        },
+        {
+          "month": 152,
+          "emi": 51849.9,
+          "principal": 49286.36,
+          "interest": 2563.54,
+          "balance": 1415593.78
+        },
+        {
+          "month": 153,
+          "emi": 51849.9,
+          "principal": 49372.61,
+          "interest": 2477.29,
+          "balance": 1366221.17
+        },
+        {
+          "month": 154,
+          "emi": 51849.9,
+          "principal": 49459.01,
+          "interest": 2390.89,
+          "balance": 1316762.17
+        },
+        {
+          "month": 155,
+          "emi": 51849.9,
+          "principal": 49545.56,
+          "interest": 2304.33,
+          "balance": 1267216.6
+        },
+        {
+          "month": 156,
+          "emi": 51849.9,
+          "principal": 49632.27,
+          "interest": 2217.63,
+          "balance": 1217584.34
+        },
+        {
+          "month": 157,
+          "emi": 51849.9,
+          "principal": 49719.12,
+          "interest": 2130.77,
+          "balance": 1167865.21
+        },
+        {
+          "month": 158,
+          "emi": 51849.9,
+          "principal": 49806.13,
+          "interest": 2043.76,
+          "balance": 1118059.08
+        },
+        {
+          "month": 159,
+          "emi": 51849.9,
+          "principal": 49893.29,
+          "interest": 1956.6,
+          "balance": 1068165.79
+        },
+        {
+          "month": 160,
+          "emi": 51849.9,
+          "principal": 49980.61,
+          "interest": 1869.29,
+          "balance": 1018185.18
+        },
+        {
+          "month": 161,
+          "emi": 51849.9,
+          "principal": 50068.07,
+          "interest": 1781.82,
+          "balance": 968117.11
+        },
+        {
+          "month": 162,
+          "emi": 51849.9,
+          "principal": 50155.69,
+          "interest": 1694.2,
+          "balance": 917961.42
+        },
+        {
+          "month": 163,
+          "emi": 51849.9,
+          "principal": 50243.46,
+          "interest": 1606.43,
+          "balance": 867717.95
+        },
+        {
+          "month": 164,
+          "emi": 51849.9,
+          "principal": 50331.39,
+          "interest": 1518.51,
+          "balance": 817386.57
+        },
+        {
+          "month": 165,
+          "emi": 51849.9,
+          "principal": 50419.47,
+          "interest": 1430.43,
+          "balance": 766967.1
+        },
+        {
+          "month": 166,
+          "emi": 51849.9,
+          "principal": 50507.7,
+          "interest": 1342.19,
+          "balance": 716459.39
+        },
+        {
+          "month": 167,
+          "emi": 51849.9,
+          "principal": 50596.09,
+          "interest": 1253.8,
+          "balance": 665863.3
+        },
+        {
+          "month": 168,
+          "emi": 51849.9,
+          "principal": 50684.64,
+          "interest": 1165.26,
+          "balance": 615178.66
+        },
+        {
+          "month": 169,
+          "emi": 51849.9,
+          "principal": 50773.33,
+          "interest": 1076.56,
+          "balance": 564405.33
+        },
+        {
+          "month": 170,
+          "emi": 51849.9,
+          "principal": 50862.19,
+          "interest": 987.71,
+          "balance": 513543.14
+        },
+        {
+          "month": 171,
+          "emi": 51849.9,
+          "principal": 50951.2,
+          "interest": 898.7,
+          "balance": 462591.95
+        },
+        {
+          "month": 172,
+          "emi": 51849.9,
+          "principal": 51040.36,
+          "interest": 809.54,
+          "balance": 411551.59
+        },
+        {
+          "month": 173,
+          "emi": 51849.9,
+          "principal": 51129.68,
+          "interest": 720.22,
+          "balance": 360421.91
+        },
+        {
+          "month": 174,
+          "emi": 51849.9,
+          "principal": 51219.16,
+          "interest": 630.74,
+          "balance": 309202.75
+        },
+        {
+          "month": 175,
+          "emi": 51849.9,
+          "principal": 51308.79,
+          "interest": 541.1,
+          "balance": 257893.96
+        },
+        {
+          "month": 176,
+          "emi": 51849.9,
+          "principal": 51398.58,
+          "interest": 451.31,
+          "balance": 206495.38
+        },
+        {
+          "month": 177,
+          "emi": 51849.9,
+          "principal": 51488.53,
+          "interest": 361.37,
+          "balance": 155006.85
+        },
+        {
+          "month": 178,
+          "emi": 51849.9,
+          "principal": 51578.63,
+          "interest": 271.26,
+          "balance": 103428.21
+        },
+        {
+          "month": 179,
+          "emi": 51849.9,
+          "principal": 51668.9,
+          "interest": 181.0,
+          "balance": 51759.32
+        },
+        {
+          "month": 180,
+          "emi": 51849.9,
+          "principal": 51759.32,
+          "interest": 90.58,
+          "balance": 0
+        }
+      ]
+    }
+  },
+  {
+    "id": "8a81cf73-e3f0-41b7-a826-f61b5eee5a51",
+    "userId": "e3df8854-3866-4dcf-8846-13800f9d8a0f",
+    "createdAt": "2026-07-24T09:46:42.041229+00:00",
+    "input": {
+      "principal": 8000000,
+      "annualRate": 2,
+      "tenureYears": 15
+    },
+    "result": {
+      "principal": 8000000.0,
+      "annualRate": 2.0,
+      "tenureYears": 15,
+      "monthlyEmi": 51480.7,
+      "totalInterest": 1266525.29,
+      "totalPayment": 9266525.29,
+      "formatted": {
+        "principal": "\u20b980.00 L",
+        "monthlyEmi": "\u20b951,481",
+        "totalInterest": "\u20b912.67 L",
+        "totalPayment": "\u20b992.67 L"
+      },
+      "schedule": [
+        {
+          "month": 1,
+          "emi": 51480.7,
+          "principal": 38147.36,
+          "interest": 13333.33,
+          "balance": 7961852.64
+        },
+        {
+          "month": 2,
+          "emi": 51480.7,
+          "principal": 38210.94,
+          "interest": 13269.75,
+          "balance": 7923641.7
+        },
+        {
+          "month": 3,
+          "emi": 51480.7,
+          "principal": 38274.63,
+          "interest": 13206.07,
+          "balance": 7885367.07
+        },
+        {
+          "month": 4,
+          "emi": 51480.7,
+          "principal": 38338.42,
+          "interest": 13142.28,
+          "balance": 7847028.65
+        },
+        {
+          "month": 5,
+          "emi": 51480.7,
+          "principal": 38402.31,
+          "interest": 13078.38,
+          "balance": 7808626.34
+        },
+        {
+          "month": 6,
+          "emi": 51480.7,
+          "principal": 38466.32,
+          "interest": 13014.38,
+          "balance": 7770160.02
+        },
+        {
+          "month": 7,
+          "emi": 51480.7,
+          "principal": 38530.43,
+          "interest": 12950.27,
+          "balance": 7731629.59
+        },
+        {
+          "month": 8,
+          "emi": 51480.7,
+          "principal": 38594.65,
+          "interest": 12886.05,
+          "balance": 7693034.94
+        },
+        {
+          "month": 9,
+          "emi": 51480.7,
+          "principal": 38658.97,
+          "interest": 12821.72,
+          "balance": 7654375.97
+        },
+        {
+          "month": 10,
+          "emi": 51480.7,
+          "principal": 38723.4,
+          "interest": 12757.29,
+          "balance": 7615652.57
+        },
+        {
+          "month": 11,
+          "emi": 51480.7,
+          "principal": 38787.94,
+          "interest": 12692.75,
+          "balance": 7576864.63
+        },
+        {
+          "month": 12,
+          "emi": 51480.7,
+          "principal": 38852.59,
+          "interest": 12628.11,
+          "balance": 7538012.04
+        },
+        {
+          "month": 13,
+          "emi": 51480.7,
+          "principal": 38917.34,
+          "interest": 12563.35,
+          "balance": 7499094.69
+        },
+        {
+          "month": 14,
+          "emi": 51480.7,
+          "principal": 38982.2,
+          "interest": 12498.49,
+          "balance": 7460112.49
+        },
+        {
+          "month": 15,
+          "emi": 51480.7,
+          "principal": 39047.18,
+          "interest": 12433.52,
+          "balance": 7421065.31
+        },
+        {
+          "month": 16,
+          "emi": 51480.7,
+          "principal": 39112.25,
+          "interest": 12368.44,
+          "balance": 7381953.06
+        },
+        {
+          "month": 17,
+          "emi": 51480.7,
+          "principal": 39177.44,
+          "interest": 12303.26,
+          "balance": 7342775.62
+        },
+        {
+          "month": 18,
+          "emi": 51480.7,
+          "principal": 39242.74,
+          "interest": 12237.96,
+          "balance": 7303532.88
+        },
+        {
+          "month": 19,
+          "emi": 51480.7,
+          "principal": 39308.14,
+          "interest": 12172.55,
+          "balance": 7264224.74
+        },
+        {
+          "month": 20,
+          "emi": 51480.7,
+          "principal": 39373.65,
+          "interest": 12107.04,
+          "balance": 7224851.09
+        },
+        {
+          "month": 21,
+          "emi": 51480.7,
+          "principal": 39439.28,
+          "interest": 12041.42,
+          "balance": 7185411.81
+        },
+        {
+          "month": 22,
+          "emi": 51480.7,
+          "principal": 39505.01,
+          "interest": 11975.69,
+          "balance": 7145906.8
+        },
+        {
+          "month": 23,
+          "emi": 51480.7,
+          "principal": 39570.85,
+          "interest": 11909.84,
+          "balance": 7106335.95
+        },
+        {
+          "month": 24,
+          "emi": 51480.7,
+          "principal": 39636.8,
+          "interest": 11843.89,
+          "balance": 7066699.15
+        },
+        {
+          "month": 25,
+          "emi": 51480.7,
+          "principal": 39702.86,
+          "interest": 11777.83,
+          "balance": 7026996.28
+        },
+        {
+          "month": 26,
+          "emi": 51480.7,
+          "principal": 39769.04,
+          "interest": 11711.66,
+          "balance": 6987227.25
+        },
+        {
+          "month": 27,
+          "emi": 51480.7,
+          "principal": 39835.32,
+          "interest": 11645.38,
+          "balance": 6947391.93
+        },
+        {
+          "month": 28,
+          "emi": 51480.7,
+          "principal": 39901.71,
+          "interest": 11578.99,
+          "balance": 6907490.22
+        },
+        {
+          "month": 29,
+          "emi": 51480.7,
+          "principal": 39968.21,
+          "interest": 11512.48,
+          "balance": 6867522.01
+        },
+        {
+          "month": 30,
+          "emi": 51480.7,
+          "principal": 40034.83,
+          "interest": 11445.87,
+          "balance": 6827487.18
+        },
+        {
+          "month": 31,
+          "emi": 51480.7,
+          "principal": 40101.55,
+          "interest": 11379.15,
+          "balance": 6787385.63
+        },
+        {
+          "month": 32,
+          "emi": 51480.7,
+          "principal": 40168.39,
+          "interest": 11312.31,
+          "balance": 6747217.24
+        },
+        {
+          "month": 33,
+          "emi": 51480.7,
+          "principal": 40235.33,
+          "interest": 11245.36,
+          "balance": 6706981.91
+        },
+        {
+          "month": 34,
+          "emi": 51480.7,
+          "principal": 40302.39,
+          "interest": 11178.3,
+          "balance": 6666679.52
+        },
+        {
+          "month": 35,
+          "emi": 51480.7,
+          "principal": 40369.56,
+          "interest": 11111.13,
+          "balance": 6626309.95
+        },
+        {
+          "month": 36,
+          "emi": 51480.7,
+          "principal": 40436.85,
+          "interest": 11043.85,
+          "balance": 6585873.11
+        },
+        {
+          "month": 37,
+          "emi": 51480.7,
+          "principal": 40504.24,
+          "interest": 10976.46,
+          "balance": 6545368.87
+        },
+        {
+          "month": 38,
+          "emi": 51480.7,
+          "principal": 40571.75,
+          "interest": 10908.95,
+          "balance": 6504797.12
+        },
+        {
+          "month": 39,
+          "emi": 51480.7,
+          "principal": 40639.37,
+          "interest": 10841.33,
+          "balance": 6464157.75
+        },
+        {
+          "month": 40,
+          "emi": 51480.7,
+          "principal": 40707.1,
+          "interest": 10773.6,
+          "balance": 6423450.65
+        },
+        {
+          "month": 41,
+          "emi": 51480.7,
+          "principal": 40774.94,
+          "interest": 10705.75,
+          "balance": 6382675.71
+        },
+        {
+          "month": 42,
+          "emi": 51480.7,
+          "principal": 40842.9,
+          "interest": 10637.79,
+          "balance": 6341832.8
+        },
+        {
+          "month": 43,
+          "emi": 51480.7,
+          "principal": 40910.97,
+          "interest": 10569.72,
+          "balance": 6300921.83
+        },
+        {
+          "month": 44,
+          "emi": 51480.7,
+          "principal": 40979.16,
+          "interest": 10501.54,
+          "balance": 6259942.67
+        },
+        {
+          "month": 45,
+          "emi": 51480.7,
+          "principal": 41047.46,
+          "interest": 10433.24,
+          "balance": 6218895.21
+        },
+        {
+          "month": 46,
+          "emi": 51480.7,
+          "principal": 41115.87,
+          "interest": 10364.83,
+          "balance": 6177779.34
+        },
+        {
+          "month": 47,
+          "emi": 51480.7,
+          "principal": 41184.4,
+          "interest": 10296.3,
+          "balance": 6136594.94
+        },
+        {
+          "month": 48,
+          "emi": 51480.7,
+          "principal": 41253.04,
+          "interest": 10227.66,
+          "balance": 6095341.9
+        },
+        {
+          "month": 49,
+          "emi": 51480.7,
+          "principal": 41321.79,
+          "interest": 10158.9,
+          "balance": 6054020.11
+        },
+        {
+          "month": 50,
+          "emi": 51480.7,
+          "principal": 41390.66,
+          "interest": 10090.03,
+          "balance": 6012629.45
+        },
+        {
+          "month": 51,
+          "emi": 51480.7,
+          "principal": 41459.65,
+          "interest": 10021.05,
+          "balance": 5971169.8
+        },
+        {
+          "month": 52,
+          "emi": 51480.7,
+          "principal": 41528.75,
+          "interest": 9951.95,
+          "balance": 5929641.06
+        },
+        {
+          "month": 53,
+          "emi": 51480.7,
+          "principal": 41597.96,
+          "interest": 9882.74,
+          "balance": 5888043.09
+        },
+        {
+          "month": 54,
+          "emi": 51480.7,
+          "principal": 41667.29,
+          "interest": 9813.41,
+          "balance": 5846375.8
+        },
+        {
+          "month": 55,
+          "emi": 51480.7,
+          "principal": 41736.74,
+          "interest": 9743.96,
+          "balance": 5804639.07
+        },
+        {
+          "month": 56,
+          "emi": 51480.7,
+          "principal": 41806.3,
+          "interest": 9674.4,
+          "balance": 5762832.77
+        },
+        {
+          "month": 57,
+          "emi": 51480.7,
+          "principal": 41875.97,
+          "interest": 9604.72,
+          "balance": 5720956.8
+        },
+        {
+          "month": 58,
+          "emi": 51480.7,
+          "principal": 41945.77,
+          "interest": 9534.93,
+          "balance": 5679011.03
+        },
+        {
+          "month": 59,
+          "emi": 51480.7,
+          "principal": 42015.68,
+          "interest": 9465.02,
+          "balance": 5636995.35
+        },
+        {
+          "month": 60,
+          "emi": 51480.7,
+          "principal": 42085.7,
+          "interest": 9394.99,
+          "balance": 5594909.65
+        },
+        {
+          "month": 61,
+          "emi": 51480.7,
+          "principal": 42155.85,
+          "interest": 9324.85,
+          "balance": 5552753.8
+        },
+        {
+          "month": 62,
+          "emi": 51480.7,
+          "principal": 42226.11,
+          "interest": 9254.59,
+          "balance": 5510527.69
+        },
+        {
+          "month": 63,
+          "emi": 51480.7,
+          "principal": 42296.48,
+          "interest": 9184.21,
+          "balance": 5468231.21
+        },
+        {
+          "month": 64,
+          "emi": 51480.7,
+          "principal": 42366.98,
+          "interest": 9113.72,
+          "balance": 5425864.23
+        },
+        {
+          "month": 65,
+          "emi": 51480.7,
+          "principal": 42437.59,
+          "interest": 9043.11,
+          "balance": 5383426.64
+        },
+        {
+          "month": 66,
+          "emi": 51480.7,
+          "principal": 42508.32,
+          "interest": 8972.38,
+          "balance": 5340918.32
+        },
+        {
+          "month": 67,
+          "emi": 51480.7,
+          "principal": 42579.17,
+          "interest": 8901.53,
+          "balance": 5298339.16
+        },
+        {
+          "month": 68,
+          "emi": 51480.7,
+          "principal": 42650.13,
+          "interest": 8830.57,
+          "balance": 5255689.03
+        },
+        {
+          "month": 69,
+          "emi": 51480.7,
+          "principal": 42721.21,
+          "interest": 8759.48,
+          "balance": 5212967.81
+        },
+        {
+          "month": 70,
+          "emi": 51480.7,
+          "principal": 42792.42,
+          "interest": 8688.28,
+          "balance": 5170175.4
+        },
+        {
+          "month": 71,
+          "emi": 51480.7,
+          "principal": 42863.74,
+          "interest": 8616.96,
+          "balance": 5127311.66
+        },
+        {
+          "month": 72,
+          "emi": 51480.7,
+          "principal": 42935.18,
+          "interest": 8545.52,
+          "balance": 5084376.48
+        },
+        {
+          "month": 73,
+          "emi": 51480.7,
+          "principal": 43006.74,
+          "interest": 8473.96,
+          "balance": 5041369.75
+        },
+        {
+          "month": 74,
+          "emi": 51480.7,
+          "principal": 43078.41,
+          "interest": 8402.28,
+          "balance": 4998291.34
+        },
+        {
+          "month": 75,
+          "emi": 51480.7,
+          "principal": 43150.21,
+          "interest": 8330.49,
+          "balance": 4955141.13
+        },
+        {
+          "month": 76,
+          "emi": 51480.7,
+          "principal": 43222.13,
+          "interest": 8258.57,
+          "balance": 4911919.0
+        },
+        {
+          "month": 77,
+          "emi": 51480.7,
+          "principal": 43294.16,
+          "interest": 8186.53,
+          "balance": 4868624.83
+        },
+        {
+          "month": 78,
+          "emi": 51480.7,
+          "principal": 43366.32,
+          "interest": 8114.37,
+          "balance": 4825258.51
+        },
+        {
+          "month": 79,
+          "emi": 51480.7,
+          "principal": 43438.6,
+          "interest": 8042.1,
+          "balance": 4781819.91
+        },
+        {
+          "month": 80,
+          "emi": 51480.7,
+          "principal": 43511.0,
+          "interest": 7969.7,
+          "balance": 4738308.92
+        },
+        {
+          "month": 81,
+          "emi": 51480.7,
+          "principal": 43583.51,
+          "interest": 7897.18,
+          "balance": 4694725.4
+        },
+        {
+          "month": 82,
+          "emi": 51480.7,
+          "principal": 43656.15,
+          "interest": 7824.54,
+          "balance": 4651069.25
+        },
+        {
+          "month": 83,
+          "emi": 51480.7,
+          "principal": 43728.91,
+          "interest": 7751.78,
+          "balance": 4607340.34
+        },
+        {
+          "month": 84,
+          "emi": 51480.7,
+          "principal": 43801.8,
+          "interest": 7678.9,
+          "balance": 4563538.54
+        },
+        {
+          "month": 85,
+          "emi": 51480.7,
+          "principal": 43874.8,
+          "interest": 7605.9,
+          "balance": 4519663.74
+        },
+        {
+          "month": 86,
+          "emi": 51480.7,
+          "principal": 43947.92,
+          "interest": 7532.77,
+          "balance": 4475715.82
+        },
+        {
+          "month": 87,
+          "emi": 51480.7,
+          "principal": 44021.17,
+          "interest": 7459.53,
+          "balance": 4431694.65
+        },
+        {
+          "month": 88,
+          "emi": 51480.7,
+          "principal": 44094.54,
+          "interest": 7386.16,
+          "balance": 4387600.11
+        },
+        {
+          "month": 89,
+          "emi": 51480.7,
+          "principal": 44168.03,
+          "interest": 7312.67,
+          "balance": 4343432.08
+        },
+        {
+          "month": 90,
+          "emi": 51480.7,
+          "principal": 44241.64,
+          "interest": 7239.05,
+          "balance": 4299190.44
+        },
+        {
+          "month": 91,
+          "emi": 51480.7,
+          "principal": 44315.38,
+          "interest": 7165.32,
+          "balance": 4254875.06
+        },
+        {
+          "month": 92,
+          "emi": 51480.7,
+          "principal": 44389.24,
+          "interest": 7091.46,
+          "balance": 4210485.82
+        },
+        {
+          "month": 93,
+          "emi": 51480.7,
+          "principal": 44463.22,
+          "interest": 7017.48,
+          "balance": 4166022.6
+        },
+        {
+          "month": 94,
+          "emi": 51480.7,
+          "principal": 44537.33,
+          "interest": 6943.37,
+          "balance": 4121485.28
+        },
+        {
+          "month": 95,
+          "emi": 51480.7,
+          "principal": 44611.55,
+          "interest": 6869.14,
+          "balance": 4076873.72
+        },
+        {
+          "month": 96,
+          "emi": 51480.7,
+          "principal": 44685.91,
+          "interest": 6794.79,
+          "balance": 4032187.82
+        },
+        {
+          "month": 97,
+          "emi": 51480.7,
+          "principal": 44760.38,
+          "interest": 6720.31,
+          "balance": 3987427.43
+        },
+        {
+          "month": 98,
+          "emi": 51480.7,
+          "principal": 44834.98,
+          "interest": 6645.71,
+          "balance": 3942592.45
+        },
+        {
+          "month": 99,
+          "emi": 51480.7,
+          "principal": 44909.71,
+          "interest": 6570.99,
+          "balance": 3897682.74
+        },
+        {
+          "month": 100,
+          "emi": 51480.7,
+          "principal": 44984.56,
+          "interest": 6496.14,
+          "balance": 3852698.18
+        },
+        {
+          "month": 101,
+          "emi": 51480.7,
+          "principal": 45059.53,
+          "interest": 6421.16,
+          "balance": 3807638.65
+        },
+        {
+          "month": 102,
+          "emi": 51480.7,
+          "principal": 45134.63,
+          "interest": 6346.06,
+          "balance": 3762504.02
+        },
+        {
+          "month": 103,
+          "emi": 51480.7,
+          "principal": 45209.86,
+          "interest": 6270.84,
+          "balance": 3717294.16
+        },
+        {
+          "month": 104,
+          "emi": 51480.7,
+          "principal": 45285.21,
+          "interest": 6195.49,
+          "balance": 3672008.96
+        },
+        {
+          "month": 105,
+          "emi": 51480.7,
+          "principal": 45360.68,
+          "interest": 6120.01,
+          "balance": 3626648.28
+        },
+        {
+          "month": 106,
+          "emi": 51480.7,
+          "principal": 45436.28,
+          "interest": 6044.41,
+          "balance": 3581211.99
+        },
+        {
+          "month": 107,
+          "emi": 51480.7,
+          "principal": 45512.01,
+          "interest": 5968.69,
+          "balance": 3535699.99
+        },
+        {
+          "month": 108,
+          "emi": 51480.7,
+          "principal": 45587.86,
+          "interest": 5892.83,
+          "balance": 3490112.12
+        },
+        {
+          "month": 109,
+          "emi": 51480.7,
+          "principal": 45663.84,
+          "interest": 5816.85,
+          "balance": 3444448.28
+        },
+        {
+          "month": 110,
+          "emi": 51480.7,
+          "principal": 45739.95,
+          "interest": 5740.75,
+          "balance": 3398708.33
+        },
+        {
+          "month": 111,
+          "emi": 51480.7,
+          "principal": 45816.18,
+          "interest": 5664.51,
+          "balance": 3352892.15
+        },
+        {
+          "month": 112,
+          "emi": 51480.7,
+          "principal": 45892.54,
+          "interest": 5588.15,
+          "balance": 3306999.61
+        },
+        {
+          "month": 113,
+          "emi": 51480.7,
+          "principal": 45969.03,
+          "interest": 5511.67,
+          "balance": 3261030.58
+        },
+        {
+          "month": 114,
+          "emi": 51480.7,
+          "principal": 46045.65,
+          "interest": 5435.05,
+          "balance": 3214984.93
+        },
+        {
+          "month": 115,
+          "emi": 51480.7,
+          "principal": 46122.39,
+          "interest": 5358.31,
+          "balance": 3168862.54
+        },
+        {
+          "month": 116,
+          "emi": 51480.7,
+          "principal": 46199.26,
+          "interest": 5281.44,
+          "balance": 3122663.28
+        },
+        {
+          "month": 117,
+          "emi": 51480.7,
+          "principal": 46276.26,
+          "interest": 5204.44,
+          "balance": 3076387.03
+        },
+        {
+          "month": 118,
+          "emi": 51480.7,
+          "principal": 46353.38,
+          "interest": 5127.31,
+          "balance": 3030033.64
+        },
+        {
+          "month": 119,
+          "emi": 51480.7,
+          "principal": 46430.64,
+          "interest": 5050.06,
+          "balance": 2983603.0
+        },
+        {
+          "month": 120,
+          "emi": 51480.7,
+          "principal": 46508.02,
+          "interest": 4972.67,
+          "balance": 2937094.98
+        },
+        {
+          "month": 121,
+          "emi": 51480.7,
+          "principal": 46585.54,
+          "interest": 4895.16,
+          "balance": 2890509.44
+        },
+        {
+          "month": 122,
+          "emi": 51480.7,
+          "principal": 46663.18,
+          "interest": 4817.52,
+          "balance": 2843846.26
+        },
+        {
+          "month": 123,
+          "emi": 51480.7,
+          "principal": 46740.95,
+          "interest": 4739.74,
+          "balance": 2797105.31
+        },
+        {
+          "month": 124,
+          "emi": 51480.7,
+          "principal": 46818.85,
+          "interest": 4661.84,
+          "balance": 2750286.45
+        },
+        {
+          "month": 125,
+          "emi": 51480.7,
+          "principal": 46896.89,
+          "interest": 4583.81,
+          "balance": 2703389.57
+        },
+        {
+          "month": 126,
+          "emi": 51480.7,
+          "principal": 46975.05,
+          "interest": 4505.65,
+          "balance": 2656414.52
+        },
+        {
+          "month": 127,
+          "emi": 51480.7,
+          "principal": 47053.34,
+          "interest": 4427.36,
+          "balance": 2609361.18
+        },
+        {
+          "month": 128,
+          "emi": 51480.7,
+          "principal": 47131.76,
+          "interest": 4348.94,
+          "balance": 2562229.42
+        },
+        {
+          "month": 129,
+          "emi": 51480.7,
+          "principal": 47210.31,
+          "interest": 4270.38,
+          "balance": 2515019.11
+        },
+        {
+          "month": 130,
+          "emi": 51480.7,
+          "principal": 47289.0,
+          "interest": 4191.7,
+          "balance": 2467730.11
+        },
+        {
+          "month": 131,
+          "emi": 51480.7,
+          "principal": 47367.81,
+          "interest": 4112.88,
+          "balance": 2420362.3
+        },
+        {
+          "month": 132,
+          "emi": 51480.7,
+          "principal": 47446.76,
+          "interest": 4033.94,
+          "balance": 2372915.54
+        },
+        {
+          "month": 133,
+          "emi": 51480.7,
+          "principal": 47525.84,
+          "interest": 3954.86,
+          "balance": 2325389.7
+        },
+        {
+          "month": 134,
+          "emi": 51480.7,
+          "principal": 47605.05,
+          "interest": 3875.65,
+          "balance": 2277784.66
+        },
+        {
+          "month": 135,
+          "emi": 51480.7,
+          "principal": 47684.39,
+          "interest": 3796.31,
+          "balance": 2230100.27
+        },
+        {
+          "month": 136,
+          "emi": 51480.7,
+          "principal": 47763.86,
+          "interest": 3716.83,
+          "balance": 2182336.41
+        },
+        {
+          "month": 137,
+          "emi": 51480.7,
+          "principal": 47843.47,
+          "interest": 3637.23,
+          "balance": 2134492.94
+        },
+        {
+          "month": 138,
+          "emi": 51480.7,
+          "principal": 47923.21,
+          "interest": 3557.49,
+          "balance": 2086569.73
+        },
+        {
+          "month": 139,
+          "emi": 51480.7,
+          "principal": 48003.08,
+          "interest": 3477.62,
+          "balance": 2038566.65
+        },
+        {
+          "month": 140,
+          "emi": 51480.7,
+          "principal": 48083.08,
+          "interest": 3397.61,
+          "balance": 1990483.57
+        },
+        {
+          "month": 141,
+          "emi": 51480.7,
+          "principal": 48163.22,
+          "interest": 3317.47,
+          "balance": 1942320.34
+        },
+        {
+          "month": 142,
+          "emi": 51480.7,
+          "principal": 48243.5,
+          "interest": 3237.2,
+          "balance": 1894076.85
+        },
+        {
+          "month": 143,
+          "emi": 51480.7,
+          "principal": 48323.9,
+          "interest": 3156.79,
+          "balance": 1845752.95
+        },
+        {
+          "month": 144,
+          "emi": 51480.7,
+          "principal": 48404.44,
+          "interest": 3076.25,
+          "balance": 1797348.5
+        },
+        {
+          "month": 145,
+          "emi": 51480.7,
+          "principal": 48485.12,
+          "interest": 2995.58,
+          "balance": 1748863.39
+        },
+        {
+          "month": 146,
+          "emi": 51480.7,
+          "principal": 48565.92,
+          "interest": 2914.77,
+          "balance": 1700297.47
+        },
+        {
+          "month": 147,
+          "emi": 51480.7,
+          "principal": 48646.87,
+          "interest": 2833.83,
+          "balance": 1651650.6
+        },
+        {
+          "month": 148,
+          "emi": 51480.7,
+          "principal": 48727.95,
+          "interest": 2752.75,
+          "balance": 1602922.65
+        },
+        {
+          "month": 149,
+          "emi": 51480.7,
+          "principal": 48809.16,
+          "interest": 2671.54,
+          "balance": 1554113.5
+        },
+        {
+          "month": 150,
+          "emi": 51480.7,
+          "principal": 48890.51,
+          "interest": 2590.19,
+          "balance": 1505222.99
+        },
+        {
+          "month": 151,
+          "emi": 51480.7,
+          "principal": 48971.99,
+          "interest": 2508.7,
+          "balance": 1456251.0
+        },
+        {
+          "month": 152,
+          "emi": 51480.7,
+          "principal": 49053.61,
+          "interest": 2427.08,
+          "balance": 1407197.39
+        },
+        {
+          "month": 153,
+          "emi": 51480.7,
+          "principal": 49135.37,
+          "interest": 2345.33,
+          "balance": 1358062.02
+        },
+        {
+          "month": 154,
+          "emi": 51480.7,
+          "principal": 49217.26,
+          "interest": 2263.44,
+          "balance": 1308844.76
+        },
+        {
+          "month": 155,
+          "emi": 51480.7,
+          "principal": 49299.29,
+          "interest": 2181.41,
+          "balance": 1259545.47
+        },
+        {
+          "month": 156,
+          "emi": 51480.7,
+          "principal": 49381.45,
+          "interest": 2099.24,
+          "balance": 1210164.02
+        },
+        {
+          "month": 157,
+          "emi": 51480.7,
+          "principal": 49463.76,
+          "interest": 2016.94,
+          "balance": 1160700.26
+        },
+        {
+          "month": 158,
+          "emi": 51480.7,
+          "principal": 49546.2,
+          "interest": 1934.5,
+          "balance": 1111154.07
+        },
+        {
+          "month": 159,
+          "emi": 51480.7,
+          "principal": 49628.77,
+          "interest": 1851.92,
+          "balance": 1061525.29
+        },
+        {
+          "month": 160,
+          "emi": 51480.7,
+          "principal": 49711.49,
+          "interest": 1769.21,
+          "balance": 1011813.81
+        },
+        {
+          "month": 161,
+          "emi": 51480.7,
+          "principal": 49794.34,
+          "interest": 1686.36,
+          "balance": 962019.47
+        },
+        {
+          "month": 162,
+          "emi": 51480.7,
+          "principal": 49877.33,
+          "interest": 1603.37,
+          "balance": 912142.14
+        },
+        {
+          "month": 163,
+          "emi": 51480.7,
+          "principal": 49960.46,
+          "interest": 1520.24,
+          "balance": 862181.68
+        },
+        {
+          "month": 164,
+          "emi": 51480.7,
+          "principal": 50043.73,
+          "interest": 1436.97,
+          "balance": 812137.95
+        },
+        {
+          "month": 165,
+          "emi": 51480.7,
+          "principal": 50127.13,
+          "interest": 1353.56,
+          "balance": 762010.82
+        },
+        {
+          "month": 166,
+          "emi": 51480.7,
+          "principal": 50210.68,
+          "interest": 1270.02,
+          "balance": 711800.14
+        },
+        {
+          "month": 167,
+          "emi": 51480.7,
+          "principal": 50294.36,
+          "interest": 1186.33,
+          "balance": 661505.78
+        },
+        {
+          "month": 168,
+          "emi": 51480.7,
+          "principal": 50378.19,
+          "interest": 1102.51,
+          "balance": 611127.59
+        },
+        {
+          "month": 169,
+          "emi": 51480.7,
+          "principal": 50462.15,
+          "interest": 1018.55,
+          "balance": 560665.44
+        },
+        {
+          "month": 170,
+          "emi": 51480.7,
+          "principal": 50546.25,
+          "interest": 934.44,
+          "balance": 510119.19
+        },
+        {
+          "month": 171,
+          "emi": 51480.7,
+          "principal": 50630.5,
+          "interest": 850.2,
+          "balance": 459488.69
+        },
+        {
+          "month": 172,
+          "emi": 51480.7,
+          "principal": 50714.88,
+          "interest": 765.81,
+          "balance": 408773.81
+        },
+        {
+          "month": 173,
+          "emi": 51480.7,
+          "principal": 50799.41,
+          "interest": 681.29,
+          "balance": 357974.4
+        },
+        {
+          "month": 174,
+          "emi": 51480.7,
+          "principal": 50884.07,
+          "interest": 596.62,
+          "balance": 307090.33
+        },
+        {
+          "month": 175,
+          "emi": 51480.7,
+          "principal": 50968.88,
+          "interest": 511.82,
+          "balance": 256121.45
+        },
+        {
+          "month": 176,
+          "emi": 51480.7,
+          "principal": 51053.83,
+          "interest": 426.87,
+          "balance": 205067.62
+        },
+        {
+          "month": 177,
+          "emi": 51480.7,
+          "principal": 51138.92,
+          "interest": 341.78,
+          "balance": 153928.71
+        },
+        {
+          "month": 178,
+          "emi": 51480.7,
+          "principal": 51224.15,
+          "interest": 256.55,
+          "balance": 102704.56
+        },
+        {
+          "month": 179,
+          "emi": 51480.7,
+          "principal": 51309.52,
+          "interest": 171.17,
+          "balance": 51395.04
+        },
+        {
+          "month": 180,
+          "emi": 51480.7,
+          "principal": 51395.04,
+          "interest": 85.66,
+          "balance": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "id": "f7247e49-3e2f-4642-9b69-98242658996a",
+    "userId": "e3df8854-3866-4dcf-8846-13800f9d8a0f",
+    "createdAt": "2026-07-24T09:46:49.526090+00:00",
+    "input": {
+      "principal": 8000000,
+      "annualRate": 2,
+      "tenureYears": 10
+    },
+    "result": {
+      "principal": 8000000.0,
+      "annualRate": 2.0,
+      "tenureYears": 10,
+      "monthlyEmi": 73610.76,
+      "totalInterest": 833291.57,
+      "totalPayment": 8833291.57,
+      "formatted": {
+        "principal": "\u20b980.00 L",
+        "monthlyEmi": "\u20b973,611",
+        "totalInterest": "\u20b98.33 L",
+        "totalPayment": "\u20b988.33 L"
+      },
+      "schedule": [
+        {
+          "month": 1,
+          "emi": 73610.76,
+          "principal": 60277.43,
+          "interest": 13333.33,
+          "balance": 7939722.57
+        },
+        {
+          "month": 2,
+          "emi": 73610.76,
+          "principal": 60377.89,
+          "interest": 13232.87,
+          "balance": 7879344.68
+        },
+        {
+          "month": 3,
+          "emi": 73610.76,
+          "principal": 60478.52,
+          "interest": 13132.24,
+          "balance": 7818866.16
+        },
+        {
+          "month": 4,
+          "emi": 73610.76,
+          "principal": 60579.32,
+          "interest": 13031.44,
+          "balance": 7758286.84
+        },
+        {
+          "month": 5,
+          "emi": 73610.76,
+          "principal": 60680.29,
+          "interest": 12930.48,
+          "balance": 7697606.55
+        },
+        {
+          "month": 6,
+          "emi": 73610.76,
+          "principal": 60781.42,
+          "interest": 12829.34,
+          "balance": 7636825.13
+        },
+        {
+          "month": 7,
+          "emi": 73610.76,
+          "principal": 60882.72,
+          "interest": 12728.04,
+          "balance": 7575942.41
+        },
+        {
+          "month": 8,
+          "emi": 73610.76,
+          "principal": 60984.19,
+          "interest": 12626.57,
+          "balance": 7514958.22
+        },
+        {
+          "month": 9,
+          "emi": 73610.76,
+          "principal": 61085.83,
+          "interest": 12524.93,
+          "balance": 7453872.39
+        },
+        {
+          "month": 10,
+          "emi": 73610.76,
+          "principal": 61187.64,
+          "interest": 12423.12,
+          "balance": 7392684.74
+        },
+        {
+          "month": 11,
+          "emi": 73610.76,
+          "principal": 61289.62,
+          "interest": 12321.14,
+          "balance": 7331395.12
+        },
+        {
+          "month": 12,
+          "emi": 73610.76,
+          "principal": 61391.77,
+          "interest": 12218.99,
+          "balance": 7270003.35
+        },
+        {
+          "month": 13,
+          "emi": 73610.76,
+          "principal": 61494.09,
+          "interest": 12116.67,
+          "balance": 7208509.26
+        },
+        {
+          "month": 14,
+          "emi": 73610.76,
+          "principal": 61596.58,
+          "interest": 12014.18,
+          "balance": 7146912.68
+        },
+        {
+          "month": 15,
+          "emi": 73610.76,
+          "principal": 61699.24,
+          "interest": 11911.52,
+          "balance": 7085213.44
+        },
+        {
+          "month": 16,
+          "emi": 73610.76,
+          "principal": 61802.07,
+          "interest": 11808.69,
+          "balance": 7023411.36
+        },
+        {
+          "month": 17,
+          "emi": 73610.76,
+          "principal": 61905.08,
+          "interest": 11705.69,
+          "balance": 6961506.29
+        },
+        {
+          "month": 18,
+          "emi": 73610.76,
+          "principal": 62008.25,
+          "interest": 11602.51,
+          "balance": 6899498.03
+        },
+        {
+          "month": 19,
+          "emi": 73610.76,
+          "principal": 62111.6,
+          "interest": 11499.16,
+          "balance": 6837386.43
+        },
+        {
+          "month": 20,
+          "emi": 73610.76,
+          "principal": 62215.12,
+          "interest": 11395.64,
+          "balance": 6775171.31
+        },
+        {
+          "month": 21,
+          "emi": 73610.76,
+          "principal": 62318.81,
+          "interest": 11291.95,
+          "balance": 6712852.5
+        },
+        {
+          "month": 22,
+          "emi": 73610.76,
+          "principal": 62422.68,
+          "interest": 11188.09,
+          "balance": 6650429.83
+        },
+        {
+          "month": 23,
+          "emi": 73610.76,
+          "principal": 62526.71,
+          "interest": 11084.05,
+          "balance": 6587903.11
+        },
+        {
+          "month": 24,
+          "emi": 73610.76,
+          "principal": 62630.92,
+          "interest": 10979.84,
+          "balance": 6525272.19
+        },
+        {
+          "month": 25,
+          "emi": 73610.76,
+          "principal": 62735.31,
+          "interest": 10875.45,
+          "balance": 6462536.88
+        },
+        {
+          "month": 26,
+          "emi": 73610.76,
+          "principal": 62839.87,
+          "interest": 10770.89,
+          "balance": 6399697.01
+        },
+        {
+          "month": 27,
+          "emi": 73610.76,
+          "principal": 62944.6,
+          "interest": 10666.16,
+          "balance": 6336752.41
+        },
+        {
+          "month": 28,
+          "emi": 73610.76,
+          "principal": 63049.51,
+          "interest": 10561.25,
+          "balance": 6273702.9
+        },
+        {
+          "month": 29,
+          "emi": 73610.76,
+          "principal": 63154.59,
+          "interest": 10456.17,
+          "balance": 6210548.31
+        },
+        {
+          "month": 30,
+          "emi": 73610.76,
+          "principal": 63259.85,
+          "interest": 10350.91,
+          "balance": 6147288.46
+        },
+        {
+          "month": 31,
+          "emi": 73610.76,
+          "principal": 63365.28,
+          "interest": 10245.48,
+          "balance": 6083923.18
+        },
+        {
+          "month": 32,
+          "emi": 73610.76,
+          "principal": 63470.89,
+          "interest": 10139.87,
+          "balance": 6020452.29
+        },
+        {
+          "month": 33,
+          "emi": 73610.76,
+          "principal": 63576.68,
+          "interest": 10034.09,
+          "balance": 5956875.61
+        },
+        {
+          "month": 34,
+          "emi": 73610.76,
+          "principal": 63682.64,
+          "interest": 9928.13,
+          "balance": 5893192.97
+        },
+        {
+          "month": 35,
+          "emi": 73610.76,
+          "principal": 63788.77,
+          "interest": 9821.99,
+          "balance": 5829404.2
+        },
+        {
+          "month": 36,
+          "emi": 73610.76,
+          "principal": 63895.09,
+          "interest": 9715.67,
+          "balance": 5765509.11
+        },
+        {
+          "month": 37,
+          "emi": 73610.76,
+          "principal": 64001.58,
+          "interest": 9609.18,
+          "balance": 5701507.53
+        },
+        {
+          "month": 38,
+          "emi": 73610.76,
+          "principal": 64108.25,
+          "interest": 9502.51,
+          "balance": 5637399.28
+        },
+        {
+          "month": 39,
+          "emi": 73610.76,
+          "principal": 64215.1,
+          "interest": 9395.67,
+          "balance": 5573184.18
+        },
+        {
+          "month": 40,
+          "emi": 73610.76,
+          "principal": 64322.12,
+          "interest": 9288.64,
+          "balance": 5508862.06
+        },
+        {
+          "month": 41,
+          "emi": 73610.76,
+          "principal": 64429.33,
+          "interest": 9181.44,
+          "balance": 5444432.73
+        },
+        {
+          "month": 42,
+          "emi": 73610.76,
+          "principal": 64536.71,
+          "interest": 9074.05,
+          "balance": 5379896.02
+        },
+        {
+          "month": 43,
+          "emi": 73610.76,
+          "principal": 64644.27,
+          "interest": 8966.49,
+          "balance": 5315251.75
+        },
+        {
+          "month": 44,
+          "emi": 73610.76,
+          "principal": 64752.01,
+          "interest": 8858.75,
+          "balance": 5250499.74
+        },
+        {
+          "month": 45,
+          "emi": 73610.76,
+          "principal": 64859.93,
+          "interest": 8750.83,
+          "balance": 5185639.81
+        },
+        {
+          "month": 46,
+          "emi": 73610.76,
+          "principal": 64968.03,
+          "interest": 8642.73,
+          "balance": 5120671.78
+        },
+        {
+          "month": 47,
+          "emi": 73610.76,
+          "principal": 65076.31,
+          "interest": 8534.45,
+          "balance": 5055595.47
+        },
+        {
+          "month": 48,
+          "emi": 73610.76,
+          "principal": 65184.77,
+          "interest": 8425.99,
+          "balance": 4990410.7
+        },
+        {
+          "month": 49,
+          "emi": 73610.76,
+          "principal": 65293.41,
+          "interest": 8317.35,
+          "balance": 4925117.29
+        },
+        {
+          "month": 50,
+          "emi": 73610.76,
+          "principal": 65402.23,
+          "interest": 8208.53,
+          "balance": 4859715.06
+        },
+        {
+          "month": 51,
+          "emi": 73610.76,
+          "principal": 65511.24,
+          "interest": 8099.53,
+          "balance": 4794203.82
+        },
+        {
+          "month": 52,
+          "emi": 73610.76,
+          "principal": 65620.42,
+          "interest": 7990.34,
+          "balance": 4728583.4
+        },
+        {
+          "month": 53,
+          "emi": 73610.76,
+          "principal": 65729.79,
+          "interest": 7880.97,
+          "balance": 4662853.6
+        },
+        {
+          "month": 54,
+          "emi": 73610.76,
+          "principal": 65839.34,
+          "interest": 7771.42,
+          "balance": 4597014.26
+        },
+        {
+          "month": 55,
+          "emi": 73610.76,
+          "principal": 65949.07,
+          "interest": 7661.69,
+          "balance": 4531065.19
+        },
+        {
+          "month": 56,
+          "emi": 73610.76,
+          "principal": 66058.99,
+          "interest": 7551.78,
+          "balance": 4465006.2
+        },
+        {
+          "month": 57,
+          "emi": 73610.76,
+          "principal": 66169.09,
+          "interest": 7441.68,
+          "balance": 4398837.12
+        },
+        {
+          "month": 58,
+          "emi": 73610.76,
+          "principal": 66279.37,
+          "interest": 7331.4,
+          "balance": 4332557.75
+        },
+        {
+          "month": 59,
+          "emi": 73610.76,
+          "principal": 66389.83,
+          "interest": 7220.93,
+          "balance": 4266167.92
+        },
+        {
+          "month": 60,
+          "emi": 73610.76,
+          "principal": 66500.48,
+          "interest": 7110.28,
+          "balance": 4199667.43
+        },
+        {
+          "month": 61,
+          "emi": 73610.76,
+          "principal": 66611.32,
+          "interest": 6999.45,
+          "balance": 4133056.12
+        },
+        {
+          "month": 62,
+          "emi": 73610.76,
+          "principal": 66722.34,
+          "interest": 6888.43,
+          "balance": 4066333.78
+        },
+        {
+          "month": 63,
+          "emi": 73610.76,
+          "principal": 66833.54,
+          "interest": 6777.22,
+          "balance": 3999500.24
+        },
+        {
+          "month": 64,
+          "emi": 73610.76,
+          "principal": 66944.93,
+          "interest": 6665.83,
+          "balance": 3932555.31
+        },
+        {
+          "month": 65,
+          "emi": 73610.76,
+          "principal": 67056.5,
+          "interest": 6554.26,
+          "balance": 3865498.81
+        },
+        {
+          "month": 66,
+          "emi": 73610.76,
+          "principal": 67168.27,
+          "interest": 6442.5,
+          "balance": 3798330.54
+        },
+        {
+          "month": 67,
+          "emi": 73610.76,
+          "principal": 67280.21,
+          "interest": 6330.55,
+          "balance": 3731050.33
+        },
+        {
+          "month": 68,
+          "emi": 73610.76,
+          "principal": 67392.35,
+          "interest": 6218.42,
+          "balance": 3663657.98
+        },
+        {
+          "month": 69,
+          "emi": 73610.76,
+          "principal": 67504.67,
+          "interest": 6106.1,
+          "balance": 3596153.32
+        },
+        {
+          "month": 70,
+          "emi": 73610.76,
+          "principal": 67617.17,
+          "interest": 5993.59,
+          "balance": 3528536.14
+        },
+        {
+          "month": 71,
+          "emi": 73610.76,
+          "principal": 67729.87,
+          "interest": 5880.89,
+          "balance": 3460806.27
+        },
+        {
+          "month": 72,
+          "emi": 73610.76,
+          "principal": 67842.75,
+          "interest": 5768.01,
+          "balance": 3392963.52
+        },
+        {
+          "month": 73,
+          "emi": 73610.76,
+          "principal": 67955.82,
+          "interest": 5654.94,
+          "balance": 3325007.7
+        },
+        {
+          "month": 74,
+          "emi": 73610.76,
+          "principal": 68069.08,
+          "interest": 5541.68,
+          "balance": 3256938.61
+        },
+        {
+          "month": 75,
+          "emi": 73610.76,
+          "principal": 68182.53,
+          "interest": 5428.23,
+          "balance": 3188756.08
+        },
+        {
+          "month": 76,
+          "emi": 73610.76,
+          "principal": 68296.17,
+          "interest": 5314.59,
+          "balance": 3120459.91
+        },
+        {
+          "month": 77,
+          "emi": 73610.76,
+          "principal": 68410.0,
+          "interest": 5200.77,
+          "balance": 3052049.91
+        },
+        {
+          "month": 78,
+          "emi": 73610.76,
+          "principal": 68524.01,
+          "interest": 5086.75,
+          "balance": 2983525.9
+        },
+        {
+          "month": 79,
+          "emi": 73610.76,
+          "principal": 68638.22,
+          "interest": 4972.54,
+          "balance": 2914887.68
+        },
+        {
+          "month": 80,
+          "emi": 73610.76,
+          "principal": 68752.62,
+          "interest": 4858.15,
+          "balance": 2846135.06
+        },
+        {
+          "month": 81,
+          "emi": 73610.76,
+          "principal": 68867.2,
+          "interest": 4743.56,
+          "balance": 2777267.86
+        },
+        {
+          "month": 82,
+          "emi": 73610.76,
+          "principal": 68981.98,
+          "interest": 4628.78,
+          "balance": 2708285.88
+        },
+        {
+          "month": 83,
+          "emi": 73610.76,
+          "principal": 69096.95,
+          "interest": 4513.81,
+          "balance": 2639188.92
+        },
+        {
+          "month": 84,
+          "emi": 73610.76,
+          "principal": 69212.11,
+          "interest": 4398.65,
+          "balance": 2569976.81
+        },
+        {
+          "month": 85,
+          "emi": 73610.76,
+          "principal": 69327.47,
+          "interest": 4283.29,
+          "balance": 2500649.34
+        },
+        {
+          "month": 86,
+          "emi": 73610.76,
+          "principal": 69443.01,
+          "interest": 4167.75,
+          "balance": 2431206.33
+        },
+        {
+          "month": 87,
+          "emi": 73610.76,
+          "principal": 69558.75,
+          "interest": 4052.01,
+          "balance": 2361647.57
+        },
+        {
+          "month": 88,
+          "emi": 73610.76,
+          "principal": 69674.68,
+          "interest": 3936.08,
+          "balance": 2291972.89
+        },
+        {
+          "month": 89,
+          "emi": 73610.76,
+          "principal": 69790.81,
+          "interest": 3819.95,
+          "balance": 2222182.08
+        },
+        {
+          "month": 90,
+          "emi": 73610.76,
+          "principal": 69907.13,
+          "interest": 3703.64,
+          "balance": 2152274.95
+        },
+        {
+          "month": 91,
+          "emi": 73610.76,
+          "principal": 70023.64,
+          "interest": 3587.12,
+          "balance": 2082251.32
+        },
+        {
+          "month": 92,
+          "emi": 73610.76,
+          "principal": 70140.34,
+          "interest": 3470.42,
+          "balance": 2012110.97
+        },
+        {
+          "month": 93,
+          "emi": 73610.76,
+          "principal": 70257.24,
+          "interest": 3353.52,
+          "balance": 1941853.73
+        },
+        {
+          "month": 94,
+          "emi": 73610.76,
+          "principal": 70374.34,
+          "interest": 3236.42,
+          "balance": 1871479.39
+        },
+        {
+          "month": 95,
+          "emi": 73610.76,
+          "principal": 70491.63,
+          "interest": 3119.13,
+          "balance": 1800987.76
+        },
+        {
+          "month": 96,
+          "emi": 73610.76,
+          "principal": 70609.12,
+          "interest": 3001.65,
+          "balance": 1730378.64
+        },
+        {
+          "month": 97,
+          "emi": 73610.76,
+          "principal": 70726.8,
+          "interest": 2883.96,
+          "balance": 1659651.84
+        },
+        {
+          "month": 98,
+          "emi": 73610.76,
+          "principal": 70844.68,
+          "interest": 2766.09,
+          "balance": 1588807.16
+        },
+        {
+          "month": 99,
+          "emi": 73610.76,
+          "principal": 70962.75,
+          "interest": 2648.01,
+          "balance": 1517844.41
+        },
+        {
+          "month": 100,
+          "emi": 73610.76,
+          "principal": 71081.02,
+          "interest": 2529.74,
+          "balance": 1446763.39
+        },
+        {
+          "month": 101,
+          "emi": 73610.76,
+          "principal": 71199.49,
+          "interest": 2411.27,
+          "balance": 1375563.9
+        },
+        {
+          "month": 102,
+          "emi": 73610.76,
+          "principal": 71318.16,
+          "interest": 2292.61,
+          "balance": 1304245.74
+        },
+        {
+          "month": 103,
+          "emi": 73610.76,
+          "principal": 71437.02,
+          "interest": 2173.74,
+          "balance": 1232808.72
+        },
+        {
+          "month": 104,
+          "emi": 73610.76,
+          "principal": 71556.08,
+          "interest": 2054.68,
+          "balance": 1161252.64
+        },
+        {
+          "month": 105,
+          "emi": 73610.76,
+          "principal": 71675.34,
+          "interest": 1935.42,
+          "balance": 1089577.3
+        },
+        {
+          "month": 106,
+          "emi": 73610.76,
+          "principal": 71794.8,
+          "interest": 1815.96,
+          "balance": 1017782.5
+        },
+        {
+          "month": 107,
+          "emi": 73610.76,
+          "principal": 71914.46,
+          "interest": 1696.3,
+          "balance": 945868.04
+        },
+        {
+          "month": 108,
+          "emi": 73610.76,
+          "principal": 72034.32,
+          "interest": 1576.45,
+          "balance": 873833.72
+        },
+        {
+          "month": 109,
+          "emi": 73610.76,
+          "principal": 72154.37,
+          "interest": 1456.39,
+          "balance": 801679.35
+        },
+        {
+          "month": 110,
+          "emi": 73610.76,
+          "principal": 72274.63,
+          "interest": 1336.13,
+          "balance": 729404.72
+        },
+        {
+          "month": 111,
+          "emi": 73610.76,
+          "principal": 72395.09,
+          "interest": 1215.67,
+          "balance": 657009.63
+        },
+        {
+          "month": 112,
+          "emi": 73610.76,
+          "principal": 72515.75,
+          "interest": 1095.02,
+          "balance": 584493.88
+        },
+        {
+          "month": 113,
+          "emi": 73610.76,
+          "principal": 72636.61,
+          "interest": 974.16,
+          "balance": 511857.28
+        },
+        {
+          "month": 114,
+          "emi": 73610.76,
+          "principal": 72757.67,
+          "interest": 853.1,
+          "balance": 439099.61
+        },
+        {
+          "month": 115,
+          "emi": 73610.76,
+          "principal": 72878.93,
+          "interest": 731.83,
+          "balance": 366220.68
+        },
+        {
+          "month": 116,
+          "emi": 73610.76,
+          "principal": 73000.4,
+          "interest": 610.37,
+          "balance": 293220.28
+        },
+        {
+          "month": 117,
+          "emi": 73610.76,
+          "principal": 73122.06,
+          "interest": 488.7,
+          "balance": 220098.22
+        },
+        {
+          "month": 118,
+          "emi": 73610.76,
+          "principal": 73243.93,
+          "interest": 366.83,
+          "balance": 146854.29
+        },
+        {
+          "month": 119,
+          "emi": 73610.76,
+          "principal": 73366.01,
+          "interest": 244.76,
+          "balance": 73488.28
+        },
+        {
+          "month": 120,
+          "emi": 73610.76,
+          "principal": 73488.28,
+          "interest": 122.48,
+          "balance": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "id": "182bb4b2-4c7e-44a0-812a-1d224a91badc",
+    "userId": "e3df8854-3866-4dcf-8846-13800f9d8a0f",
+    "createdAt": "2026-07-24T09:47:01.492852+00:00",
+    "input": {
+      "principal": 8000000,
+      "annualRate": 2,
+      "tenureYears": 2
+    },
+    "result": {
+      "principal": 8000000.0,
+      "annualRate": 2.0,
+      "tenureYears": 2,
+      "monthlyEmi": 340322.11,
+      "totalInterest": 167730.57,
+      "totalPayment": 8167730.57,
+      "formatted": {
+        "principal": "\u20b980.00 L",
+        "monthlyEmi": "\u20b93,40,322",
+        "totalInterest": "\u20b91.68 L",
+        "totalPayment": "\u20b981.68 L"
+      },
+      "schedule": [
+        {
+          "month": 1,
+          "emi": 340322.11,
+          "principal": 326988.77,
+          "interest": 13333.33,
+          "balance": 7673011.23
+        },
+        {
+          "month": 2,
+          "emi": 340322.11,
+          "principal": 327533.75,
+          "interest": 12788.35,
+          "balance": 7345477.47
+        },
+        {
+          "month": 3,
+          "emi": 340322.11,
+          "principal": 328079.64,
+          "interest": 12242.46,
+          "balance": 7017397.83
+        },
+        {
+          "month": 4,
+          "emi": 340322.11,
+          "principal": 328626.44,
+          "interest": 11695.66,
+          "balance": 6688771.38
+        },
+        {
+          "month": 5,
+          "emi": 340322.11,
+          "principal": 329174.15,
+          "interest": 11147.95,
+          "balance": 6359597.23
+        },
+        {
+          "month": 6,
+          "emi": 340322.11,
+          "principal": 329722.78,
+          "interest": 10599.33,
+          "balance": 6029874.45
+        },
+        {
+          "month": 7,
+          "emi": 340322.11,
+          "principal": 330272.32,
+          "interest": 10049.79,
+          "balance": 5699602.13
+        },
+        {
+          "month": 8,
+          "emi": 340322.11,
+          "principal": 330822.77,
+          "interest": 9499.34,
+          "balance": 5368779.36
+        },
+        {
+          "month": 9,
+          "emi": 340322.11,
+          "principal": 331374.14,
+          "interest": 8947.97,
+          "balance": 5037405.22
+        },
+        {
+          "month": 10,
+          "emi": 340322.11,
+          "principal": 331926.43,
+          "interest": 8395.68,
+          "balance": 4705478.79
+        },
+        {
+          "month": 11,
+          "emi": 340322.11,
+          "principal": 332479.64,
+          "interest": 7842.46,
+          "balance": 4372999.15
+        },
+        {
+          "month": 12,
+          "emi": 340322.11,
+          "principal": 333033.78,
+          "interest": 7288.33,
+          "balance": 4039965.37
+        },
+        {
+          "month": 13,
+          "emi": 340322.11,
+          "principal": 333588.83,
+          "interest": 6733.28,
+          "balance": 3706376.54
+        },
+        {
+          "month": 14,
+          "emi": 340322.11,
+          "principal": 334144.81,
+          "interest": 6177.29,
+          "balance": 3372231.73
+        },
+        {
+          "month": 15,
+          "emi": 340322.11,
+          "principal": 334701.72,
+          "interest": 5620.39,
+          "balance": 3037530.01
+        },
+        {
+          "month": 16,
+          "emi": 340322.11,
+          "principal": 335259.56,
+          "interest": 5062.55,
+          "balance": 2702270.45
+        },
+        {
+          "month": 17,
+          "emi": 340322.11,
+          "principal": 335818.32,
+          "interest": 4503.78,
+          "balance": 2366452.13
+        },
+        {
+          "month": 18,
+          "emi": 340322.11,
+          "principal": 336378.02,
+          "interest": 3944.09,
+          "balance": 2030074.11
+        },
+        {
+          "month": 19,
+          "emi": 340322.11,
+          "principal": 336938.65,
+          "interest": 3383.46,
+          "balance": 1693135.46
+        },
+        {
+          "month": 20,
+          "emi": 340322.11,
+          "principal": 337500.21,
+          "interest": 2821.89,
+          "balance": 1355635.24
+        },
+        {
+          "month": 21,
+          "emi": 340322.11,
+          "principal": 338062.71,
+          "interest": 2259.39,
+          "balance": 1017572.53
+        },
+        {
+          "month": 22,
+          "emi": 340322.11,
+          "principal": 338626.15,
+          "interest": 1695.95,
+          "balance": 678946.38
+        },
+        {
+          "month": 23,
+          "emi": 340322.11,
+          "principal": 339190.53,
+          "interest": 1131.58,
+          "balance": 339755.85
+        },
+        {
+          "month": 24,
+          "emi": 340322.11,
+          "principal": 339755.85,
+          "interest": 566.26,
+          "balance": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "id": "8cf54d0c-4305-4a81-a104-eca31da093c3",
+    "userId": "e3df8854-3866-4dcf-8846-13800f9d8a0f",
+    "createdAt": "2026-07-24T09:47:12.416961+00:00",
+    "input": {
+      "principal": 8000000,
+      "annualRate": 2,
+      "tenureYears": 1
+    },
+    "result": {
+      "principal": 8000000.0,
+      "annualRate": 2.0,
+      "tenureYears": 1,
+      "monthlyEmi": 673910.94,
+      "totalInterest": 86931.26,
+      "totalPayment": 8086931.26,
+      "formatted": {
+        "principal": "\u20b980.00 L",
+        "monthlyEmi": "\u20b96,73,911",
+        "totalInterest": "\u20b986,931",
+        "totalPayment": "\u20b980.87 L"
+      },
+      "schedule": [
+        {
+          "month": 1,
+          "emi": 673910.94,
+          "principal": 660577.6,
+          "interest": 13333.33,
+          "balance": 7339422.4
+        },
+        {
+          "month": 2,
+          "emi": 673910.94,
+          "principal": 661678.57,
+          "interest": 12232.37,
+          "balance": 6677743.83
+        },
+        {
+          "month": 3,
+          "emi": 673910.94,
+          "principal": 662781.37,
+          "interest": 11129.57,
+          "balance": 6014962.46
+        },
+        {
+          "month": 4,
+          "emi": 673910.94,
+          "principal": 663886.0,
+          "interest": 10024.94,
+          "balance": 5351076.46
+        },
+        {
+          "month": 5,
+          "emi": 673910.94,
+          "principal": 664992.48,
+          "interest": 8918.46,
+          "balance": 4686083.98
+        },
+        {
+          "month": 6,
+          "emi": 673910.94,
+          "principal": 666100.8,
+          "interest": 7810.14,
+          "balance": 4019983.19
+        },
+        {
+          "month": 7,
+          "emi": 673910.94,
+          "principal": 667210.97,
+          "interest": 6699.97,
+          "balance": 3352772.22
+        },
+        {
+          "month": 8,
+          "emi": 673910.94,
+          "principal": 668322.98,
+          "interest": 5587.95,
+          "balance": 2684449.23
+        },
+        {
+          "month": 9,
+          "emi": 673910.94,
+          "principal": 669436.86,
+          "interest": 4474.08,
+          "balance": 2015012.38
+        },
+        {
+          "month": 10,
+          "emi": 673910.94,
+          "principal": 670552.58,
+          "interest": 3358.35,
+          "balance": 1344459.79
+        },
+        {
+          "month": 11,
+          "emi": 673910.94,
+          "principal": 671670.17,
+          "interest": 2240.77,
+          "balance": 672789.62
+        },
+        {
+          "month": 12,
+          "emi": 673910.94,
+          "principal": 672789.62,
+          "interest": 1121.32,
+          "balance": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "id": "b8f49bca-11a7-476a-9225-f820c3e98429",
+    "userId": "e3df8854-3866-4dcf-8846-13800f9d8a0f",
+    "createdAt": "2026-07-24T09:47:20.411299+00:00",
+    "input": {
+      "principal": 8000000,
+      "annualRate": 2,
+      "tenureYears": 10
+    },
+    "result": {
+      "principal": 8000000.0,
+      "annualRate": 2.0,
+      "tenureYears": 10,
+      "monthlyEmi": 73610.76,
+      "totalInterest": 833291.57,
+      "totalPayment": 8833291.57,
+      "formatted": {
+        "principal": "\u20b980.00 L",
+        "monthlyEmi": "\u20b973,611",
+        "totalInterest": "\u20b98.33 L",
+        "totalPayment": "\u20b988.33 L"
+      },
+      "schedule": [
+        {
+          "month": 1,
+          "emi": 73610.76,
+          "principal": 60277.43,
+          "interest": 13333.33,
+          "balance": 7939722.57
+        },
+        {
+          "month": 2,
+          "emi": 73610.76,
+          "principal": 60377.89,
+          "interest": 13232.87,
+          "balance": 7879344.68
+        },
+        {
+          "month": 3,
+          "emi": 73610.76,
+          "principal": 60478.52,
+          "interest": 13132.24,
+          "balance": 7818866.16
+        },
+        {
+          "month": 4,
+          "emi": 73610.76,
+          "principal": 60579.32,
+          "interest": 13031.44,
+          "balance": 7758286.84
+        },
+        {
+          "month": 5,
+          "emi": 73610.76,
+          "principal": 60680.29,
+          "interest": 12930.48,
+          "balance": 7697606.55
+        },
+        {
+          "month": 6,
+          "emi": 73610.76,
+          "principal": 60781.42,
+          "interest": 12829.34,
+          "balance": 7636825.13
+        },
+        {
+          "month": 7,
+          "emi": 73610.76,
+          "principal": 60882.72,
+          "interest": 12728.04,
+          "balance": 7575942.41
+        },
+        {
+          "month": 8,
+          "emi": 73610.76,
+          "principal": 60984.19,
+          "interest": 12626.57,
+          "balance": 7514958.22
+        },
+        {
+          "month": 9,
+          "emi": 73610.76,
+          "principal": 61085.83,
+          "interest": 12524.93,
+          "balance": 7453872.39
+        },
+        {
+          "month": 10,
+          "emi": 73610.76,
+          "principal": 61187.64,
+          "interest": 12423.12,
+          "balance": 7392684.74
+        },
+        {
+          "month": 11,
+          "emi": 73610.76,
+          "principal": 61289.62,
+          "interest": 12321.14,
+          "balance": 7331395.12
+        },
+        {
+          "month": 12,
+          "emi": 73610.76,
+          "principal": 61391.77,
+          "interest": 12218.99,
+          "balance": 7270003.35
+        },
+        {
+          "month": 13,
+          "emi": 73610.76,
+          "principal": 61494.09,
+          "interest": 12116.67,
+          "balance": 7208509.26
+        },
+        {
+          "month": 14,
+          "emi": 73610.76,
+          "principal": 61596.58,
+          "interest": 12014.18,
+          "balance": 7146912.68
+        },
+        {
+          "month": 15,
+          "emi": 73610.76,
+          "principal": 61699.24,
+          "interest": 11911.52,
+          "balance": 7085213.44
+        },
+        {
+          "month": 16,
+          "emi": 73610.76,
+          "principal": 61802.07,
+          "interest": 11808.69,
+          "balance": 7023411.36
+        },
+        {
+          "month": 17,
+          "emi": 73610.76,
+          "principal": 61905.08,
+          "interest": 11705.69,
+          "balance": 6961506.29
+        },
+        {
+          "month": 18,
+          "emi": 73610.76,
+          "principal": 62008.25,
+          "interest": 11602.51,
+          "balance": 6899498.03
+        },
+        {
+          "month": 19,
+          "emi": 73610.76,
+          "principal": 62111.6,
+          "interest": 11499.16,
+          "balance": 6837386.43
+        },
+        {
+          "month": 20,
+          "emi": 73610.76,
+          "principal": 62215.12,
+          "interest": 11395.64,
+          "balance": 6775171.31
+        },
+        {
+          "month": 21,
+          "emi": 73610.76,
+          "principal": 62318.81,
+          "interest": 11291.95,
+          "balance": 6712852.5
+        },
+        {
+          "month": 22,
+          "emi": 73610.76,
+          "principal": 62422.68,
+          "interest": 11188.09,
+          "balance": 6650429.83
+        },
+        {
+          "month": 23,
+          "emi": 73610.76,
+          "principal": 62526.71,
+          "interest": 11084.05,
+          "balance": 6587903.11
+        },
+        {
+          "month": 24,
+          "emi": 73610.76,
+          "principal": 62630.92,
+          "interest": 10979.84,
+          "balance": 6525272.19
+        },
+        {
+          "month": 25,
+          "emi": 73610.76,
+          "principal": 62735.31,
+          "interest": 10875.45,
+          "balance": 6462536.88
+        },
+        {
+          "month": 26,
+          "emi": 73610.76,
+          "principal": 62839.87,
+          "interest": 10770.89,
+          "balance": 6399697.01
+        },
+        {
+          "month": 27,
+          "emi": 73610.76,
+          "principal": 62944.6,
+          "interest": 10666.16,
+          "balance": 6336752.41
+        },
+        {
+          "month": 28,
+          "emi": 73610.76,
+          "principal": 63049.51,
+          "interest": 10561.25,
+          "balance": 6273702.9
+        },
+        {
+          "month": 29,
+          "emi": 73610.76,
+          "principal": 63154.59,
+          "interest": 10456.17,
+          "balance": 6210548.31
+        },
+        {
+          "month": 30,
+          "emi": 73610.76,
+          "principal": 63259.85,
+          "interest": 10350.91,
+          "balance": 6147288.46
+        },
+        {
+          "month": 31,
+          "emi": 73610.76,
+          "principal": 63365.28,
+          "interest": 10245.48,
+          "balance": 6083923.18
+        },
+        {
+          "month": 32,
+          "emi": 73610.76,
+          "principal": 63470.89,
+          "interest": 10139.87,
+          "balance": 6020452.29
+        },
+        {
+          "month": 33,
+          "emi": 73610.76,
+          "principal": 63576.68,
+          "interest": 10034.09,
+          "balance": 5956875.61
+        },
+        {
+          "month": 34,
+          "emi": 73610.76,
+          "principal": 63682.64,
+          "interest": 9928.13,
+          "balance": 5893192.97
+        },
+        {
+          "month": 35,
+          "emi": 73610.76,
+          "principal": 63788.77,
+          "interest": 9821.99,
+          "balance": 5829404.2
+        },
+        {
+          "month": 36,
+          "emi": 73610.76,
+          "principal": 63895.09,
+          "interest": 9715.67,
+          "balance": 5765509.11
+        },
+        {
+          "month": 37,
+          "emi": 73610.76,
+          "principal": 64001.58,
+          "interest": 9609.18,
+          "balance": 5701507.53
+        },
+        {
+          "month": 38,
+          "emi": 73610.76,
+          "principal": 64108.25,
+          "interest": 9502.51,
+          "balance": 5637399.28
+        },
+        {
+          "month": 39,
+          "emi": 73610.76,
+          "principal": 64215.1,
+          "interest": 9395.67,
+          "balance": 5573184.18
+        },
+        {
+          "month": 40,
+          "emi": 73610.76,
+          "principal": 64322.12,
+          "interest": 9288.64,
+          "balance": 5508862.06
+        },
+        {
+          "month": 41,
+          "emi": 73610.76,
+          "principal": 64429.33,
+          "interest": 9181.44,
+          "balance": 5444432.73
+        },
+        {
+          "month": 42,
+          "emi": 73610.76,
+          "principal": 64536.71,
+          "interest": 9074.05,
+          "balance": 5379896.02
+        },
+        {
+          "month": 43,
+          "emi": 73610.76,
+          "principal": 64644.27,
+          "interest": 8966.49,
+          "balance": 5315251.75
+        },
+        {
+          "month": 44,
+          "emi": 73610.76,
+          "principal": 64752.01,
+          "interest": 8858.75,
+          "balance": 5250499.74
+        },
+        {
+          "month": 45,
+          "emi": 73610.76,
+          "principal": 64859.93,
+          "interest": 8750.83,
+          "balance": 5185639.81
+        },
+        {
+          "month": 46,
+          "emi": 73610.76,
+          "principal": 64968.03,
+          "interest": 8642.73,
+          "balance": 5120671.78
+        },
+        {
+          "month": 47,
+          "emi": 73610.76,
+          "principal": 65076.31,
+          "interest": 8534.45,
+          "balance": 5055595.47
+        },
+        {
+          "month": 48,
+          "emi": 73610.76,
+          "principal": 65184.77,
+          "interest": 8425.99,
+          "balance": 4990410.7
+        },
+        {
+          "month": 49,
+          "emi": 73610.76,
+          "principal": 65293.41,
+          "interest": 8317.35,
+          "balance": 4925117.29
+        },
+        {
+          "month": 50,
+          "emi": 73610.76,
+          "principal": 65402.23,
+          "interest": 8208.53,
+          "balance": 4859715.06
+        },
+        {
+          "month": 51,
+          "emi": 73610.76,
+          "principal": 65511.24,
+          "interest": 8099.53,
+          "balance": 4794203.82
+        },
+        {
+          "month": 52,
+          "emi": 73610.76,
+          "principal": 65620.42,
+          "interest": 7990.34,
+          "balance": 4728583.4
+        },
+        {
+          "month": 53,
+          "emi": 73610.76,
+          "principal": 65729.79,
+          "interest": 7880.97,
+          "balance": 4662853.6
+        },
+        {
+          "month": 54,
+          "emi": 73610.76,
+          "principal": 65839.34,
+          "interest": 7771.42,
+          "balance": 4597014.26
+        },
+        {
+          "month": 55,
+          "emi": 73610.76,
+          "principal": 65949.07,
+          "interest": 7661.69,
+          "balance": 4531065.19
+        },
+        {
+          "month": 56,
+          "emi": 73610.76,
+          "principal": 66058.99,
+          "interest": 7551.78,
+          "balance": 4465006.2
+        },
+        {
+          "month": 57,
+          "emi": 73610.76,
+          "principal": 66169.09,
+          "interest": 7441.68,
+          "balance": 4398837.12
+        },
+        {
+          "month": 58,
+          "emi": 73610.76,
+          "principal": 66279.37,
+          "interest": 7331.4,
+          "balance": 4332557.75
+        },
+        {
+          "month": 59,
+          "emi": 73610.76,
+          "principal": 66389.83,
+          "interest": 7220.93,
+          "balance": 4266167.92
+        },
+        {
+          "month": 60,
+          "emi": 73610.76,
+          "principal": 66500.48,
+          "interest": 7110.28,
+          "balance": 4199667.43
+        },
+        {
+          "month": 61,
+          "emi": 73610.76,
+          "principal": 66611.32,
+          "interest": 6999.45,
+          "balance": 4133056.12
+        },
+        {
+          "month": 62,
+          "emi": 73610.76,
+          "principal": 66722.34,
+          "interest": 6888.43,
+          "balance": 4066333.78
+        },
+        {
+          "month": 63,
+          "emi": 73610.76,
+          "principal": 66833.54,
+          "interest": 6777.22,
+          "balance": 3999500.24
+        },
+        {
+          "month": 64,
+          "emi": 73610.76,
+          "principal": 66944.93,
+          "interest": 6665.83,
+          "balance": 3932555.31
+        },
+        {
+          "month": 65,
+          "emi": 73610.76,
+          "principal": 67056.5,
+          "interest": 6554.26,
+          "balance": 3865498.81
+        },
+        {
+          "month": 66,
+          "emi": 73610.76,
+          "principal": 67168.27,
+          "interest": 6442.5,
+          "balance": 3798330.54
+        },
+        {
+          "month": 67,
+          "emi": 73610.76,
+          "principal": 67280.21,
+          "interest": 6330.55,
+          "balance": 3731050.33
+        },
+        {
+          "month": 68,
+          "emi": 73610.76,
+          "principal": 67392.35,
+          "interest": 6218.42,
+          "balance": 3663657.98
+        },
+        {
+          "month": 69,
+          "emi": 73610.76,
+          "principal": 67504.67,
+          "interest": 6106.1,
+          "balance": 3596153.32
+        },
+        {
+          "month": 70,
+          "emi": 73610.76,
+          "principal": 67617.17,
+          "interest": 5993.59,
+          "balance": 3528536.14
+        },
+        {
+          "month": 71,
+          "emi": 73610.76,
+          "principal": 67729.87,
+          "interest": 5880.89,
+          "balance": 3460806.27
+        },
+        {
+          "month": 72,
+          "emi": 73610.76,
+          "principal": 67842.75,
+          "interest": 5768.01,
+          "balance": 3392963.52
+        },
+        {
+          "month": 73,
+          "emi": 73610.76,
+          "principal": 67955.82,
+          "interest": 5654.94,
+          "balance": 3325007.7
+        },
+        {
+          "month": 74,
+          "emi": 73610.76,
+          "principal": 68069.08,
+          "interest": 5541.68,
+          "balance": 3256938.61
+        },
+        {
+          "month": 75,
+          "emi": 73610.76,
+          "principal": 68182.53,
+          "interest": 5428.23,
+          "balance": 3188756.08
+        },
+        {
+          "month": 76,
+          "emi": 73610.76,
+          "principal": 68296.17,
+          "interest": 5314.59,
+          "balance": 3120459.91
+        },
+        {
+          "month": 77,
+          "emi": 73610.76,
+          "principal": 68410.0,
+          "interest": 5200.77,
+          "balance": 3052049.91
+        },
+        {
+          "month": 78,
+          "emi": 73610.76,
+          "principal": 68524.01,
+          "interest": 5086.75,
+          "balance": 2983525.9
+        },
+        {
+          "month": 79,
+          "emi": 73610.76,
+          "principal": 68638.22,
+          "interest": 4972.54,
+          "balance": 2914887.68
+        },
+        {
+          "month": 80,
+          "emi": 73610.76,
+          "principal": 68752.62,
+          "interest": 4858.15,
+          "balance": 2846135.06
+        },
+        {
+          "month": 81,
+          "emi": 73610.76,
+          "principal": 68867.2,
+          "interest": 4743.56,
+          "balance": 2777267.86
+        },
+        {
+          "month": 82,
+          "emi": 73610.76,
+          "principal": 68981.98,
+          "interest": 4628.78,
+          "balance": 2708285.88
+        },
+        {
+          "month": 83,
+          "emi": 73610.76,
+          "principal": 69096.95,
+          "interest": 4513.81,
+          "balance": 2639188.92
+        },
+        {
+          "month": 84,
+          "emi": 73610.76,
+          "principal": 69212.11,
+          "interest": 4398.65,
+          "balance": 2569976.81
+        },
+        {
+          "month": 85,
+          "emi": 73610.76,
+          "principal": 69327.47,
+          "interest": 4283.29,
+          "balance": 2500649.34
+        },
+        {
+          "month": 86,
+          "emi": 73610.76,
+          "principal": 69443.01,
+          "interest": 4167.75,
+          "balance": 2431206.33
+        },
+        {
+          "month": 87,
+          "emi": 73610.76,
+          "principal": 69558.75,
+          "interest": 4052.01,
+          "balance": 2361647.57
+        },
+        {
+          "month": 88,
+          "emi": 73610.76,
+          "principal": 69674.68,
+          "interest": 3936.08,
+          "balance": 2291972.89
+        },
+        {
+          "month": 89,
+          "emi": 73610.76,
+          "principal": 69790.81,
+          "interest": 3819.95,
+          "balance": 2222182.08
+        },
+        {
+          "month": 90,
+          "emi": 73610.76,
+          "principal": 69907.13,
+          "interest": 3703.64,
+          "balance": 2152274.95
+        },
+        {
+          "month": 91,
+          "emi": 73610.76,
+          "principal": 70023.64,
+          "interest": 3587.12,
+          "balance": 2082251.32
+        },
+        {
+          "month": 92,
+          "emi": 73610.76,
+          "principal": 70140.34,
+          "interest": 3470.42,
+          "balance": 2012110.97
+        },
+        {
+          "month": 93,
+          "emi": 73610.76,
+          "principal": 70257.24,
+          "interest": 3353.52,
+          "balance": 1941853.73
+        },
+        {
+          "month": 94,
+          "emi": 73610.76,
+          "principal": 70374.34,
+          "interest": 3236.42,
+          "balance": 1871479.39
+        },
+        {
+          "month": 95,
+          "emi": 73610.76,
+          "principal": 70491.63,
+          "interest": 3119.13,
+          "balance": 1800987.76
+        },
+        {
+          "month": 96,
+          "emi": 73610.76,
+          "principal": 70609.12,
+          "interest": 3001.65,
+          "balance": 1730378.64
+        },
+        {
+          "month": 97,
+          "emi": 73610.76,
+          "principal": 70726.8,
+          "interest": 2883.96,
+          "balance": 1659651.84
+        },
+        {
+          "month": 98,
+          "emi": 73610.76,
+          "principal": 70844.68,
+          "interest": 2766.09,
+          "balance": 1588807.16
+        },
+        {
+          "month": 99,
+          "emi": 73610.76,
+          "principal": 70962.75,
+          "interest": 2648.01,
+          "balance": 1517844.41
+        },
+        {
+          "month": 100,
+          "emi": 73610.76,
+          "principal": 71081.02,
+          "interest": 2529.74,
+          "balance": 1446763.39
+        },
+        {
+          "month": 101,
+          "emi": 73610.76,
+          "principal": 71199.49,
+          "interest": 2411.27,
+          "balance": 1375563.9
+        },
+        {
+          "month": 102,
+          "emi": 73610.76,
+          "principal": 71318.16,
+          "interest": 2292.61,
+          "balance": 1304245.74
+        },
+        {
+          "month": 103,
+          "emi": 73610.76,
+          "principal": 71437.02,
+          "interest": 2173.74,
+          "balance": 1232808.72
+        },
+        {
+          "month": 104,
+          "emi": 73610.76,
+          "principal": 71556.08,
+          "interest": 2054.68,
+          "balance": 1161252.64
+        },
+        {
+          "month": 105,
+          "emi": 73610.76,
+          "principal": 71675.34,
+          "interest": 1935.42,
+          "balance": 1089577.3
+        },
+        {
+          "month": 106,
+          "emi": 73610.76,
+          "principal": 71794.8,
+          "interest": 1815.96,
+          "balance": 1017782.5
+        },
+        {
+          "month": 107,
+          "emi": 73610.76,
+          "principal": 71914.46,
+          "interest": 1696.3,
+          "balance": 945868.04
+        },
+        {
+          "month": 108,
+          "emi": 73610.76,
+          "principal": 72034.32,
+          "interest": 1576.45,
+          "balance": 873833.72
+        },
+        {
+          "month": 109,
+          "emi": 73610.76,
+          "principal": 72154.37,
+          "interest": 1456.39,
+          "balance": 801679.35
+        },
+        {
+          "month": 110,
+          "emi": 73610.76,
+          "principal": 72274.63,
+          "interest": 1336.13,
+          "balance": 729404.72
+        },
+        {
+          "month": 111,
+          "emi": 73610.76,
+          "principal": 72395.09,
+          "interest": 1215.67,
+          "balance": 657009.63
+        },
+        {
+          "month": 112,
+          "emi": 73610.76,
+          "principal": 72515.75,
+          "interest": 1095.02,
+          "balance": 584493.88
+        },
+        {
+          "month": 113,
+          "emi": 73610.76,
+          "principal": 72636.61,
+          "interest": 974.16,
+          "balance": 511857.28
+        },
+        {
+          "month": 114,
+          "emi": 73610.76,
+          "principal": 72757.67,
+          "interest": 853.1,
+          "balance": 439099.61
+        },
+        {
+          "month": 115,
+          "emi": 73610.76,
+          "principal": 72878.93,
+          "interest": 731.83,
+          "balance": 366220.68
+        },
+        {
+          "month": 116,
+          "emi": 73610.76,
+          "principal": 73000.4,
+          "interest": 610.37,
+          "balance": 293220.28
+        },
+        {
+          "month": 117,
+          "emi": 73610.76,
+          "principal": 73122.06,
+          "interest": 488.7,
+          "balance": 220098.22
+        },
+        {
+          "month": 118,
+          "emi": 73610.76,
+          "principal": 73243.93,
+          "interest": 366.83,
+          "balance": 146854.29
+        },
+        {
+          "month": 119,
+          "emi": 73610.76,
+          "principal": 73366.01,
+          "interest": 244.76,
+          "balance": 73488.28
+        },
+        {
+          "month": 120,
+          "emi": 73610.76,
+          "principal": 73488.28,
+          "interest": 122.48,
+          "balance": 0.0
+        }
+      ]
+    }
+  }
+]
