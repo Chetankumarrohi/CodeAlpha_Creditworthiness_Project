@@ -26,43 +26,81 @@ function getAuthHeaders() {
   return token ? { "Authorization": `Bearer ${token}` } : {};
 }
 
-function initSplashAndAuth() {
+async function initSplashAndAuth() {
   // Splash Screen Intro Animation
   setTimeout(() => {
     const splash = document.getElementById("splash-screen");
     if (splash) splash.classList.add("fade-out");
   }, 1800);
 
-  // Check stored user session
-  const storedUser = localStorage.getItem("nova_user");
-  if (storedUser) {
+  // Validate stored token with backend server
+  const token = localStorage.getItem("nova_token");
+  if (token) {
     try {
-      currentUser = JSON.parse(storedUser);
-      updateUserUI();
-    } catch(e) { localStorage.removeItem("nova_user"); }
+      const res = await fetch("/api/v1/auth/me", {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const userData = await res.json();
+        currentUser = userData;
+        localStorage.setItem("nova_user", JSON.stringify(currentUser));
+        updateUserUI();
+        forceCloseAuthModal();
+        loadHistory();
+        return;
+      }
+    } catch(e) {
+      console.warn("Session validation failed:", e);
+    }
+  }
+
+  // If no valid session token, clear session and mandate Auth Gate
+  logoutUser(false);
+}
+
+function openAuthModal(isMandatory = false) {
+  const modal = document.getElementById("authModal");
+  if (!modal) return;
+  modal.classList.add("active");
+  if (isMandatory || !currentUser) {
+    modal.classList.add("mandatory-gate");
+  } else {
+    modal.classList.remove("mandatory-gate");
   }
 }
 
-function openAuthModal() {
-  const modal = document.getElementById("authModal");
-  if (modal) modal.classList.add("active");
+function closeAuthModal() {
+  if (!currentUser) {
+    openAuthModal(true);
+    return;
+  }
+  forceCloseAuthModal();
 }
 
-function closeAuthModal() {
+function forceCloseAuthModal() {
   const modal = document.getElementById("authModal");
-  if (modal) modal.classList.remove("active");
+  if (modal) {
+    modal.classList.remove("active");
+    modal.classList.remove("mandatory-gate");
+  }
 }
 
 function toggleAuthModal() {
   if (currentUser) {
-    // Logout
-    localStorage.removeItem("nova_token");
-    localStorage.removeItem("nova_user");
-    currentUser = null;
-    updateUserUI();
-    loadHistory();
+    logoutUser(true);
   } else {
-    openAuthModal();
+    openAuthModal(true);
+  }
+}
+
+function logoutUser(userInitiated = true) {
+  localStorage.removeItem("nova_token");
+  localStorage.removeItem("nova_user");
+  currentUser = null;
+  updateUserUI();
+  openAuthModal(true);
+  if (userInitiated) {
+    alert("You have been signed out. Please Sign In or Register to continue.");
   }
 }
 
@@ -81,7 +119,7 @@ function switchAuthTab(tab) {
     regBtn.classList.remove("active");
     if (nameGrp) nameGrp.style.display = "none";
     if (titleEl) titleEl.textContent = "Sign In to Nova Credit";
-    if (subEl)   subEl.textContent   = "Institutional Access & Private Risk History";
+    if (subEl)   subEl.textContent   = "Institutional Credit Intelligence & Risk History";
     if (btnText) btnText.textContent = "Sign In to Workspace";
     if (tipEl)   tipEl.style.display   = "block";
   } else {
@@ -89,7 +127,7 @@ function switchAuthTab(tab) {
     loginBtn.classList.remove("active");
     if (nameGrp) nameGrp.style.display = "block";
     if (titleEl) titleEl.textContent = "Register New Account";
-    if (subEl)   subEl.textContent   = "Create your secure credit risk session";
+    if (subEl)   subEl.textContent   = "Create your secure credit risk user session";
     if (btnText) btnText.textContent = "Create Account";
     if (tipEl)   tipEl.style.display   = "none";
   }
@@ -97,9 +135,14 @@ function switchAuthTab(tab) {
 
 async function handleAuthSubmit(e) {
   e.preventDefault();
-  const email    = document.getElementById("authEmail").value;
-  const password = document.getElementById("authPassword").value;
-  const name     = document.getElementById("authName")?.value || "";
+  const email    = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value.trim();
+  const name     = document.getElementById("authName")?.value.trim() || "";
+
+  if (!email || !password) {
+    alert("Please provide both email and password.");
+    return;
+  }
 
   const endpoint = currentAuthTab === "login" ? "/api/v1/auth/login" : "/api/v1/auth/register";
   const body = currentAuthTab === "login"
@@ -114,7 +157,7 @@ async function handleAuthSubmit(e) {
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.detail || "Authentication failed");
+      throw new Error(err.detail || "Authentication failed. Check your credentials.");
     }
     const data = await res.json();
     localStorage.setItem("nova_token", data.access_token);
@@ -126,7 +169,7 @@ async function handleAuthSubmit(e) {
     };
     localStorage.setItem("nova_user", JSON.stringify(currentUser));
     updateUserUI();
-    closeAuthModal();
+    forceCloseAuthModal();
     loadHistory();
   } catch(err) {
     alert("Auth Error: " + err.message);

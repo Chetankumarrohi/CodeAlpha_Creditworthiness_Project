@@ -29,11 +29,11 @@
 </div>
 
 <!-- ════════════════════════ AUTHENTICATION MODAL ════════════════════════ -->
-<div class="modal-overlay" id="authModal">
+<div class="modal-overlay active mandatory-gate" id="authModal">
   <div class="auth-card">
     <div class="auth-header">
       <div class="auth-title" id="authTitle">Sign In to Nova Credit</div>
-      <div class="auth-sub" id="authSub">Institutional Access & Private Risk History</div>
+      <div class="auth-sub" id="authSub">Institutional Credit Intelligence & Risk History</div>
     </div>
 
     <div class="auth-tabs">
@@ -42,7 +42,7 @@
     </div>
 
     <form id="authForm" onsubmit="handleAuthSubmit(event)">
-      <div class="field" style="margin-bottom:12px;" id="nameGroup" style="display:none;">
+      <div class="field" style="margin-bottom:12px;display:none;" id="nameGroup">
         <label>Full Legal Name</label>
         <input type="text" id="authName" placeholder="e.g. Rahul Sharma"/>
       </div>
@@ -66,8 +66,8 @@
       </button>
     </form>
     
-    <div style="text-align:center;margin-top:10px;">
-      <button class="btn btn-ghost" style="font-size:11px;" onclick="closeAuthModal()">Continue as Guest (Public Mode)</button>
+    <div style="text-align:center;margin-top:12px;font-size:11px;color:var(--text-muted);" id="authGateNotice">
+      🔒 Secure Authentication Required to Access Platform
     </div>
   </div>
 </div>
