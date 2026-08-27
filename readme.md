@@ -7,7 +7,7 @@
 ## 🚀 Live Demo & Client Dashboard
 
 The interactive client dashboard is running live at:
-- 🌐 **Public Live URL**: **[https://c4d1fc047258fc.lhr.life](https://c4d1fc047258fc.lhr.life)**
+- 🌐 **Public Live URL**: **[https://7d5a2774d19deb.lhr.life](https://7d5a2774d19deb.lhr.life)**
 - 💻 **Local URL**: **[http://localhost:8085](http://localhost:8085)**
 
 
