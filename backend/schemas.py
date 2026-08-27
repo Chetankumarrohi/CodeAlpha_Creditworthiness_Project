@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, EmailStr
 from typing import Optional, List, Dict, Any
 
 
@@ -8,6 +8,8 @@ VALID_CHECKING = {"none", "little", "moderate", "rich"}
 VALID_PURPOSES = {"car", "furniture/equipment", "radio/tv", "domestic appliances", "repairs", "education", "business", "vacation/others"}
 VALID_GENDERS = {"male", "female"}
 
+
+# ─── Assessment & Simulation Schemas ──────────────────────────────────────────
 
 class AssessmentRequest(BaseModel):
     applicant_name: str = Field("Alex Morgan", min_length=2, max_length=100, description="Full legal name of credit applicant")
@@ -68,16 +70,17 @@ class LoanEmiRequest(BaseModel):
     tenure_years: int = Field(5, ge=1, le=30)
 
 
-# Auth Schemas
+# ─── Auth & User Account Schemas ──────────────────────────────────────────────
+
 class UserLoginRequest(BaseModel):
-    email: str
-    password: str
+    email: str = Field(..., min_length=3, max_length=255)
+    password: str = Field(..., min_length=6, max_length=128)
 
 
 class UserRegisterRequest(BaseModel):
-    email: str
-    password: str
-    full_name: str
+    email: str = Field(..., min_length=3, max_length=255)
+    password: str = Field(..., min_length=8, max_length=128, description="Minimum 8 characters")
+    full_name: str = Field(..., min_length=2, max_length=100)
 
 
 class AuthTokenResponse(BaseModel):
@@ -86,4 +89,63 @@ class AuthTokenResponse(BaseModel):
     user_id: str
     email: str
     full_name: str
+    role: str   # "USER" | "ADMIN"
+    expires_in_minutes: int = 120
+
+
+class UserResponse(BaseModel):
+    id: str
+    email: str
+    full_name: str
     role: str
+    is_active: bool
+    email_verified: bool
+    created_at: str
+    last_login_at: Optional[str] = None
+
+
+class UserProfileUpdateRequest(BaseModel):
+    full_name: Optional[str] = Field(None, min_length=2, max_length=100)
+
+
+class PasswordChangeRequest(BaseModel):
+    current_password: str = Field(..., min_length=6)
+    new_password: str = Field(..., min_length=8, max_length=128)
+
+
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
+
+class ResetPasswordRequest(BaseModel):
+    email: str
+    reset_token: str
+    new_password: str = Field(..., min_length=8, max_length=128)
+
+
+class UserStatusUpdateRequest(BaseModel):
+    is_active: bool
+
+
+# ─── Financial Profile Schema ─────────────────────────────────────────────────
+
+class FinancialProfileRequest(BaseModel):
+    monthly_income: Optional[float] = Field(50000.0, gt=0)
+    existing_emi: Optional[float] = Field(0.0, ge=0)
+    savings_balance: Optional[float] = Field(100000.0, ge=0)
+    housing_type: Optional[str] = Field("own")
+    employment_status: Optional[str] = Field("skilled")
+    credit_purpose: Optional[str] = Field("personal")
+
+
+# ─── Admin Inspection Schemas ─────────────────────────────────────────────────
+
+class UserDetailAdminResponse(BaseModel):
+    user: UserResponse
+    financial_profile: Optional[Dict[str, Any]] = None
+    assessment_count: int
+    simulation_count: int
+    report_count: int
+    recent_assessments: List[Dict[str, Any]]
+    recent_simulations: List[Dict[str, Any]]
+    recent_activities: List[Dict[str, Any]]

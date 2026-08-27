@@ -1,10 +1,11 @@
 """
 Nova Credit AI — Core Application Settings
 Environment-based configuration using pydantic-settings.
-Override any value via environment variables or a .env file.
 """
 import os
+import json
 from pathlib import Path
+from typing import List
 from functools import lru_cache
 try:
     from pydantic_settings import BaseSettings
@@ -23,18 +24,27 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./data/nova_credit.db"
 
     # Security
-    SECRET_KEY: str = os.getenv(
-        "SECRET_KEY",
-        "nova-dev-secret-change-in-production-please-use-32-char-random-key"
-    )
+    SECRET_KEY: str = "nova-dev-secret-change-in-production-please-use-32-char-random-key"
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 120
 
-    # CORS — tighten in production
-    ALLOWED_ORIGINS: list = ["*"]
+    # CORS
+    ALLOWED_ORIGINS: str = "*"
+
+    @property
+    def allowed_origins_list(self) -> List[str]:
+        val = self.ALLOWED_ORIGINS.strip()
+        if val == "*":
+            return ["*"]
+        if val.startswith("[") and val.endswith("]"):
+            try:
+                return json.loads(val)
+            except Exception:
+                pass
+        return [origin.strip() for origin in val.split(",") if origin.strip()]
 
     # Rate Limiting
-    RATE_LIMIT_REQUESTS: int = 60
+    RATE_LIMIT_REQUESTS: int = 100
     RATE_LIMIT_WINDOW: int = 60   # seconds
 
     # ML

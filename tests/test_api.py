@@ -1,3 +1,4 @@
+import uuid
 from fastapi.testclient import TestClient
 from backend.main import app
 
@@ -12,6 +13,11 @@ def test_api_health():
 
 
 def test_api_assessment():
+    email = f"test_api_{uuid.uuid4().hex[:6]}@example.com"
+    reg = client.post("/api/v1/auth/register", json={"email": email, "password": "Password123!", "full_name": "API Tester"})
+    token = reg.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
     payload = {
         "applicant_name": "Test User",
         "age": 30,
@@ -27,7 +33,7 @@ def test_api_assessment():
         "duration": 12,
         "savings_balance": 200000.0
     }
-    res = client.post("/api/v1/assess", json=payload)
+    res = client.post("/api/v1/assess", json=payload, headers=headers)
     assert res.status_code == 200
     data = res.json()
     assert "nova_score" in data

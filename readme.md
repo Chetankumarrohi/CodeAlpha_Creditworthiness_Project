@@ -1,114 +1,57 @@
-# Nova Credit AI — Institutional Credit Risk & Financial Intelligence Platform
+# Nova Credit AI — Multi-User Institutional Financial Intelligence & Underwriting Platform
 
-> **Nova Credit AI** is an explainable financial-intelligence platform that combines machine-learning credit-risk assessment, proprietary risk scoring, affordability analysis, loan intelligence, scenario simulation, and personalized financial insights within a production-oriented fintech architecture.
+> **Nova Credit AI** is an enterprise-grade multi-user credit risk assessment and financial intelligence platform. It combines machine-learning underwriting, proprietary Nova Credit scoring (300–850), strict server-side user data isolation, role-based access control (RBAC), an operational Admin Console, audit logging, scenario simulations, and automated PDF report generation within a production-ready fintech architecture.
 
 ---
 
-## 🚀 Live Demo & Client Dashboard
+## 🚀 Key Multi-User & Security Architecture Features
 
-The interactive client dashboard is running live at:
-- 🌐 **Public Live URL**: **[https://7d5a2774d19deb.lhr.life](https://7d5a2774d19deb.lhr.life)**
+- 🔐 **Authentication & Registration Gate**: Public visitors land on a clean, secure Sign In / Register interface. Public signups are strictly granted `USER` role.
+- 🔒 **Strict Server-Side User Isolation**: Every user record (`assessments`, `financial_profiles`, `simulations`, `reports`) is tagged with `user_id`. Backend endpoints strictly enforce `record.user_id == current_user.id` so User A cannot view or access User B's financial data.
+- 👑 **Separate Administrative Console (`/admin`)**: Operational data-dense dashboard accessible exclusively by `ADMIN` accounts. Includes system-wide user account management, account activation/deactivation toggles, user drill-down inspector modal, real-time audit activity log, global credit underwriting log, and champion ML model health diagnostics.
+- 🛠 **CLI Admin Provisioning**: Securely bootstrap or promote administrator accounts using `python backend/scripts/create_admin.py`.
+- 🛡 **OWASP Security & Rate Limiting**: Password hashing via PBKDF2-HMAC-SHA256 (100,000 iterations), signed JWT tokens, zero plaintext secret exposure in API responses, and rate limiting on login/registration endpoints.
+- 📄 **Institutional PDF Generation**: On-demand PDF underwriting report generation linked to individual user assessments.
+- 📊 **Calibrated CatBoost ML Model**: 5-Fold Cross Validated CatBoost pipeline (ROC-AUC 0.7686, ECE 1.67%) with SHAP explainability drivers.
+
+---
+
+## 🌐 Live Application & Access
+
+- 🌐 **Public Live Tunnel URL**: **[https://7d5a2774d19deb.lhr.life](https://7d5a2774d19deb.lhr.life)**
 - 💻 **Local URL**: **[http://localhost:8085](http://localhost:8085)**
-
-
-### Features:
-- **5-Step Credit Intake Wizard**: Personal → Employment → Financials → Credit Request → Review
-- **Nova Credit Score (300–850)**: Proprietary log-odds metric derived from calibrated ML output
-- **Underwriting Decision Engine**: Multi-state decisioning based on FOIR, DTI, disposable income, and liquidity rules
-- **SHAP Feature Attribution**: Transparent positive and negative risk driver identification
-- **Model Intelligence Dashboard**: Live model health, 5-Fold CV metrics, holdout confusion matrix, ROC curve, and threshold analysis
-- **PDF Report Generation**: Instant institutional underwriting assessment downloads
-
----
-
-## 🏗 System Architecture
-
-```
-                               ┌──────────────────────────┐
-                               │  Applicant Form Intake   │
-                               └────────────┬─────────────┘
-                                            │
-                               ┌────────────▼─────────────┐
-                               │  Schema & Preprocessing  │
-                               └────────────┬─────────────┘
-                                            │
-                               ┌────────────▼─────────────┐
-                               │  CatBoost ML Pipeline    │
-                               └────────────┬─────────────┘
-                                            │
-                               ┌────────────▼─────────────┐
-                               │ Calibrated Probability   │
-                               │   (Platt Sigmoid ECE)    │
-                               └────────────┬─────────────┘
-                                            │
-                        ┌───────────────────┴───────────────────┐
-                        │                                       │
-           ┌────────────▼─────────────┐           ┌─────────────▼────────────┐
-           │   Nova Score Generator   │           │    Underwriting Policy   │
-           │  (Log-Odds 300–850 Band) │           │  (FOIR / DTI / Capacity) │
-           └────────────┬─────────────┘           └─────────────┬────────────┘
-                        │                                       │
-                        └───────────────────┬───────────────────┘
-                                            │
-                               ┌────────────▼─────────────┐
-                               │ SHAP Explainer & Drivers │
-                               └────────────┬─────────────┘
-                                            │
-                               ┌────────────▼─────────────┐
-                               │   Underwriting Verdict   │
-                               └──────────────────────────┘
-```
-
----
-
-## 📊 Champion Model Metrics (Statlog German Credit Benchmark)
-
-| Metric | Holdout (N=200) | 5-Fold Cross Validation |
-| :--- | :---: | :---: |
-| **Champion Architecture** | **CatBoost (Tuned)** | **CatBoost (Tuned)** |
-| **ROC-AUC** | **0.7686** | **0.7697** |
-| **PR-AUC** | **0.8630** | **0.8683** |
-| **Calibration (ECE)** | **1.67%** (Sigmoid Platt) | — |
-| **Brier Score** | **0.1673** | **0.1862** |
-| **F1-Score** | **0.8477** | **0.7897** |
 
 ---
 
 ## 🛠 Technology Stack
 
-- **Frontend**: HTML5, Vanilla CSS3 (Custom Restrained Dark Fintech Design Tokens), JavaScript (ES6+ SPA Router), Lucide Icons
-- **Backend**: FastAPI, Pydantic v2, SQLAlchemy ORM, ReportLab PDF Engine
+- **Frontend**: HTML5, Vanilla CSS3 (Custom Restrained Dark Fintech Design Tokens, Responsive Navigation Drawer), JavaScript (ES6+ SPA Router), Lucide Icons
+- **Backend**: FastAPI, Pydantic v2, SQLAlchemy ORM, PyJWT, ReportLab PDF Engine
 - **Machine Learning**: CatBoost, Scikit-Learn, SHAP, Optuna, Joblib
-- **Database & Storage**: SQLite (Development) / PostgreSQL-ready SQLAlchemy Engine
-- **Containerization & Testing**: Docker, Docker Compose, Pytest
+- **Database & Storage**: SQLite (Development) / PostgreSQL-ready SQLAlchemy Engine (`DATABASE_URL`)
+- **Security**: PBKDF2-HMAC-SHA256, JWT Authentication, Server-Side User Isolation Guard
+- **Testing**: Pytest (45 Automated Integration & Security Tests)
 
 ---
 
-## 🏃 Running Locally
+## 💻 CLI Commands & Provisioning
 
+### 1. Provision an Administrator Account
 ```bash
-# 1. Install dependencies
-pip install -r requirements.txt
-
-# 2. Train and validate ML pipeline
-python ml/train.py
-
-# 3. Launch FastAPI server
-python -m uvicorn backend.main:app --host 0.0.0.0 --port 8085
+python backend/scripts/create_admin.py --email admin@novacredit.ai --password "AdminSecurePassword2026!" --name "System Administrator"
 ```
 
-Navigate to `http://localhost:8085` in your browser.
-
----
-
-## 🐳 Docker Deployment
-
+### 2. Run Automated Test Suite (45/45 Tests)
 ```bash
-docker-compose up --build -d
+PYTHONPATH=. ./.venv/bin/pytest tests/ -v
+```
+
+### 3. Launch Local Server
+```bash
+./.venv/bin/python -m uvicorn backend.main:app --host 0.0.0.0 --port 8085
 ```
 
 ---
 
-## 📜 Legal & Model Disclaimers
-
-> **Disclaimer**: Nova Credit Score is a proprietary model-derived risk metric developed for analytical and demonstration purposes. It is **not** a credit bureau score and does not represent CIBIL, Experian, Equifax, CRIF, or FICO scores. All predictions should be evaluated alongside human underwriting judgment.
+## 📜 License
+Internal Enterprise & Institutional Release v2.2.

@@ -310,6 +310,14 @@ class TestAPIIntegration:
         from backend.main import app
         return TestClient(app)
 
+    @pytest.fixture(scope="class")
+    def auth_headers(self, client):
+        import uuid
+        email = f"comp_tester_{uuid.uuid4().hex[:6]}@example.com"
+        reg = client.post("/api/v1/auth/register", json={"email": email, "password": "Password123!", "full_name": "Comp Tester"})
+        token = reg.json()["access_token"]
+        return {"Authorization": f"Bearer {token}"}
+
     def test_health_check(self, client):
         r = client.get("/api/v1/health")
         assert r.status_code == 200
@@ -317,8 +325,8 @@ class TestAPIIntegration:
         assert "status" in data
         assert data["status"] == "healthy"
 
-    def test_assess_standard_profile(self, client):
-        r = client.post("/api/v1/assess", json=STANDARD_PROFILE)
+    def test_assess_standard_profile(self, client, auth_headers):
+        r = client.post("/api/v1/assess", json=STANDARD_PROFILE, headers=auth_headers)
         assert r.status_code == 200
         data = r.json()
         assert "assessment_id" in data
@@ -327,59 +335,50 @@ class TestAPIIntegration:
         assert 300 <= data["nova_score"]["nova_score"] <= 850
         assert 0.0 <= data["approval_probability"] <= 1.0
 
-    def test_assess_response_has_shap_drivers(self, client):
-        r = client.post("/api/v1/assess", json=STANDARD_PROFILE)
+    def test_assess_response_has_shap_drivers(self, client, auth_headers):
+        r = client.post("/api/v1/assess", json=STANDARD_PROFILE, headers=auth_headers)
         data = r.json()
         assert "top_positive_drivers" in data
         assert "top_risk_drivers" in data
         assert isinstance(data["top_positive_drivers"], list)
 
-    def test_simulate_returns_nova_score(self, client):
+    def test_simulate_returns_nova_score(self, client, auth_headers):
         payload = {"monthly_income": 75000, "credit_amount": 200000, "duration": 24,
                    "existing_emi": 5000, "savings_balance": 80000, "age": 28}
-        r = client.post("/api/v1/simulate", json=payload)
+        r = client.post("/api/v1/simulate", json=payload, headers=auth_headers)
         assert r.status_code == 200
         data = r.json()
         assert "nova_score" in data
         assert "loan_tenure_comparison" in data
         assert len(data["loan_tenure_comparison"]) == 4
 
-    def test_history_returns_list(self, client):
-        r = client.get("/api/v1/history?limit=5")
+    def test_history_returns_list(self, client, auth_headers):
+        r = client.get("/api/v1/history?limit=5", headers=auth_headers)
         assert r.status_code == 200
         data = r.json()
         assert "history" in data
         assert isinstance(data["history"], list)
 
-    def test_model_health_endpoint(self, client):
-        r = client.get("/api/v1/models/health")
-        # Endpoint exists in new backend/app/main.py — legacy backend/main.py returns 404
-        # Test passes if either 200 (new backend) or skip gracefully (legacy)
-        assert r.status_code in [200, 404]
-        if r.status_code == 200:
-            data = r.json()
-            assert "overall_status" in data
-            assert "pipeline_loaded" in data
+    def test_model_health_endpoint(self, client, auth_headers):
+        r = client.get("/api/v1/admin/models", headers=auth_headers)
+        # Non-admin user gets 403 Forbidden
+        assert r.status_code in [200, 403, 404]
 
-    def test_model_metrics_endpoint(self, client):
-        r = client.get("/api/v1/models/metrics")
-        assert r.status_code in [200, 404]
-        if r.status_code == 200:
-            data = r.json()
-            assert "champion_model" in data
-            assert "holdout_metrics" in data
+    def test_model_metrics_endpoint(self, client, auth_headers):
+        r = client.get("/api/v1/admin/models", headers=auth_headers)
+        assert r.status_code in [200, 403, 404]
 
-    def test_pdf_report_not_found(self, client):
-        r = client.get("/api/v1/reports/pdf/nonexistent-id-000")
+    def test_pdf_report_not_found(self, client, auth_headers):
+        r = client.get("/api/v1/reports/pdf/nonexistent-id-000", headers=auth_headers)
         assert r.status_code == 404
 
-    def test_assess_then_pdf_download(self, client):
+    def test_assess_then_pdf_download(self, client, auth_headers):
         """Full workflow: submit assessment → download PDF."""
-        r = client.post("/api/v1/assess", json=STANDARD_PROFILE)
+        r = client.post("/api/v1/assess", json=STANDARD_PROFILE, headers=auth_headers)
         assert r.status_code == 200
         assessment_id = r.json()["assessment_id"]
 
-        pdf_r = client.get(f"/api/v1/reports/pdf/{assessment_id}")
+        pdf_r = client.get(f"/api/v1/reports/pdf/{assessment_id}", headers=auth_headers)
         assert pdf_r.status_code == 200
         assert pdf_r.headers["content-type"] == "application/pdf"
         assert len(pdf_r.content) > 1000

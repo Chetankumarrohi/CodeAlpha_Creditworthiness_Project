@@ -1,65 +1,60 @@
-# 🚀 Deployment Guide — Nova Credit AI
+# 🚀 Multi-User Deployment & Administration Guide — Nova Credit AI
 
-Production deployment instructions for the **Nova Credit AI** project.
-
----
-
-## 1. Local Quickstart
-
-### Streamlit Dashboard
-```bash
-./run.sh
-# or
-streamlit run app/app.py
-```
-Open [http://localhost:8501](http://localhost:8501) in your browser.
-
-### Web Server & REST API
-```bash
-./run.sh server
-# or
-python backend/server.py 8085
-```
-Open [http://localhost:8085](http://localhost:8085) for the web client or test `/api/predict` & `/api/health`.
-
-### Retrain Model
-```bash
-./run.sh train
-```
+Production deployment and administrative setup guide for **Nova Credit AI v2.2**.
 
 ---
 
-## 2. Docker Deployment
+## 1. Environment Configuration
 
-### Run with Docker Compose (Both Dashboard & API Server)
+Copy `.env.example` to `.env` and set environment variables:
+
 ```bash
-docker-compose up --build
+cp .env.example .env
 ```
-- Streamlit Dashboard: `http://localhost:8501`
-- REST API Server: `http://localhost:8085`
 
-### Build Single Docker Image
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `DATABASE_URL` | SQLAlchemy connection string | `sqlite:///./data/nova_credit.db` |
+| `SECRET_KEY` | 32+ character random secret key for JWT signing | `nova-prod-secret-key-...` |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | JWT token lifespan in minutes | `120` |
+| `ALLOWED_ORIGINS` | CORS origins allowed to access API | `*` |
+| `ADMIN_BOOTSTRAP_EMAIL` | Optional initial admin email | `admin@novacredit.ai` |
+| `ADMIN_BOOTSTRAP_PASSWORD` | Optional initial admin password | `AdminSecurePassword2026!` |
+
+---
+
+## 2. Administrator Provisioning CLI
+
+Provision or promote an admin account via command line:
+
 ```bash
-docker build -t nova-credit-ai .
-docker run -p 8501:8501 nova-credit-ai
+python backend/scripts/create_admin.py --email admin@novacredit.ai --password "AdminSecurePassword2026!" --name "System Administrator"
+```
+
+- Public signups (`/api/v1/auth/register`) strictly assign `role = USER`.
+- Administrative access to `/admin` routes requires an account created or promoted via this CLI.
+
+---
+
+## 3. Production Deployment
+
+### FastAPI Application Server
+```bash
+./.venv/bin/python -m uvicorn backend.main:app --host 0.0.0.0 --port 8085 --workers 4
+```
+
+### Docker Deployment
+```bash
+docker build -t novacredit:v2.2 .
+docker run -d -p 8085:8085 --env-file .env novacredit:v2.2
 ```
 
 ---
 
-## 3. Deploy to Streamlit Community Cloud (1-Click Free Deploy)
+## 4. Security & Audit Verification
 
-1. Push your repository to GitHub.
-2. Go to [share.streamlit.io](https://share.streamlit.io).
-3. Connect your GitHub repository.
-4. Set **Main file path** to `app/app.py`.
-5. Click **Deploy**!
+Run the automated Pytest test suite covering authentication, user data isolation, and RBAC admin route protection:
 
----
-
-## 4. Deploy to Render / Railway
-
-1. Connect your repository to Render or Railway.
-2. Select **Docker** environment (or Python 3.11 web service).
-3. Set Build Command: `pip install -r requirements.txt && python src/train_model.py`
-4. Set Start Command: `streamlit run app/app.py --server.port=$PORT --server.address=0.0.0.0`
-5. Click Deploy!
+```bash
+PYTHONPATH=. ./.venv/bin/pytest tests/ -v
+```

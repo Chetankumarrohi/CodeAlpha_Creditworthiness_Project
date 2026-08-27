@@ -1,17 +1,28 @@
 """
-SQLAlchemy database session and ORM base — SQLite (dev) / PostgreSQL (prod).
-Includes User authentication, Role-Based Access Control (RBAC), and Private Assessment History.
+SQLAlchemy database session and ORM models — SQLite (dev) / PostgreSQL (prod).
+Implements multi-tenant user isolation, role-based access control (RBAC),
+financial profiles, credit assessments, loan simulations, report tracking, and activity audit logging.
 """
+import os
 import json
+import uuid
 from datetime import datetime, timezone
+from typing import Optional, List, Dict, Any
+
 from sqlalchemy import (
-    create_engine, Column, String, Integer, Float, Boolean, Text, DateTime, ForeignKey
+    create_engine, Column, String, Integer, Float, Boolean, Text, ForeignKey, desc
 )
 from sqlalchemy.orm import declarative_base, sessionmaker, Session, relationship
 from backend.app.core.config import get_settings
 from backend.app.core.security import hash_password
 
 settings = get_settings()
+
+# Ensure directory for SQLite DB exists if using file path
+if "sqlite" in settings.DATABASE_URL:
+    db_path = settings.DATABASE_URL.replace("sqlite:///", "")
+    if "./" in db_path:
+        os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
 
 connect_args = {"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {}
 
@@ -30,75 +41,119 @@ Base = declarative_base()
 class UserRecord(Base):
     __tablename__ = "users"
 
-    id = Column(String, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True, nullable=False)
-    hashed_password = Column(String, nullable=False)
-    full_name = Column(String, nullable=False)
-    role = Column(String, default="user")   # 'admin' or 'user'
-    created_at = Column(String, nullable=False)
+    id = Column(String(36), primary_key=True, index=True)
+    email = Column(String(255), unique=True, index=True, nullable=False)
+    password_hash = Column(String(255), nullable=False)
+    full_name = Column(String(255), nullable=False)
+    role = Column(String(32), default="USER", nullable=False)   # "USER" | "ADMIN"
+    is_active = Column(Boolean, default=True, nullable=False)
+    email_verified = Column(Boolean, default=True, nullable=False)
+    created_at = Column(String(64), nullable=False)
+    updated_at = Column(String(64), nullable=False)
+    last_login_at = Column(String(64), nullable=True)
+
+    # Relationships
+    assessments = relationship("CreditAssessmentRecord", back_populates="user", cascade="all, delete-orphan")
+    financial_profile = relationship("FinancialProfileRecord", back_populates="user", uselist=False, cascade="all, delete-orphan")
+    simulations = relationship("LoanSimulationRecord", back_populates="user", cascade="all, delete-orphan")
+    reports = relationship("ReportRecord", back_populates="user", cascade="all, delete-orphan")
+    activities = relationship("ActivityLog", back_populates="user", cascade="all, delete-orphan")
+
+
+class FinancialProfileRecord(Base):
+    __tablename__ = "financial_profiles"
+
+    id = Column(String(36), primary_key=True, index=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), unique=True, nullable=False, index=True)
+    monthly_income = Column(Float, default=50000.0, nullable=False)
+    existing_emi = Column(Float, default=0.0, nullable=False)
+    savings_balance = Column(Float, default=100000.0, nullable=False)
+    housing_type = Column(String(64), default="own", nullable=False)
+    employment_status = Column(String(64), default="skilled", nullable=False)
+    credit_purpose = Column(String(64), default="personal", nullable=False)
+    created_at = Column(String(64), nullable=False)
+    updated_at = Column(String(64), nullable=False)
+
+    user = relationship("UserRecord", back_populates="financial_profile")
 
 
 class CreditAssessmentRecord(Base):
     __tablename__ = "credit_assessments"
 
-    id = Column(String, primary_key=True, index=True)
-    user_id = Column(String, ForeignKey("users.id"), nullable=True, index=True)
-    user_email = Column(String, nullable=True)
-    timestamp = Column(String, nullable=False)
-    applicant_name = Column(String, nullable=True)
-    applicant_age = Column(Integer, nullable=True)
-    monthly_income = Column(Float, nullable=True)
-    requested_loan = Column(Float, nullable=True)
-    tenure_months = Column(Integer, nullable=True)
-    nova_score = Column(Integer, nullable=True)
-    risk_tier = Column(String, nullable=True)
-    approval_probability = Column(Float, nullable=True)
-    decision = Column(String, nullable=True)
-    foir_ratio = Column(Float, nullable=True)
-    dti_ratio = Column(Float, nullable=True)
+    id = Column(String(36), primary_key=True, index=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    applicant_name = Column(String(255), nullable=False)
+    applicant_age = Column(Integer, nullable=False)
+    monthly_income = Column(Float, nullable=False)
+    requested_loan = Column(Float, nullable=False)
+    tenure_months = Column(Integer, nullable=False)
+    nova_score = Column(Integer, nullable=False)
+    risk_tier = Column(String(64), nullable=False)
+    approval_probability = Column(Float, nullable=False)
+    decision = Column(String(64), nullable=False)
+    foir_ratio = Column(Float, nullable=False)
+    dti_ratio = Column(Float, nullable=False)
     raw_payload = Column(Text, nullable=False)
     result_payload = Column(Text, nullable=False)
+    model_version = Column(String(64), default="v2.2-CatBoost", nullable=False)
+    created_at = Column(String(64), nullable=False)
+
+    user = relationship("UserRecord", back_populates="assessments")
+    reports = relationship("ReportRecord", back_populates="assessment", cascade="all, delete-orphan")
 
 
-class AuditEvent(Base):
-    __tablename__ = "audit_events"
+class LoanSimulationRecord(Base):
+    __tablename__ = "loan_simulations"
+
+    id = Column(String(36), primary_key=True, index=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    monthly_income = Column(Float, nullable=False)
+    requested_amount = Column(Float, nullable=False)
+    tenure_months = Column(Integer, nullable=False)
+    simulated_nova_score = Column(Integer, nullable=False)
+    simulated_approval_pct = Column(Float, nullable=False)
+    decision = Column(String(64), nullable=False)
+    inputs_json = Column(Text, nullable=False)
+    outputs_json = Column(Text, nullable=False)
+    created_at = Column(String(64), nullable=False)
+
+    user = relationship("UserRecord", back_populates="simulations")
+
+
+class ReportRecord(Base):
+    __tablename__ = "reports"
+
+    id = Column(String(36), primary_key=True, index=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    assessment_id = Column(String(36), ForeignKey("credit_assessments.id", ondelete="CASCADE"), nullable=False, index=True)
+    applicant_name = Column(String(255), nullable=False)
+    report_type = Column(String(64), default="PDF_ASSESSMENT", nullable=False)
+    created_at = Column(String(64), nullable=False)
+
+    user = relationship("UserRecord", back_populates="reports")
+    assessment = relationship("CreditAssessmentRecord", back_populates="reports")
+
+
+class ActivityLog(Base):
+    __tablename__ = "activity_logs"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    timestamp = Column(String, nullable=False)
-    event_type = Column(String, nullable=False)   # LOGIN | REGISTER | ASSESSMENT | SIMULATE | PDF_DOWNLOAD
-    user_id = Column(String, nullable=True)
-    assessment_id = Column(String, nullable=True)
-    applicant_name = Column(String, nullable=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True, index=True)
+    user_email = Column(String(255), nullable=True)
+    action = Column(String(64), nullable=False, index=True)
+    resource_type = Column(String(64), nullable=True)
+    resource_id = Column(String(64), nullable=True)
+    timestamp = Column(String(64), nullable=False, index=True)
     details = Column(Text, nullable=True)
+    ip_address = Column(String(64), nullable=True)
+
+    user = relationship("UserRecord", back_populates="activities")
 
 
-# ─── Initialization & Default Admin Seeding ──────────────────────────────────
-
-def init_db():
-    Base.metadata.create_all(bind=engine)
-    
-    # Seed Single Default Admin User
-    db = SessionLocal()
-    try:
-        admin_user = db.query(UserRecord).filter(UserRecord.email == "admin@novacredit.ai").first()
-        if not admin_user:
-            admin_record = UserRecord(
-                id="admin-0001",
-                email="admin@novacredit.ai",
-                hashed_password=hash_password("Admin@123456"),
-                full_name="System Administrator",
-                role="admin",
-                created_at=datetime.now(timezone.utc).isoformat(),
-            )
-            db.add(admin_record)
-            db.commit()
-    except Exception as e:
-        db.rollback()
-    finally:
-        db.close()
-
+# ─── Database Dependency ──────────────────────────────────────────────────────
 
 def get_db():
+    Base.metadata.create_all(bind=engine)
     db: Session = SessionLocal()
     try:
         yield db
@@ -106,38 +161,223 @@ def get_db():
         db.close()
 
 
-# ─── User & Assessment Persistence Helpers ────────────────────────────────────
+# ─── Database Initialization & Bootstrap ──────────────────────────────────────
 
-def get_user_by_email(db: Session, email: str) -> UserRecord | None:
+def init_db():
+    """Initializes tables and optionally bootstraps the administrator account if configured via env."""
+    Base.metadata.create_all(bind=engine)
+
+    # Optional initial admin bootstrap from environment variables
+    admin_email = getattr(settings, "ADMIN_BOOTSTRAP_EMAIL", None) or os.getenv("ADMIN_BOOTSTRAP_EMAIL")
+    admin_password = getattr(settings, "ADMIN_BOOTSTRAP_PASSWORD", None) or os.getenv("ADMIN_BOOTSTRAP_PASSWORD")
+
+    if admin_email and admin_password:
+        db = SessionLocal()
+        try:
+            admin_user = db.query(UserRecord).filter(UserRecord.email == admin_email.lower().strip()).first()
+            if not admin_user:
+                now_str = datetime.now(timezone.utc).isoformat()
+                admin_record = UserRecord(
+                    id="ADMIN-" + uuid.uuid4().hex[:8].upper(),
+                    email=admin_email.lower().strip(),
+                    password_hash=hash_password(admin_password),
+                    full_name="System Administrator",
+                    role="ADMIN",
+                    is_active=True,
+                    email_verified=True,
+                    created_at=now_str,
+                    updated_at=now_str,
+                )
+                db.add(admin_record)
+                db.commit()
+        except Exception as e:
+            db.rollback()
+        finally:
+            db.close()
+
+
+# ─── User Repository Helpers ──────────────────────────────────────────────────
+
+def get_user_by_email(db: Session, email: str) -> Optional[UserRecord]:
+    if not email:
+        return None
     return db.query(UserRecord).filter(UserRecord.email == email.lower().strip()).first()
 
 
-def get_user_by_id(db: Session, user_id: str) -> UserRecord | None:
+def get_user_by_id(db: Session, user_id: str) -> Optional[UserRecord]:
+    if not user_id:
+        return None
     return db.query(UserRecord).filter(UserRecord.id == user_id).first()
 
 
-def create_user(db: Session, user_id: str, email: str, password_plain: str, full_name: str, role: str = "user") -> UserRecord:
+def create_user(
+    db: Session,
+    user_id: str,
+    email: str,
+    password_plain: str,
+    full_name: str,
+    role: str = "USER"
+) -> UserRecord:
+    now_str = datetime.now(timezone.utc).isoformat()
+    # Normalize role to uppercase
+    clean_role = "ADMIN" if role.upper() == "ADMIN" else "USER"
     user = UserRecord(
         id=user_id,
         email=email.lower().strip(),
-        hashed_password=hash_password(password_plain),
+        password_hash=hash_password(password_plain),
         full_name=full_name.strip(),
-        role=role,
-        created_at=datetime.now(timezone.utc).isoformat(),
+        role=clean_role,
+        is_active=True,
+        email_verified=True,
+        created_at=now_str,
+        updated_at=now_str,
     )
     db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    # Initialize default financial profile for user
+    profile = FinancialProfileRecord(
+        id="FP-" + uuid.uuid4().hex[:8].upper(),
+        user_id=user.id,
+        monthly_income=50000.0,
+        existing_emi=0.0,
+        savings_balance=100000.0,
+        housing_type="own",
+        employment_status="skilled",
+        credit_purpose="personal",
+        created_at=now_str,
+        updated_at=now_str,
+    )
+    db.add(profile)
+    db.commit()
+
+    return user
+
+
+def update_user_last_login(db: Session, user_id: str):
+    user = get_user_by_id(db, user_id)
+    if user:
+        user.last_login_at = datetime.now(timezone.utc).isoformat()
+        db.commit()
+
+
+def update_user_password(db: Session, user_id: str, new_password_plain: str) -> bool:
+    user = get_user_by_id(db, user_id)
+    if not user:
+        return False
+    user.password_hash = hash_password(new_password_plain)
+    user.updated_at = datetime.now(timezone.utc).isoformat()
+    db.commit()
+    return True
+
+
+def update_user_profile(db: Session, user_id: str, full_name: str, email: str = None) -> Optional[UserRecord]:
+    user = get_user_by_id(db, user_id)
+    if not user:
+        return None
+    if full_name:
+        user.full_name = full_name.strip()
+    if email:
+        user.email = email.lower().strip()
+    user.updated_at = datetime.now(timezone.utc).isoformat()
     db.commit()
     db.refresh(user)
     return user
 
 
-def save_assessment_orm(db: Session, assessment_id: str, applicant_name: str,
-                         payload: dict, result: dict, user_id: str = None, user_email: str = None):
+def toggle_user_status(db: Session, user_id: str, is_active: bool) -> Optional[UserRecord]:
+    user = get_user_by_id(db, user_id)
+    if not user:
+        return None
+    user.is_active = is_active
+    user.updated_at = datetime.now(timezone.utc).isoformat()
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+def get_all_users(
+    db: Session,
+    search: Optional[str] = None,
+    role: Optional[str] = None,
+    limit: int = 100,
+    offset: int = 0
+) -> List[UserRecord]:
+    query = db.query(UserRecord)
+    if search:
+        s = f"%{search.strip()}%"
+        query = query.filter(
+            (UserRecord.email.ilike(s)) |
+            (UserRecord.full_name.ilike(s)) |
+            (UserRecord.id.ilike(s))
+        )
+    if role:
+        query = query.filter(UserRecord.role == role.upper())
+    return query.order_by(desc(UserRecord.created_at)).offset(offset).limit(limit).all()
+
+
+def count_users(db: Session) -> int:
+    return db.query(UserRecord).count()
+
+
+# ─── Financial Profile Helpers ────────────────────────────────────────────────
+
+def get_financial_profile(db: Session, user_id: str) -> Optional[FinancialProfileRecord]:
+    return db.query(FinancialProfileRecord).filter(FinancialProfileRecord.user_id == user_id).first()
+
+
+def save_or_update_financial_profile(db: Session, user_id: str, data: dict) -> FinancialProfileRecord:
+    profile = get_financial_profile(db, user_id)
+    now_str = datetime.now(timezone.utc).isoformat()
+    if not profile:
+        profile = FinancialProfileRecord(
+            id="FP-" + uuid.uuid4().hex[:8].upper(),
+            user_id=user_id,
+            monthly_income=float(data.get("monthly_income", 50000)),
+            existing_emi=float(data.get("existing_emi", 0)),
+            savings_balance=float(data.get("savings_balance", 100000)),
+            housing_type=str(data.get("housing_type", "own")),
+            employment_status=str(data.get("employment_status", "skilled")),
+            credit_purpose=str(data.get("credit_purpose", "personal")),
+            created_at=now_str,
+            updated_at=now_str,
+        )
+        db.add(profile)
+    else:
+        if "monthly_income" in data:
+            profile.monthly_income = float(data["monthly_income"])
+        if "existing_emi" in data:
+            profile.existing_emi = float(data["existing_emi"])
+        if "savings_balance" in data:
+            profile.savings_balance = float(data["savings_balance"])
+        if "housing_type" in data:
+            profile.housing_type = str(data["housing_type"])
+        if "employment_status" in data:
+            profile.employment_status = str(data["employment_status"])
+        if "credit_purpose" in data:
+            profile.credit_purpose = str(data["credit_purpose"])
+        profile.updated_at = now_str
+
+    db.commit()
+    db.refresh(profile)
+    return profile
+
+
+# ─── Credit Assessment Helpers ────────────────────────────────────────────────
+
+def save_assessment_orm(
+    db: Session,
+    assessment_id: str,
+    applicant_name: str,
+    payload: dict,
+    result: dict,
+    user_id: str
+) -> CreditAssessmentRecord:
+    now_str = datetime.now(timezone.utc).isoformat()
     record = CreditAssessmentRecord(
         id=assessment_id,
         user_id=user_id,
-        user_email=user_email,
-        timestamp=datetime.now(timezone.utc).isoformat(),
         applicant_name=applicant_name,
         applicant_age=int(payload.get("age", 30)),
         monthly_income=float(payload.get("monthly_income", 50000)),
@@ -151,6 +391,8 @@ def save_assessment_orm(db: Session, assessment_id: str, applicant_name: str,
         dti_ratio=float(result.get("decision_engine", {}).get("dti_ratio", 0.2)),
         raw_payload=json.dumps(payload),
         result_payload=json.dumps(result),
+        model_version="v2.2-CatBoost",
+        created_at=now_str,
     )
     db.add(record)
     db.commit()
@@ -158,56 +400,287 @@ def save_assessment_orm(db: Session, assessment_id: str, applicant_name: str,
     return record
 
 
-def log_audit_event(db: Session, event_type: str, user_id: str = None, assessment_id: str = None,
-                     applicant_name: str = None, details: dict = None):
-    event = AuditEvent(
-        timestamp=datetime.now(timezone.utc).isoformat(),
-        event_type=event_type,
-        user_id=user_id,
-        assessment_id=assessment_id,
-        applicant_name=applicant_name,
-        details=json.dumps(details) if details else None,
-    )
-    db.add(event)
-    db.commit()
-
-
-def get_assessment_by_id(db: Session, assessment_id: str) -> dict | None:
-    record = db.query(CreditAssessmentRecord).filter(
-        CreditAssessmentRecord.id == assessment_id
-    ).first()
+def get_assessment_by_id(
+    db: Session,
+    assessment_id: str,
+    user_id: Optional[str] = None,
+    is_admin: bool = False
+) -> Optional[dict]:
+    query = db.query(CreditAssessmentRecord).filter(CreditAssessmentRecord.id == assessment_id)
+    if not is_admin and user_id:
+        query = query.filter(CreditAssessmentRecord.user_id == user_id)
+    record = query.first()
     if record:
-        return json.loads(record.result_payload)
+        res = json.loads(record.result_payload)
+        res["id"] = record.id
+        res["user_id"] = record.user_id
+        res["created_at"] = record.created_at
+        return res
     return None
 
 
-def get_history(db: Session, user_id: str = None, is_admin: bool = False, limit: int = 50) -> list:
+def get_history(
+    db: Session,
+    user_id: Optional[str] = None,
+    is_admin: bool = False,
+    limit: int = 50,
+    offset: int = 0,
+    search: Optional[str] = None
+) -> List[Dict[str, Any]]:
     query = db.query(CreditAssessmentRecord)
-    if is_admin:
-        # Admin mode: view all assessments across all users
-        pass
-    elif user_id:
-        # User mode: view ONLY assessments belonging to this specific user ID
+    if not is_admin:
+        if not user_id:
+            return []  # Strict isolation: Unauthenticated sessions receive empty list
         query = query.filter(CreditAssessmentRecord.user_id == user_id)
-    else:
-        # Guest mode: view ONLY unauthenticated guest assessments
-        query = query.filter(CreditAssessmentRecord.user_id == None)
-    
-    rows = query.order_by(CreditAssessmentRecord.timestamp.desc()).limit(limit).all()
+    elif user_id:
+        query = query.filter(CreditAssessmentRecord.user_id == user_id)
+
+    if search:
+        s = f"%{search.strip()}%"
+        query = query.filter(
+            (CreditAssessmentRecord.applicant_name.ilike(s)) |
+            (CreditAssessmentRecord.id.ilike(s))
+        )
+
+    rows = query.order_by(desc(CreditAssessmentRecord.created_at)).offset(offset).limit(limit).all()
     return [
         {
             "id": r.id,
-            "user_id": r.user_id or "GUEST-SESSION",
-            "user_email": r.user_email or "Guest User",
-            "timestamp": r.timestamp,
+            "user_id": r.user_id,
+            "timestamp": r.created_at,
             "applicant_name": r.applicant_name,
+            "applicant_age": r.applicant_age,
+            "monthly_income": r.monthly_income,
             "requested_loan": r.requested_loan,
+            "tenure_months": r.tenure_months,
             "nova_score": r.nova_score,
             "risk_tier": r.risk_tier,
             "approval_probability": round((r.approval_probability or 0.75) * 100, 1),
             "decision": r.decision,
             "foir_ratio": round((r.foir_ratio or 0.3) * 100, 1),
+            "dti_ratio": round((r.dti_ratio or 0.2) * 100, 1),
+            "model_version": r.model_version,
         }
         for r in rows
     ]
 
+
+def count_assessments(db: Session, user_id: Optional[str] = None) -> int:
+    query = db.query(CreditAssessmentRecord)
+    if user_id:
+        query = query.filter(CreditAssessmentRecord.user_id == user_id)
+    return query.count()
+
+
+# ─── Loan Simulation Helpers ──────────────────────────────────────────────────
+
+def save_loan_simulation(db: Session, user_id: str, inputs: dict, outputs: dict) -> LoanSimulationRecord:
+    now_str = datetime.now(timezone.utc).isoformat()
+    record = LoanSimulationRecord(
+        id="SIM-" + uuid.uuid4().hex[:8].upper(),
+        user_id=user_id,
+        monthly_income=float(inputs.get("monthly_income", 50000)),
+        requested_amount=float(inputs.get("credit_amount", 100000)),
+        tenure_months=int(inputs.get("duration", 12)),
+        simulated_nova_score=int(outputs.get("nova_score", {}).get("nova_score", 700)),
+        simulated_approval_pct=float(outputs.get("approval_percentage", 75.0)),
+        decision=str(outputs.get("decision_engine", {}).get("decision", "Likely Eligible")),
+        inputs_json=json.dumps(inputs),
+        outputs_json=json.dumps(outputs),
+        created_at=now_str,
+    )
+    db.add(record)
+    db.commit()
+    db.refresh(record)
+    return record
+
+
+def get_loan_simulations(
+    db: Session,
+    user_id: Optional[str] = None,
+    is_admin: bool = False,
+    limit: int = 50
+) -> List[Dict[str, Any]]:
+    query = db.query(LoanSimulationRecord)
+    if not is_admin:
+        if not user_id:
+            return []
+        query = query.filter(LoanSimulationRecord.user_id == user_id)
+    elif user_id:
+        query = query.filter(LoanSimulationRecord.user_id == user_id)
+
+    rows = query.order_by(desc(LoanSimulationRecord.created_at)).limit(limit).all()
+    return [
+        {
+            "id": r.id,
+            "user_id": r.user_id,
+            "monthly_income": r.monthly_income,
+            "requested_amount": r.requested_amount,
+            "tenure_months": r.tenure_months,
+            "simulated_nova_score": r.simulated_nova_score,
+            "simulated_approval_pct": r.simulated_approval_pct,
+            "decision": r.decision,
+            "inputs": json.loads(r.inputs_json),
+            "outputs": json.loads(r.outputs_json),
+            "created_at": r.created_at,
+        }
+        for r in rows
+    ]
+
+
+# ─── Report Helpers ───────────────────────────────────────────────────────────
+
+def save_report_record(
+    db: Session,
+    user_id: str,
+    assessment_id: str,
+    applicant_name: str,
+    report_type: str = "PDF_ASSESSMENT"
+) -> ReportRecord:
+    now_str = datetime.now(timezone.utc).isoformat()
+    record = ReportRecord(
+        id="REP-" + uuid.uuid4().hex[:8].upper(),
+        user_id=user_id,
+        assessment_id=assessment_id,
+        applicant_name=applicant_name,
+        report_type=report_type,
+        created_at=now_str,
+    )
+    db.add(record)
+    db.commit()
+    db.refresh(record)
+    return record
+
+
+def get_user_reports(
+    db: Session,
+    user_id: Optional[str] = None,
+    is_admin: bool = False,
+    limit: int = 50
+) -> List[Dict[str, Any]]:
+    query = db.query(ReportRecord)
+    if not is_admin:
+        if not user_id:
+            return []
+        query = query.filter(ReportRecord.user_id == user_id)
+    elif user_id:
+        query = query.filter(ReportRecord.user_id == user_id)
+
+    rows = query.order_by(desc(ReportRecord.created_at)).limit(limit).all()
+    return [
+        {
+            "id": r.id,
+            "user_id": r.user_id,
+            "assessment_id": r.assessment_id,
+            "applicant_name": r.applicant_name,
+            "report_type": r.report_type,
+            "created_at": r.created_at,
+        }
+        for r in rows
+    ]
+
+
+# ─── Activity Audit Logging Helpers ───────────────────────────────────────────
+
+def log_activity(
+    db: Session,
+    action: str,
+    user_id: Optional[str] = None,
+    user_email: Optional[str] = None,
+    resource_type: Optional[str] = None,
+    resource_id: Optional[str] = None,
+    details: Optional[Dict[str, Any]] = None,
+    ip_address: Optional[str] = None
+):
+    """
+    Logs structured user or administrative activity without storing sensitive
+    secrets, passwords, or full raw financial tokens.
+    """
+    try:
+        now_str = datetime.now(timezone.utc).isoformat()
+        # Ensure passwords or tokens are never logged
+        safe_details = {}
+        if details:
+            for k, v in details.items():
+                if "password" in k.lower() or "token" in k.lower() or "secret" in k.lower():
+                    continue
+                safe_details[k] = v
+
+        event = ActivityLog(
+            user_id=user_id,
+            user_email=user_email,
+            action=action,
+            resource_type=resource_type,
+            resource_id=resource_id,
+            timestamp=now_str,
+            details=json.dumps(safe_details) if safe_details else None,
+            ip_address=ip_address,
+        )
+        db.add(event)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+
+
+def get_activity_logs(
+    db: Session,
+    user_id: Optional[str] = None,
+    action: Optional[str] = None,
+    limit: int = 100,
+    offset: int = 0
+) -> List[Dict[str, Any]]:
+    query = db.query(ActivityLog)
+    if user_id:
+        query = query.filter(ActivityLog.user_id == user_id)
+    if action:
+        query = query.filter(ActivityLog.action == action)
+    
+    rows = query.order_by(desc(ActivityLog.timestamp)).offset(offset).limit(limit).all()
+    return [
+        {
+            "id": r.id,
+            "user_id": r.user_id,
+            "user_email": r.user_email or "system",
+            "action": r.action,
+            "resource_type": r.resource_type,
+            "resource_id": r.resource_id,
+            "timestamp": r.timestamp,
+            "details": json.loads(r.details) if r.details else {},
+            "ip_address": r.ip_address,
+        }
+        for r in rows
+    ]
+
+
+def get_system_stats(db: Session) -> Dict[str, Any]:
+    """Calculates operational metrics and system stats for the Admin Dashboard."""
+    total_users = db.query(UserRecord).count()
+    active_users = db.query(UserRecord).filter(UserRecord.is_active == True).count()
+    total_assessments = db.query(CreditAssessmentRecord).count()
+    total_simulations = db.query(LoanSimulationRecord).count()
+    total_reports = db.query(ReportRecord).count()
+    total_events = db.query(ActivityLog).count()
+
+    # Recent signups in last 7 days (or last 5 users)
+    recent_users = db.query(UserRecord).order_by(desc(UserRecord.created_at)).limit(5).all()
+
+    return {
+        "total_users": total_users,
+        "active_users": active_users,
+        "total_assessments": total_assessments,
+        "total_simulations": total_simulations,
+        "total_reports": total_reports,
+        "total_activity_events": total_events,
+        "recent_signups": [
+            {
+                "id": u.id,
+                "email": u.email,
+                "full_name": u.full_name,
+                "role": u.role,
+                "is_active": u.is_active,
+                "created_at": u.created_at,
+                "last_login_at": u.last_login_at,
+            }
+            for u in recent_users
+        ]
+    }
