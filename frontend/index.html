@@ -48,17 +48,17 @@
       </div>
       <div class="field" style="margin-bottom:12px;">
         <label>Email Address</label>
-        <input type="email" id="authEmail" required placeholder="name@company.com" value="admin@novacredit.ai"/>
+        <input type="email" id="authEmail" required placeholder="name@company.com"/>
       </div>
       <div class="field" style="margin-bottom:16px;">
         <label>Password</label>
-        <input type="password" id="authPassword" required placeholder="••••••••" value="Admin@123456"/>
+        <input type="password" id="authPassword" required placeholder="••••••••"/>
       </div>
 
       <div style="background:var(--surface-elevated);padding:10px;border-radius:var(--r-md);border:1px solid var(--border-dim);font-size:11px;color:var(--text-muted);margin-bottom:14px;" id="adminTip">
-        <strong>💡 Single Admin Credentials:</strong><br/>
-        Email: <code style="color:var(--primary);">admin@novacredit.ai</code><br/>
-        Password: <code style="color:var(--primary);">Admin@123456</code>
+        <strong>💡 Single Admin Demo Access:</strong><br/>
+        Email: <code style="color:var(--primary);">admin@novacredit.ai</code> | Password: <code style="color:var(--primary);">Admin@123456</code><br/>
+        <button type="button" class="btn btn-ghost" style="font-size:10px;padding:2px 6px;margin-top:4px;color:var(--primary);" onclick="fillAdminDemo()">Fill Admin Demo Credentials</button>
       </div>
 
       <button type="submit" class="btn btn-primary btn-block" id="authSubmitBtn">
@@ -66,16 +66,18 @@
       </button>
     </form>
     
-    <div style="text-align:center;">
+    <div style="text-align:center;margin-top:10px;">
       <button class="btn btn-ghost" style="font-size:11px;" onclick="closeAuthModal()">Continue as Guest (Public Mode)</button>
     </div>
   </div>
 </div>
 
+<div class="mobile-overlay-bg" id="mobileOverlay" onclick="toggleMobileSidebar()"></div>
+
 <div class="app-shell">
 
   <!-- ════════════════════════ SIDEBAR ════════════════════════ -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="appSidebar">
     <div class="sidebar-header">
       <div class="brand-icon">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -85,6 +87,7 @@
       </div>
       <span class="brand-name">NOVA CREDIT</span>
       <span class="brand-ver">v2.2</span>
+      <button class="mobile-close-btn" onclick="toggleMobileSidebar()"><i data-lucide="x"></i></button>
     </div>
 
     <nav class="sidebar-nav">
@@ -137,11 +140,17 @@
   <!-- ════════════════════════ WORKSPACE ════════════════════════ -->
   <main class="workspace">
     <header class="topbar">
-      <div class="page-title" id="pageTitle">Financial Overview</div>
+      <div class="topbar-left">
+        <button class="mobile-nav-toggle" id="mobileNavBtn" onclick="toggleMobileSidebar()" title="Toggle Navigation Menu">
+          <i data-lucide="menu"></i>
+        </button>
+        <div class="page-title" id="pageTitle">Financial Overview</div>
+      </div>
       <div class="topbar-right">
+        <span id="topbarUserId" class="user-id-chip"></span>
         <div class="status-chip">
           <span class="dot dot-green" id="modelDot"></span>
-          <span id="modelStatus">Champion CatBoost · Platt Calibrated</span>
+          <span id="modelStatus">Champion CatBoost · Calibrated</span>
         </div>
         <button class="btn btn-secondary" style="font-size:11px;padding:5px 10px;" onclick="openAuthModal()" id="topbarAuthBtn">
           <i data-lucide="user"></i><span id="topbarAuthText">Sign In</span>

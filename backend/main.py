@@ -111,7 +111,7 @@ def register(req: UserRegisterRequest, db: Session = Depends(get_db)):
     if existing:
         raise HTTPException(status_code=400, detail="User email already registered")
     
-    user_id = "user-" + str(uuid.uuid4())[:8]
+    user_id = "USR-" + str(uuid.uuid4())[:8].upper()
     user = create_user(db, user_id=user_id, email=req.email, password_plain=req.password, full_name=req.full_name, role="user")
     token = create_access_token(subject=user.id, role=user.role)
     log_audit_event(db, "REGISTER", user_id=user.id, applicant_name=user.full_name)

@@ -183,14 +183,22 @@ def get_assessment_by_id(db: Session, assessment_id: str) -> dict | None:
 
 def get_history(db: Session, user_id: str = None, is_admin: bool = False, limit: int = 50) -> list:
     query = db.query(CreditAssessmentRecord)
-    if not is_admin and user_id:
+    if is_admin:
+        # Admin mode: view all assessments across all users
+        pass
+    elif user_id:
+        # User mode: view ONLY assessments belonging to this specific user ID
         query = query.filter(CreditAssessmentRecord.user_id == user_id)
+    else:
+        # Guest mode: view ONLY unauthenticated guest assessments
+        query = query.filter(CreditAssessmentRecord.user_id == None)
     
     rows = query.order_by(CreditAssessmentRecord.timestamp.desc()).limit(limit).all()
     return [
         {
             "id": r.id,
-            "user_email": r.user_email or "guest",
+            "user_id": r.user_id or "GUEST-SESSION",
+            "user_email": r.user_email or "Guest User",
             "timestamp": r.timestamp,
             "applicant_name": r.applicant_name,
             "requested_loan": r.requested_loan,
@@ -202,3 +210,4 @@ def get_history(db: Session, user_id: str = None, is_admin: bool = False, limit:
         }
         for r in rows
     ]
+

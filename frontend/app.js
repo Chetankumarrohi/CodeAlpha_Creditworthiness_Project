@@ -133,20 +133,42 @@ async function handleAuthSubmit(e) {
   }
 }
 
+function fillAdminDemo() {
+  const emailInput = document.getElementById("authEmail");
+  const passInput  = document.getElementById("authPassword");
+  if (emailInput) emailInput.value = "admin@novacredit.ai";
+  if (passInput)  passInput.value  = "Admin@123456";
+  switchAuthTab("login");
+}
+
+function toggleMobileSidebar() {
+  const sidebar = document.getElementById("appSidebar");
+  const overlay = document.getElementById("mobileOverlay");
+  if (sidebar) sidebar.classList.toggle("mobile-open");
+  if (overlay) overlay.classList.toggle("active");
+}
+
 function updateUserUI() {
   const avatarEl = document.getElementById("userAvatar");
   const nameEl   = document.getElementById("userName");
   const roleEl   = document.getElementById("userRoleBadge");
   const topText  = document.getElementById("topbarAuthText");
   const actionBtn= document.getElementById("authActionBtn");
+  const topUserId= document.getElementById("topbarUserId");
 
   if (currentUser) {
-    const initials = currentUser.full_name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+    const initials = (currentUser.full_name || currentUser.email).split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
     if (avatarEl) avatarEl.textContent = initials || "U";
-    if (nameEl)   nameEl.textContent   = currentUser.full_name;
+    if (nameEl)   nameEl.textContent   = currentUser.full_name || currentUser.email;
     if (roleEl) {
-      roleEl.textContent = currentUser.role === "admin" ? "ADMIN 👑" : "USER";
+      roleEl.textContent = currentUser.role === "admin" ? "ADMIN 👑" : "USER 🔒";
       roleEl.className = currentUser.role === "admin" ? "pill pill-warning" : "pill pill-info";
+    }
+    if (topUserId) {
+      topUserId.style.display = "inline-flex";
+      topUserId.innerHTML = currentUser.role === "admin"
+        ? `<span class="pill pill-warning">👑 Admin ID: ${currentUser.user_id || 'ADMIN-0001'}</span>`
+        : `<span class="pill pill-info">🔒 User ID: ${currentUser.user_id || 'USR-SESS'}</span>`;
     }
     if (topText)   topText.textContent  = "Sign Out";
     if (actionBtn) actionBtn.title      = "Sign Out";
@@ -157,10 +179,15 @@ function updateUserUI() {
       roleEl.textContent = "Guest";
       roleEl.className = "pill pill-neutral";
     }
+    if (topUserId) {
+      topUserId.style.display = "none";
+      topUserId.innerHTML = "";
+    }
     if (topText)   topText.textContent  = "Sign In";
     if (actionBtn) actionBtn.title      = "Sign In / Register";
   }
 }
+
 
 // ─── Sidebar Navigation ────────────────────────────────────────────────────────
 const PAGE_TITLES = {
@@ -488,7 +515,7 @@ function updateOverviewHero(data) {
   }
 }
 
-// ─── History Loader (Privacy Scoped) ──────────────────────────────────────────
+// ─── History Loader (Privacy Scoped & User Isolated) ─────────────────────────
 async function loadHistory() {
   try {
     const res = await fetch("/api/v1/history?limit=25", {
@@ -501,16 +528,32 @@ async function loadHistory() {
 
     const subTitle = document.getElementById("hist-sub-title");
     if (subTitle) {
-      subTitle.textContent = isAdmin
-        ? "👑 SYSTEM ADMIN MODE — Displaying All User Assessments"
-        : "🔒 Private Session Ledger — Displaying Your Personal Assessments";
+      if (isAdmin) {
+        subTitle.textContent = "👑 SYSTEM ADMIN MODE — Displaying All User Assessments & Unique User IDs across Nova Credit AI";
+      } else if (currentUser) {
+        subTitle.textContent = `🔒 Private Session Ledger — User ID: ${currentUser.user_id || 'USR-SESS'} (Your Personal Assessments Only)`;
+      } else {
+        subTitle.textContent = "👤 Guest Session Ledger — Sign In or Register to save your personal credit assessment history";
+      }
     }
 
     const render = (rows, cols) => rows.length === 0
-      ? `<tr><td colspan="${cols}" style="text-align:center;padding:20px;color:var(--text-muted);">No assessments recorded for this account.</td></tr>`
+      ? `<tr><td colspan="${cols}" style="text-align:center;padding:24px;color:var(--text-muted);">No assessments recorded for this account context. ${!currentUser ? 'Sign in to track your personal credit history.' : ''}</td></tr>`
       : rows.map(r => {
           const date = new Date(r.timestamp).toLocaleString("en-IN", { month:"short", day:"numeric", hour:"2-digit", minute:"2-digit" });
-          return `<tr><td style="font-size:11px;color:var(--text-muted);">${date}</td><td><strong>${r.applicant_name}</strong>${isAdmin?`<br/><span style="font-size:10px;color:var(--text-dim);">${r.user_email}</span>`:''}</td><td style="font-family:var(--font-mono);">₹${fmt(r.requested_loan)}</td><td style="font-family:var(--font-mono);font-weight:700;color:var(--text-primary);">${r.nova_score}</td><td>${r.risk_tier}</td><td style="font-family:var(--font-mono);">${r.approval_probability}%</td><td>${pillHtml(r.decision)}</td>${cols===8?`<td><a href="/api/v1/reports/pdf/${r.id}" target="_blank" style="color:var(--primary);text-decoration:none;font-weight:600;font-size:11px;">PDF ↗</a></td>`:''}</tr>`;
+          const userTag = isAdmin 
+            ? `<br/><span style="font-size:10px;font-family:var(--font-mono);color:var(--primary);">ID: ${r.user_id || 'GUEST'} (${r.user_email || 'guest'})</span>`
+            : '';
+          return `<tr>
+            <td style="font-size:11px;color:var(--text-muted);">${date}</td>
+            <td><strong>${r.applicant_name}</strong>${userTag}</td>
+            <td style="font-family:var(--font-mono);">₹${fmt(r.requested_loan)}</td>
+            <td style="font-family:var(--font-mono);font-weight:700;color:var(--text-primary);">${r.nova_score}</td>
+            <td>${r.risk_tier}</td>
+            <td style="font-family:var(--font-mono);">${r.approval_probability}%</td>
+            <td>${pillHtml(r.decision)}</td>
+            ${cols===8?`<td><a href="/api/v1/reports/pdf/${r.id}" target="_blank" style="color:var(--primary);text-decoration:none;font-weight:600;font-size:11px;">PDF ↗</a></td>`:''}
+          </tr>`;
         }).join("");
 
     const histTbl = document.getElementById("hist-table");
@@ -519,6 +562,7 @@ async function loadHistory() {
     if (ovTbl) ovTbl.innerHTML = render(records.slice(0,5), 7);
   } catch (e) { console.error("History load error:", e); }
 }
+
 
 // ─── Simulator ────────────────────────────────────────────────────────────────
 function initSimulator() {
