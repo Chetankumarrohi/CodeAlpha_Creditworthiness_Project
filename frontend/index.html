@@ -6,7 +6,7 @@
   <title>Nova Credit AI — Institutional Financial Intelligence & Underwriting Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -30,82 +30,172 @@
 
 <!-- ════════════════════════ AUTHENTICATION GATE SCREEN ════════════════════════ -->
 <div class="auth-gate-wrapper" id="view-auth">
-  <div class="auth-card-container">
-    <div class="auth-brand-header">
-      <div class="auth-brand-logo">
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
-          <path d="M12 8v8M8 12h8" stroke-width="1.8"/>
-        </svg>
+  <div class="auth-page-container">
+    
+    <!-- LEFT SIDE: Brand & Product Identity Column -->
+    <div class="auth-brand-col">
+      <!-- Architectural / Data-Flow SVG Curve Overlay -->
+      <svg class="brand-bg-pattern" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M-100 180 C 150 80, 380 380, 950 180" stroke="#047857" stroke-width="1.5" stroke-opacity="0.10" fill="none"/>
+        <path d="M-100 320 C 220 220, 480 540, 950 320" stroke="#047857" stroke-width="1.2" stroke-opacity="0.07" fill="none"/>
+        <path d="M-100 480 C 280 380, 540 680, 950 480" stroke="#047857" stroke-width="1" stroke-opacity="0.05" fill="none"/>
+        <circle cx="140" cy="170" r="2.5" fill="#047857" fill-opacity="0.25"/>
+        <circle cx="490" cy="410" r="3" fill="#047857" fill-opacity="0.20"/>
+      </svg>
+      
+      <div class="brand-content">
+        <!-- Prominent Nova Credit AI Logo -->
+        <div class="brand-logo-row">
+          <div class="brand-logo-badge">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#047857" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
+              <path d="M12 8v8M8 12h8" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <div>
+            <div class="brand-title-text">NOVA CREDIT AI</div>
+            <div class="brand-subtitle-text">Institutional Underwriting & Financial Intelligence</div>
+          </div>
+        </div>
+
+        <!-- Main Headline -->
+        <div class="brand-headline-box">
+          <h1 class="brand-main-headline">Smarter Credit Decisions.<br/>Stronger Financial Future.</h1>
+          <p class="brand-body-desc">
+            Institutional-grade machine learning risk decisioning, real-time credit scoring, and automated underwriting intelligence for enterprise lenders and financial managers.
+          </p>
+        </div>
+
+        <!-- Trust Badges & Feature Highlights -->
+        <div class="brand-feature-list">
+          <div class="brand-feature-item">
+            <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+            <div>
+              <div class="feature-title">Calibrated Risk Decisioning</div>
+              <div class="feature-sub">CatBoost ML pipeline with 1.67% ECE calibration</div>
+            </div>
+          </div>
+          <div class="brand-feature-item">
+            <div class="feature-icon"><i data-lucide="lock"></i></div>
+            <div>
+              <div class="feature-title">Multi-Tenant Data Isolation</div>
+              <div class="feature-sub">Server-side row-level account protection & audit logging</div>
+            </div>
+          </div>
+          <div class="brand-feature-item">
+            <div class="feature-icon"><i data-lucide="file-text"></i></div>
+            <div>
+              <div class="feature-title">Instant PDF Underwriting Reports</div>
+              <div class="feature-sub">Downloadable compliance-ready risk assessments</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <h1 class="auth-brand-title">NOVA CREDIT AI</h1>
-      <p class="auth-brand-sub">Institutional Underwriting & Financial Intelligence Platform</p>
     </div>
 
-    <!-- Login / Signup Tabs -->
-    <div class="auth-nav-tabs">
-      <button class="auth-tab-btn active" id="btnTabLogin" onclick="switchAuthMode('login')">Sign In</button>
-      <button class="auth-tab-btn" id="btnTabRegister" onclick="switchAuthMode('register')">Create Account</button>
-    </div>
-
-    <!-- Auth Alert Notification Banner -->
-    <div class="auth-alert" id="authAlert" style="display:none;"></div>
-
-    <!-- Main Auth Form -->
-    <form id="authMainForm" onsubmit="handleAuthSubmit(event)">
-      <div class="field" style="margin-bottom:14px;display:none;" id="fieldGroupName">
-        <label>Full Legal Name</label>
-        <div class="input-icon-wrap">
-          <i data-lucide="user"></i>
-          <input type="text" id="inputAuthName" placeholder="e.g. Alex Morgan"/>
+    <!-- RIGHT SIDE: Elevated White Authentication Panel -->
+    <div class="auth-panel-col">
+      <div class="auth-panel-card">
+        
+        <!-- Header -->
+        <div class="auth-panel-header">
+          <h2 class="auth-panel-title" id="authHeaderTitle">Welcome back</h2>
+          <p class="auth-panel-sub" id="authHeaderSub">Sign in to continue to your workspace</p>
         </div>
-      </div>
 
-      <div class="field" style="margin-bottom:14px;">
-        <label>Email Address</label>
-        <div class="input-icon-wrap">
-          <i data-lucide="mail"></i>
-          <input type="email" id="inputAuthEmail" required placeholder="name@company.com"/>
+        <!-- Auth Tabs (Sign In / Create Account) -->
+        <div class="auth-panel-tabs">
+          <button class="auth-panel-tab active" id="btnTabLogin" onclick="switchAuthMode('login')">Sign In</button>
+          <button class="auth-panel-tab" id="btnTabRegister" onclick="switchAuthMode('register')">Create Account</button>
         </div>
-      </div>
 
-      <div class="field" style="margin-bottom:16px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-          <label style="margin-bottom:0;">Password</label>
-          <a href="javascript:void(0)" onclick="toggleForgotPasswordView(true)" style="font-size:11px;color:var(--primary);text-decoration:none;" id="linkForgotPass">Forgot password?</a>
-        </div>
-        <div class="input-icon-wrap">
-          <i data-lucide="lock"></i>
-          <input type="password" id="inputAuthPassword" required placeholder="••••••••"/>
-          <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('inputAuthPassword', this)" title="Show/Hide Password">
-            <i data-lucide="eye"></i>
+        <!-- Alert Banner -->
+        <div class="auth-alert-banner" id="authAlert" style="display:none;"></div>
+
+        <!-- Main Auth Form -->
+        <form id="authMainForm" onsubmit="handleAuthSubmit(event)">
+          
+          <!-- Full Legal Name (Create Account Only) -->
+          <div class="field-group" id="fieldGroupName" style="display:none;">
+            <label class="field-label" for="inputAuthName">Full Legal Name</label>
+            <div class="field-input-wrap">
+              <i data-lucide="user" class="input-icon"></i>
+              <input type="text" id="inputAuthName" class="field-input" placeholder="e.g. Alex Morgan"/>
+            </div>
+          </div>
+
+          <!-- Email Address -->
+          <div class="field-group">
+            <label class="field-label" for="inputAuthEmail">Email Address</label>
+            <div class="field-input-wrap">
+              <i data-lucide="mail" class="input-icon"></i>
+              <input type="email" id="inputAuthEmail" class="field-input" required placeholder="name@company.com"/>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="field-group">
+            <div class="field-label-row">
+              <label class="field-label" for="inputAuthPassword" style="margin-bottom:0;">Password</label>
+              <a href="javascript:void(0)" onclick="toggleForgotPasswordView(true)" class="link-forgot" id="linkForgotPass">Forgot password?</a>
+            </div>
+            <div class="field-input-wrap">
+              <i data-lucide="lock" class="input-icon"></i>
+              <input type="password" id="inputAuthPassword" class="field-input" required placeholder="••••••••"/>
+              <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('inputAuthPassword', this)" title="Show/Hide Password">
+                <i data-lucide="eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember Me Checkbox -->
+          <div class="field-checkbox-row" id="fieldCheckboxRow">
+            <label class="checkbox-label">
+              <input type="checkbox" id="chkRememberMe" checked/>
+              <span id="chkRememberText">Remember me for 30 days</span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-emerald-submit" id="btnAuthSubmit">
+            <span id="btnAuthText">Sign In to Workspace</span>
           </button>
+        </form>
+
+        <!-- Forgot Password Sub-View -->
+        <form id="forgotPassForm" onsubmit="handleForgotPasswordSubmit(event)" style="display:none;">
+          <p class="forgot-desc">Enter your registered email address to receive password recovery instructions.</p>
+          <div class="field-group">
+            <label class="field-label" for="inputForgotEmail">Email Address</label>
+            <div class="field-input-wrap">
+              <i data-lucide="mail" class="input-icon"></i>
+              <input type="email" id="inputForgotEmail" class="field-input" required placeholder="name@company.com"/>
+            </div>
+          </div>
+          <button type="submit" class="btn-emerald-submit">Send Reset Instructions</button>
+          <button type="button" class="btn-ghost-cancel" onclick="toggleForgotPasswordView(false)">Back to Sign In</button>
+        </form>
+
+        <!-- Security / Privacy Footnote -->
+        <div class="auth-security-footnote">
+          <i data-lucide="shield-check" style="width:14px;height:14px;color:#047857;"></i>
+          <span>🔒 256-bit SSL Encryption & Server-Side Data Isolation</span>
         </div>
       </div>
-
-      <button type="submit" class="btn btn-primary btn-block btn-lg" id="btnAuthSubmit">
-        <span id="btnAuthText">Sign In to Workspace</span>
-      </button>
-    </form>
-
-    <!-- Forgot Password Sub-View -->
-    <form id="forgotPassForm" onsubmit="handleForgotPasswordSubmit(event)" style="display:none;">
-      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">Enter your registered email address to receive password recovery instructions.</p>
-      <div class="field" style="margin-bottom:14px;">
-        <label>Email Address</label>
-        <div class="input-icon-wrap">
-          <i data-lucide="mail"></i>
-          <input type="email" id="inputForgotEmail" required placeholder="name@company.com"/>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">Send Reset Instructions</button>
-      <button type="button" class="btn btn-ghost btn-block" style="margin-top:8px;" onclick="toggleForgotPasswordView(false)">Back to Sign In</button>
-    </form>
-
-    <div class="auth-footer-privacy">
-      🔒 256-bit Encrypted Session & Server-Side Data Isolation
     </div>
   </div>
+
+  <!-- MINIMAL FOOTER -->
+  <footer class="auth-footer-bar">
+    <div class="footer-copy">© Nova Credit AI</div>
+    <div class="footer-links">
+      <a href="javascript:void(0)" onclick="alert('Nova Credit AI Privacy Policy: All financial data is encrypted and isolated per user account.')">Privacy</a>
+      <span class="dot-sep">•</span>
+      <a href="javascript:void(0)" onclick="alert('Nova Credit AI Terms of Service: Institutional underwriting and credit scoring platform.')">Terms</a>
+      <span class="dot-sep">•</span>
+      <a href="javascript:void(0)" onclick="alert('Nova Credit Support: Contact support@novacredit.ai for assistance.')">Support</a>
+    </div>
+  </footer>
 </div>
 
 <div class="mobile-overlay-bg" id="mobileOverlay" onclick="toggleMobileSidebar()"></div>
@@ -668,7 +758,7 @@
       <button class="btn btn-ghost" onclick="closeAdminUserModal()"><i data-lucide="x"></i></button>
     </div>
     <div id="admUserModalBody" style="max-height:75vh;overflow-y:auto;padding-right:4px;">
-      <p style="color:var(--text-muted);padding:20px;text-align:center;">Loading user details...</p>
+      <p style="color:var(--text-muted);padding:24px;text-align:center;">Loading user details...</p>
     </div>
   </div>
 </div>

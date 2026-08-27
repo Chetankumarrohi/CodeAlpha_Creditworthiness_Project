@@ -247,7 +247,11 @@ function switchAuthMode(mode) {
   const nameGrp = document.getElementById("fieldGroupName");
   const btnText = document.getElementById("btnAuthText");
   const forgotLink = document.getElementById("linkForgotPass");
-  const adminTip = document.getElementById("adminTip");
+  const headerTitle = document.getElementById("authHeaderTitle");
+  const headerSub = document.getElementById("authHeaderSub");
+  const chkText = document.getElementById("chkRememberText");
+
+  hideAuthAlert();
 
   if (mode === "login") {
     if (btnLogin) btnLogin.classList.add("active");
@@ -255,15 +259,20 @@ function switchAuthMode(mode) {
     if (nameGrp) nameGrp.style.display = "none";
     if (btnText) btnText.textContent = "Sign In to Workspace";
     if (forgotLink) forgotLink.style.display = "inline";
-    if (adminTip) adminTip.style.display = "block";
+    if (headerTitle) headerTitle.textContent = "Welcome back";
+    if (headerSub) headerSub.textContent = "Sign in to continue to your workspace";
+    if (chkText) chkText.textContent = "Remember me for 30 days";
   } else {
     if (btnReg) btnReg.classList.add("active");
     if (btnLogin) btnLogin.classList.remove("active");
     if (nameGrp) nameGrp.style.display = "block";
-    if (btnText) btnText.textContent = "Create Account";
+    if (btnText) btnText.textContent = "Create Workspace Account";
     if (forgotLink) forgotLink.style.display = "none";
-    if (adminTip) adminTip.style.display = "none";
+    if (headerTitle) headerTitle.textContent = "Create your account";
+    if (headerSub) headerSub.textContent = "Get started with Nova Credit AI workspace";
+    if (chkText) chkText.textContent = "I agree to the Terms of Service & Privacy Policy";
   }
+  if (window.lucide) window.lucide.createIcons();
 }
 
 function togglePasswordVisibility(inputId, btnEl) {
@@ -295,7 +304,7 @@ function showAuthAlert(msg, isSuccess = false) {
   const alertEl = document.getElementById("authAlert");
   if (!alertEl) return;
   alertEl.style.display = "block";
-  alertEl.className = isSuccess ? "auth-alert success" : "auth-alert error";
+  alertEl.className = isSuccess ? "auth-alert-banner success" : "auth-alert-banner error";
   alertEl.textContent = msg;
 }
 
