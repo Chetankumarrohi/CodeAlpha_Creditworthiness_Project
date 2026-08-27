@@ -31,158 +31,205 @@
 <!-- ════════════════════════ AUTHENTICATION GATE SCREEN ════════════════════════ -->
 <div class="auth-gate-wrapper" id="view-auth">
   
-  <!-- Background Wave Lines & Ambient Glow Overlay -->
-  <div class="auth-bg-ambient">
-    <div class="glow-spot spot-magenta"></div>
-    <div class="glow-spot spot-gold"></div>
+  <!-- Ambient Background Lighting -->
+  <div class="auth-ambient-bg">
+    <div class="glow-orb spot-top-left"></div>
+    <div class="glow-orb spot-bottom-right"></div>
   </div>
-  
-  <svg class="auth-bg-waves" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Faint vertical growth bars -->
-    <rect x="200" y="550" width="12" height="180" rx="3" fill="#E9A94F" fill-opacity="0.03"/>
-    <rect x="240" y="480" width="12" height="250" rx="3" fill="#E66B6B" fill-opacity="0.03"/>
-    <rect x="280" y="420" width="12" height="310" rx="3" fill="#D84A9B" fill-opacity="0.03"/>
-    <rect x="1160" y="520" width="12" height="210" rx="3" fill="#D84A9B" fill-opacity="0.03"/>
-    <rect x="1200" y="450" width="12" height="280" rx="3" fill="#E66B6B" fill-opacity="0.03"/>
-    
-    <!-- Curved financial wave lines -->
-    <path d="M-100 300 C 300 150, 700 450, 1540 250" stroke="url(#waveGrad1)" stroke-width="1.5" stroke-opacity="0.25"/>
-    <path d="M-100 450 C 400 300, 800 600, 1540 380" stroke="url(#waveGrad2)" stroke-width="1.2" stroke-opacity="0.18"/>
-    <path d="M-100 600 C 500 480, 900 720, 1540 520" stroke="url(#waveGrad1)" stroke-width="1" stroke-opacity="0.12"/>
-    
+
+  <!-- Financial Waves & Grid Geometry SVG Background -->
+  <svg class="auth-bg-geometry" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="waveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#E9A94F" stop-opacity="0.4"/>
-        <stop offset="50%" stop-color="#E66B6B" stop-opacity="0.3"/>
-        <stop offset="100%" stop-color="#D84A9B" stop-opacity="0.4"/>
+      <pattern id="bgGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+        <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#FFFFFF" stroke-opacity="0.02" stroke-width="1"/>
+      </pattern>
+      <linearGradient id="waveLineGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#E7A64A" stop-opacity="0.35"/>
+        <stop offset="50%" stop-color="#E56D69" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#DC4E8F" stop-opacity="0.35"/>
       </linearGradient>
-      <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#D84A9B" stop-opacity="0.3"/>
-        <stop offset="50%" stop-color="#E9A94F" stop-opacity="0.4"/>
-        <stop offset="100%" stop-color="#E66B6B" stop-opacity="0.3"/>
+      <linearGradient id="waveLineGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#DC4E8F" stop-opacity="0.25"/>
+        <stop offset="50%" stop-color="#E7A64A" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#E56D69" stop-opacity="0.25"/>
       </linearGradient>
     </defs>
+
+    <rect width="1440" height="900" fill="url(#bgGrid)"/>
+
+    <!-- Faint Ascending Bar Geometry -->
+    <rect x="120" y="580" width="14" height="160" rx="3" fill="#E7A64A" fill-opacity="0.03"/>
+    <rect x="160" y="510" width="14" height="230" rx="3" fill="#E56D69" fill-opacity="0.03"/>
+    <rect x="200" y="440" width="14" height="300" rx="3" fill="#DC4E8F" fill-opacity="0.03"/>
+    <rect x="240" y="370" width="14" height="370" rx="3" fill="#E7A64A" fill-opacity="0.035"/>
+    
+    <!-- Flowing Data Curves -->
+    <path d="M-100 320 C 250 180, 650 480, 1540 280" stroke="url(#waveLineGrad1)" stroke-width="1.5"/>
+    <path d="M-100 480 C 350 340, 750 620, 1540 420" stroke="url(#waveLineGrad2)" stroke-width="1.2"/>
+    <path d="M-100 640 C 450 520, 850 740, 1540 560" stroke="url(#waveLineGrad1)" stroke-width="1" stroke-opacity="0.6"/>
   </svg>
 
-  <!-- Centered Dominant Auth Card Container -->
-  <div class="auth-center-card">
-    <div class="auth-card-inner">
-      
-      <!-- Top Brand Logo Header -->
-      <div class="auth-card-brand">
-        <div class="brand-logo-icon">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="url(#logoGrad)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
-            <path d="M12 8v8M8 12h8" stroke-width="1.8"/>
-            <defs>
-              <linearGradient id="logoGrad" x1="0" y1="0" x2="24" y2="24">
-                <stop offset="0%" stop-color="#E9A94F"/>
-                <stop offset="50%" stop-color="#E66B6B"/>
-                <stop offset="100%" stop-color="#D84A9B"/>
-              </linearGradient>
-            </defs>
-          </svg>
+  <!-- TOP MINIMAL HEADER -->
+  <header class="auth-top-header">
+    <div class="auth-header-brand">
+      <div class="auth-logo-svg">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="url(#brandLogoGrad)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
+          <path d="M12 8v8M8 12h8" stroke-width="1.8"/>
+          <defs>
+            <linearGradient id="brandLogoGrad" x1="0" y1="0" x2="24" y2="24">
+              <stop offset="0%" stop-color="#E7A64A"/>
+              <stop offset="50%" stop-color="#E56D69"/>
+              <stop offset="100%" stop-color="#DC4E8F"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="auth-header-title">NOVA CREDIT AI</span>
+    </div>
+    <div class="auth-header-secure">
+      <i data-lucide="shield-check" style="width:14px;height:14px;color:#E7A64A;"></i>
+      <span>Secure access</span>
+    </div>
+  </header>
+
+  <!-- MAIN 2-COLUMN FULL-SCREEN GRID CONTAINER -->
+  <main class="auth-main-grid">
+    
+    <!-- LEFT SIDE: BRAND EXPERIENCE (55-60%) -->
+    <div class="auth-brand-side">
+      <div class="brand-experience-wrap">
+        <div class="brand-badge-row">
+          <span class="brand-pill">INSTITUTIONAL UNDERWRITING PLATFORM</span>
         </div>
-        <h1 class="brand-name-title">NOVA CREDIT AI</h1>
-        <p class="brand-name-sub">Institutional Underwriting & Financial Intelligence Platform</p>
-      </div>
-
-      <!-- Header Titles -->
-      <div class="auth-panel-header">
-        <h2 class="auth-panel-title" id="authHeaderTitle">Welcome back</h2>
-        <p class="auth-panel-sub" id="authHeaderSub">Sign in to continue to your workspace</p>
-      </div>
-
-      <!-- Navigation Tabs (Sign In / Create Account) -->
-      <div class="auth-card-tabs">
-        <button class="auth-tab-btn active" id="btnTabLogin" onclick="switchAuthMode('login')">Sign In</button>
-        <button class="auth-tab-btn" id="btnTabRegister" onclick="switchAuthMode('register')">Create Account</button>
-      </div>
-
-      <!-- Alert Banner -->
-      <div class="auth-alert-banner" id="authAlert" style="display:none;"></div>
-
-      <!-- Main Auth Form -->
-      <form id="authMainForm" onsubmit="handleAuthSubmit(event)">
         
-        <!-- Full Legal Name (Create Account Only) -->
-        <div class="form-field-group" id="fieldGroupName" style="display:none;">
-          <label class="form-field-label" for="inputAuthName">Full Legal Name</label>
-          <div class="form-input-wrap">
-            <i data-lucide="user" class="input-icon"></i>
-            <input type="text" id="inputAuthName" class="form-input" placeholder="e.g. Alex Morgan"/>
+        <h1 class="brand-hero-headline">
+          Smarter Credit Decisions.<br/>
+          <span class="headline-gradient-text">Stronger Financial Future.</span>
+        </h1>
+        
+        <p class="brand-hero-sub">
+          AI-powered credit intelligence, risk assessment and financial insights built for smarter financial decisions.
+        </p>
+
+        <!-- 3 Restrained Capability Indicators -->
+        <div class="capability-indicators">
+          <div class="capability-item">
+            <div class="capability-dot"></div>
+            <span>Credit Intelligence</span>
+          </div>
+          <div class="capability-item">
+            <div class="capability-dot"></div>
+            <span>Risk Analytics</span>
+          </div>
+          <div class="capability-item">
+            <div class="capability-dot"></div>
+            <span>Financial Insights</span>
           </div>
         </div>
-
-        <!-- Email Address -->
-        <div class="form-field-group">
-          <label class="form-field-label" for="inputAuthEmail">Email Address</label>
-          <div class="form-input-wrap">
-            <i data-lucide="mail" class="input-icon"></i>
-            <input type="email" id="inputAuthEmail" class="form-input" required placeholder="name@company.com"/>
-          </div>
-        </div>
-
-        <!-- Password -->
-        <div class="form-field-group">
-          <div class="form-label-row">
-            <label class="form-field-label" for="inputAuthPassword" style="margin-bottom:0;">Password</label>
-            <a href="javascript:void(0)" onclick="toggleForgotPasswordView(true)" class="form-link-forgot" id="linkForgotPass">Forgot password?</a>
-          </div>
-          <div class="form-input-wrap">
-            <i data-lucide="lock" class="input-icon"></i>
-            <input type="password" id="inputAuthPassword" class="form-input" required placeholder="••••••••"/>
-            <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('inputAuthPassword', this)" title="Show/Hide Password">
-              <i data-lucide="eye"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Remember Me Checkbox -->
-        <div class="form-checkbox-row" id="fieldCheckboxRow">
-          <label class="checkbox-container">
-            <input type="checkbox" id="chkRememberMe" checked/>
-            <span class="checkbox-custom"></span>
-            <span class="checkbox-text" id="chkRememberText">Remember me for 30 days</span>
-          </label>
-        </div>
-
-        <!-- Primary Gradient CTA Button -->
-        <button type="submit" class="btn-primary-gradient" id="btnAuthSubmit">
-          <span id="btnAuthText">Sign In to Workspace</span>
-        </button>
-      </form>
-
-      <!-- Forgot Password Sub-View -->
-      <form id="forgotPassForm" onsubmit="handleForgotPasswordSubmit(event)" style="display:none;">
-        <p class="forgot-desc-text">Enter your registered email address to receive password recovery instructions.</p>
-        <div class="form-field-group">
-          <label class="form-field-label" for="inputForgotEmail">Email Address</label>
-          <div class="form-input-wrap">
-            <i data-lucide="mail" class="input-icon"></i>
-            <input type="email" id="inputForgotEmail" class="form-input" required placeholder="name@company.com"/>
-          </div>
-        </div>
-        <button type="submit" class="btn-primary-gradient">Send Reset Instructions</button>
-        <button type="button" class="btn-ghost-back" onclick="toggleForgotPasswordView(false)">Back to Sign In</button>
-      </form>
-
-      <!-- Security / Session Footnote -->
-      <div class="auth-security-footnote">
-        <i data-lucide="shield-check" class="security-icon"></i>
-        <span>🔒 256-bit SSL Encryption & Server-Side Data Isolation</span>
       </div>
     </div>
-  </div>
 
-  <!-- MINIMAL FOOTER -->
-  <footer class="auth-footer-bar">
-    <div class="footer-copy">© Nova Credit AI</div>
-    <div class="footer-links">
+    <!-- RIGHT SIDE: AUTHENTICATION PANEL (40-45%) -->
+    <div class="auth-panel-side">
+      <div class="auth-card-container">
+        
+        <!-- Auth Header -->
+        <div class="auth-card-header">
+          <h2 class="auth-title" id="authHeaderTitle">Welcome back</h2>
+          <p class="auth-sub" id="authHeaderSub">Sign in to access your Nova workspace.</p>
+        </div>
+
+        <!-- Sign In / Create Account Navigation Tabs -->
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="btnTabLogin" onclick="switchAuthMode('login')">Sign In</button>
+          <button class="auth-tab-btn" id="btnTabRegister" onclick="switchAuthMode('register')">Create Account</button>
+        </div>
+
+        <!-- Notification Banner -->
+        <div class="auth-alert-banner" id="authAlert" style="display:none;"></div>
+
+        <!-- Main Auth Form -->
+        <form id="authMainForm" onsubmit="handleAuthSubmit(event)">
+          
+          <!-- Full Legal Name (Create Account Only) -->
+          <div class="form-group" id="fieldGroupName" style="display:none;">
+            <label class="form-label" for="inputAuthName">Full Legal Name</label>
+            <div class="input-wrap">
+              <i data-lucide="user" class="input-icon"></i>
+              <input type="text" id="inputAuthName" class="form-control" placeholder="e.g. Alex Morgan"/>
+            </div>
+          </div>
+
+          <!-- Email Address -->
+          <div class="form-group">
+            <label class="form-label" for="inputAuthEmail">Email Address</label>
+            <div class="input-wrap">
+              <i data-lucide="mail" class="input-icon"></i>
+              <input type="email" id="inputAuthEmail" class="form-control" required placeholder="name@company.com"/>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label" for="inputAuthPassword" style="margin-bottom:0;">Password</label>
+              <a href="javascript:void(0)" onclick="toggleForgotPasswordView(true)" class="link-forgot" id="linkForgotPass">Forgot password?</a>
+            </div>
+            <div class="input-wrap">
+              <i data-lucide="lock" class="input-icon"></i>
+              <input type="password" id="inputAuthPassword" class="form-control" required placeholder="••••••••"/>
+              <button type="button" class="btn-toggle-eye" onclick="togglePasswordVisibility('inputAuthPassword', this)" title="Show/Hide Password">
+                <i data-lucide="eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember Me Checkbox -->
+          <div class="form-checkbox-group" id="fieldCheckboxRow">
+            <label class="checkbox-label">
+              <input type="checkbox" id="chkRememberMe" checked/>
+              <span id="chkRememberText">Remember me for 30 days</span>
+            </label>
+          </div>
+
+          <!-- Primary CTA Button -->
+          <button type="submit" class="btn-primary-cta" id="btnAuthSubmit">
+            <span id="btnAuthText">Sign In to Workspace</span>
+          </button>
+        </form>
+
+        <!-- Forgot Password Sub-View -->
+        <form id="forgotPassForm" onsubmit="handleForgotPasswordSubmit(event)" style="display:none;">
+          <p class="forgot-info-text">Enter your registered email address to receive password recovery instructions.</p>
+          <div class="form-group">
+            <label class="form-label" for="inputForgotEmail">Email Address</label>
+            <div class="input-wrap">
+              <i data-lucide="mail" class="input-icon"></i>
+              <input type="email" id="inputForgotEmail" class="form-control" required placeholder="name@company.com"/>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary-cta">Send Reset Instructions</button>
+          <button type="button" class="btn-ghost-back" onclick="toggleForgotPasswordView(false)">Back to Sign In</button>
+        </form>
+
+        <!-- Footnote -->
+        <div class="auth-card-footnote">
+          <i data-lucide="lock" style="width:13px;height:13px;color:#E7A64A;"></i>
+          <span>Secure authentication • Private workspace</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- BOTTOM MINIMAL FOOTER -->
+  <footer class="auth-bottom-footer">
+    <div class="footer-left">© Nova Credit AI</div>
+    <div class="footer-right">
       <a href="javascript:void(0)" onclick="alert('Nova Credit AI Privacy Policy: All financial data is encrypted and isolated per user account.')">Privacy</a>
-      <span class="dot-sep">•</span>
+      <span class="foot-sep">•</span>
       <a href="javascript:void(0)" onclick="alert('Nova Credit AI Terms of Service: Institutional underwriting and credit scoring platform.')">Terms</a>
-      <span class="dot-sep">•</span>
+      <span class="foot-sep">•</span>
       <a href="javascript:void(0)" onclick="alert('Nova Credit Support: Contact support@novacredit.ai for assistance.')">Support</a>
     </div>
   </footer>

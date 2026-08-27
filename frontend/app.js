@@ -260,7 +260,7 @@ function switchAuthMode(mode) {
     if (btnText) btnText.textContent = "Sign In to Workspace";
     if (forgotLink) forgotLink.style.display = "inline";
     if (headerTitle) headerTitle.textContent = "Welcome back";
-    if (headerSub) headerSub.textContent = "Sign in to continue to your workspace";
+    if (headerSub) headerSub.textContent = "Sign in to access your Nova workspace.";
     if (chkText) chkText.textContent = "Remember me for 30 days";
   } else {
     if (btnReg) btnReg.classList.add("active");
