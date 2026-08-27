@@ -30,157 +30,147 @@
 
 <!-- ════════════════════════ AUTHENTICATION GATE SCREEN ════════════════════════ -->
 <div class="auth-gate-wrapper" id="view-auth">
-  <div class="auth-page-container">
+  
+  <!-- Background Wave Lines & Ambient Glow Overlay -->
+  <div class="auth-bg-ambient">
+    <div class="glow-spot spot-magenta"></div>
+    <div class="glow-spot spot-gold"></div>
+  </div>
+  
+  <svg class="auth-bg-waves" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Faint vertical growth bars -->
+    <rect x="200" y="550" width="12" height="180" rx="3" fill="#E9A94F" fill-opacity="0.03"/>
+    <rect x="240" y="480" width="12" height="250" rx="3" fill="#E66B6B" fill-opacity="0.03"/>
+    <rect x="280" y="420" width="12" height="310" rx="3" fill="#D84A9B" fill-opacity="0.03"/>
+    <rect x="1160" y="520" width="12" height="210" rx="3" fill="#D84A9B" fill-opacity="0.03"/>
+    <rect x="1200" y="450" width="12" height="280" rx="3" fill="#E66B6B" fill-opacity="0.03"/>
     
-    <!-- LEFT SIDE: Brand & Product Identity Column -->
-    <div class="auth-brand-col">
-      <!-- Architectural / Data-Flow SVG Curve Overlay -->
-      <svg class="brand-bg-pattern" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M-100 180 C 150 80, 380 380, 950 180" stroke="#047857" stroke-width="1.5" stroke-opacity="0.10" fill="none"/>
-        <path d="M-100 320 C 220 220, 480 540, 950 320" stroke="#047857" stroke-width="1.2" stroke-opacity="0.07" fill="none"/>
-        <path d="M-100 480 C 280 380, 540 680, 950 480" stroke="#047857" stroke-width="1" stroke-opacity="0.05" fill="none"/>
-        <circle cx="140" cy="170" r="2.5" fill="#047857" fill-opacity="0.25"/>
-        <circle cx="490" cy="410" r="3" fill="#047857" fill-opacity="0.20"/>
-      </svg>
+    <!-- Curved financial wave lines -->
+    <path d="M-100 300 C 300 150, 700 450, 1540 250" stroke="url(#waveGrad1)" stroke-width="1.5" stroke-opacity="0.25"/>
+    <path d="M-100 450 C 400 300, 800 600, 1540 380" stroke="url(#waveGrad2)" stroke-width="1.2" stroke-opacity="0.18"/>
+    <path d="M-100 600 C 500 480, 900 720, 1540 520" stroke="url(#waveGrad1)" stroke-width="1" stroke-opacity="0.12"/>
+    
+    <defs>
+      <linearGradient id="waveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#E9A94F" stop-opacity="0.4"/>
+        <stop offset="50%" stop-color="#E66B6B" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="#D84A9B" stop-opacity="0.4"/>
+      </linearGradient>
+      <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#D84A9B" stop-opacity="0.3"/>
+        <stop offset="50%" stop-color="#E9A94F" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#E66B6B" stop-opacity="0.3"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Centered Dominant Auth Card Container -->
+  <div class="auth-center-card">
+    <div class="auth-card-inner">
       
-      <div class="brand-content">
-        <!-- Prominent Nova Credit AI Logo -->
-        <div class="brand-logo-row">
-          <div class="brand-logo-badge">
-            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#047857" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
-              <path d="M12 8v8M8 12h8" stroke-width="1.8"/>
-            </svg>
-          </div>
-          <div>
-            <div class="brand-title-text">NOVA CREDIT AI</div>
-            <div class="brand-subtitle-text">Institutional Underwriting & Financial Intelligence</div>
-          </div>
+      <!-- Top Brand Logo Header -->
+      <div class="auth-card-brand">
+        <div class="brand-logo-icon">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="url(#logoGrad)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
+            <path d="M12 8v8M8 12h8" stroke-width="1.8"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="24" y2="24">
+                <stop offset="0%" stop-color="#E9A94F"/>
+                <stop offset="50%" stop-color="#E66B6B"/>
+                <stop offset="100%" stop-color="#D84A9B"/>
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
-
-        <!-- Main Headline -->
-        <div class="brand-headline-box">
-          <h1 class="brand-main-headline">Smarter Credit Decisions.<br/>Stronger Financial Future.</h1>
-          <p class="brand-body-desc">
-            Institutional-grade machine learning risk decisioning, real-time credit scoring, and automated underwriting intelligence for enterprise lenders and financial managers.
-          </p>
-        </div>
-
-        <!-- Trust Badges & Feature Highlights -->
-        <div class="brand-feature-list">
-          <div class="brand-feature-item">
-            <div class="feature-icon"><i data-lucide="shield-check"></i></div>
-            <div>
-              <div class="feature-title">Calibrated Risk Decisioning</div>
-              <div class="feature-sub">CatBoost ML pipeline with 1.67% ECE calibration</div>
-            </div>
-          </div>
-          <div class="brand-feature-item">
-            <div class="feature-icon"><i data-lucide="lock"></i></div>
-            <div>
-              <div class="feature-title">Multi-Tenant Data Isolation</div>
-              <div class="feature-sub">Server-side row-level account protection & audit logging</div>
-            </div>
-          </div>
-          <div class="brand-feature-item">
-            <div class="feature-icon"><i data-lucide="file-text"></i></div>
-            <div>
-              <div class="feature-title">Instant PDF Underwriting Reports</div>
-              <div class="feature-sub">Downloadable compliance-ready risk assessments</div>
-            </div>
-          </div>
-        </div>
+        <h1 class="brand-name-title">NOVA CREDIT AI</h1>
+        <p class="brand-name-sub">Institutional Underwriting & Financial Intelligence Platform</p>
       </div>
-    </div>
 
-    <!-- RIGHT SIDE: Elevated White Authentication Panel -->
-    <div class="auth-panel-col">
-      <div class="auth-panel-card">
+      <!-- Header Titles -->
+      <div class="auth-panel-header">
+        <h2 class="auth-panel-title" id="authHeaderTitle">Welcome back</h2>
+        <p class="auth-panel-sub" id="authHeaderSub">Sign in to continue to your workspace</p>
+      </div>
+
+      <!-- Navigation Tabs (Sign In / Create Account) -->
+      <div class="auth-card-tabs">
+        <button class="auth-tab-btn active" id="btnTabLogin" onclick="switchAuthMode('login')">Sign In</button>
+        <button class="auth-tab-btn" id="btnTabRegister" onclick="switchAuthMode('register')">Create Account</button>
+      </div>
+
+      <!-- Alert Banner -->
+      <div class="auth-alert-banner" id="authAlert" style="display:none;"></div>
+
+      <!-- Main Auth Form -->
+      <form id="authMainForm" onsubmit="handleAuthSubmit(event)">
         
-        <!-- Header -->
-        <div class="auth-panel-header">
-          <h2 class="auth-panel-title" id="authHeaderTitle">Welcome back</h2>
-          <p class="auth-panel-sub" id="authHeaderSub">Sign in to continue to your workspace</p>
+        <!-- Full Legal Name (Create Account Only) -->
+        <div class="form-field-group" id="fieldGroupName" style="display:none;">
+          <label class="form-field-label" for="inputAuthName">Full Legal Name</label>
+          <div class="form-input-wrap">
+            <i data-lucide="user" class="input-icon"></i>
+            <input type="text" id="inputAuthName" class="form-input" placeholder="e.g. Alex Morgan"/>
+          </div>
         </div>
 
-        <!-- Auth Tabs (Sign In / Create Account) -->
-        <div class="auth-panel-tabs">
-          <button class="auth-panel-tab active" id="btnTabLogin" onclick="switchAuthMode('login')">Sign In</button>
-          <button class="auth-panel-tab" id="btnTabRegister" onclick="switchAuthMode('register')">Create Account</button>
+        <!-- Email Address -->
+        <div class="form-field-group">
+          <label class="form-field-label" for="inputAuthEmail">Email Address</label>
+          <div class="form-input-wrap">
+            <i data-lucide="mail" class="input-icon"></i>
+            <input type="email" id="inputAuthEmail" class="form-input" required placeholder="name@company.com"/>
+          </div>
         </div>
 
-        <!-- Alert Banner -->
-        <div class="auth-alert-banner" id="authAlert" style="display:none;"></div>
-
-        <!-- Main Auth Form -->
-        <form id="authMainForm" onsubmit="handleAuthSubmit(event)">
-          
-          <!-- Full Legal Name (Create Account Only) -->
-          <div class="field-group" id="fieldGroupName" style="display:none;">
-            <label class="field-label" for="inputAuthName">Full Legal Name</label>
-            <div class="field-input-wrap">
-              <i data-lucide="user" class="input-icon"></i>
-              <input type="text" id="inputAuthName" class="field-input" placeholder="e.g. Alex Morgan"/>
-            </div>
+        <!-- Password -->
+        <div class="form-field-group">
+          <div class="form-label-row">
+            <label class="form-field-label" for="inputAuthPassword" style="margin-bottom:0;">Password</label>
+            <a href="javascript:void(0)" onclick="toggleForgotPasswordView(true)" class="form-link-forgot" id="linkForgotPass">Forgot password?</a>
           </div>
-
-          <!-- Email Address -->
-          <div class="field-group">
-            <label class="field-label" for="inputAuthEmail">Email Address</label>
-            <div class="field-input-wrap">
-              <i data-lucide="mail" class="input-icon"></i>
-              <input type="email" id="inputAuthEmail" class="field-input" required placeholder="name@company.com"/>
-            </div>
+          <div class="form-input-wrap">
+            <i data-lucide="lock" class="input-icon"></i>
+            <input type="password" id="inputAuthPassword" class="form-input" required placeholder="••••••••"/>
+            <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('inputAuthPassword', this)" title="Show/Hide Password">
+              <i data-lucide="eye"></i>
+            </button>
           </div>
-
-          <!-- Password -->
-          <div class="field-group">
-            <div class="field-label-row">
-              <label class="field-label" for="inputAuthPassword" style="margin-bottom:0;">Password</label>
-              <a href="javascript:void(0)" onclick="toggleForgotPasswordView(true)" class="link-forgot" id="linkForgotPass">Forgot password?</a>
-            </div>
-            <div class="field-input-wrap">
-              <i data-lucide="lock" class="input-icon"></i>
-              <input type="password" id="inputAuthPassword" class="field-input" required placeholder="••••••••"/>
-              <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('inputAuthPassword', this)" title="Show/Hide Password">
-                <i data-lucide="eye"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Remember Me Checkbox -->
-          <div class="field-checkbox-row" id="fieldCheckboxRow">
-            <label class="checkbox-label">
-              <input type="checkbox" id="chkRememberMe" checked/>
-              <span id="chkRememberText">Remember me for 30 days</span>
-            </label>
-          </div>
-
-          <!-- Submit Button -->
-          <button type="submit" class="btn-emerald-submit" id="btnAuthSubmit">
-            <span id="btnAuthText">Sign In to Workspace</span>
-          </button>
-        </form>
-
-        <!-- Forgot Password Sub-View -->
-        <form id="forgotPassForm" onsubmit="handleForgotPasswordSubmit(event)" style="display:none;">
-          <p class="forgot-desc">Enter your registered email address to receive password recovery instructions.</p>
-          <div class="field-group">
-            <label class="field-label" for="inputForgotEmail">Email Address</label>
-            <div class="field-input-wrap">
-              <i data-lucide="mail" class="input-icon"></i>
-              <input type="email" id="inputForgotEmail" class="field-input" required placeholder="name@company.com"/>
-            </div>
-          </div>
-          <button type="submit" class="btn-emerald-submit">Send Reset Instructions</button>
-          <button type="button" class="btn-ghost-cancel" onclick="toggleForgotPasswordView(false)">Back to Sign In</button>
-        </form>
-
-        <!-- Security / Privacy Footnote -->
-        <div class="auth-security-footnote">
-          <i data-lucide="shield-check" style="width:14px;height:14px;color:#047857;"></i>
-          <span>🔒 256-bit SSL Encryption & Server-Side Data Isolation</span>
         </div>
+
+        <!-- Remember Me Checkbox -->
+        <div class="form-checkbox-row" id="fieldCheckboxRow">
+          <label class="checkbox-container">
+            <input type="checkbox" id="chkRememberMe" checked/>
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text" id="chkRememberText">Remember me for 30 days</span>
+          </label>
+        </div>
+
+        <!-- Primary Gradient CTA Button -->
+        <button type="submit" class="btn-primary-gradient" id="btnAuthSubmit">
+          <span id="btnAuthText">Sign In to Workspace</span>
+        </button>
+      </form>
+
+      <!-- Forgot Password Sub-View -->
+      <form id="forgotPassForm" onsubmit="handleForgotPasswordSubmit(event)" style="display:none;">
+        <p class="forgot-desc-text">Enter your registered email address to receive password recovery instructions.</p>
+        <div class="form-field-group">
+          <label class="form-field-label" for="inputForgotEmail">Email Address</label>
+          <div class="form-input-wrap">
+            <i data-lucide="mail" class="input-icon"></i>
+            <input type="email" id="inputForgotEmail" class="form-input" required placeholder="name@company.com"/>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary-gradient">Send Reset Instructions</button>
+        <button type="button" class="btn-ghost-back" onclick="toggleForgotPasswordView(false)">Back to Sign In</button>
+      </form>
+
+      <!-- Security / Session Footnote -->
+      <div class="auth-security-footnote">
+        <i data-lucide="shield-check" class="security-icon"></i>
+        <span>🔒 256-bit SSL Encryption & Server-Side Data Isolation</span>
       </div>
     </div>
   </div>
