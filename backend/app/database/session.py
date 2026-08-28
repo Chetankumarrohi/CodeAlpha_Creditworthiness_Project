@@ -56,6 +56,7 @@ class UserRecord(Base):
     assessments = relationship("CreditAssessmentRecord", back_populates="user", cascade="all, delete-orphan")
     financial_profile = relationship("FinancialProfileRecord", back_populates="user", uselist=False, cascade="all, delete-orphan")
     simulations = relationship("LoanSimulationRecord", back_populates="user", cascade="all, delete-orphan")
+    loan_scenarios = relationship("LoanScenarioRecord", back_populates="user", cascade="all, delete-orphan")
     reports = relationship("ReportRecord", back_populates="user", cascade="all, delete-orphan")
     activities = relationship("ActivityLog", back_populates="user", cascade="all, delete-orphan")
 
@@ -118,6 +119,31 @@ class LoanSimulationRecord(Base):
     created_at = Column(String(64), nullable=False)
 
     user = relationship("UserRecord", back_populates="simulations")
+
+
+class LoanScenarioRecord(Base):
+    __tablename__ = "loan_scenarios"
+
+    id = Column(String(36), primary_key=True, index=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    scenario_name = Column(String(255), nullable=False)
+    loan_type = Column(String(64), default="Personal Loan", nullable=False)
+    principal = Column(Float, nullable=False)
+    annual_rate = Column(Float, nullable=False)
+    tenure_months = Column(Integer, nullable=False)
+    processing_fee = Column(Float, default=0.0, nullable=False)
+    down_payment = Column(Float, default=0.0, nullable=False)
+    monthly_emi = Column(Float, nullable=False)
+    total_interest = Column(Float, nullable=False)
+    total_repayment = Column(Float, nullable=False)
+    effective_total_cost = Column(Float, nullable=False)
+    foir = Column(Float, default=0.0, nullable=False)
+    affordability_result = Column(String(64), default="Comfortable", nullable=False)
+    inputs_json = Column(Text, nullable=False)
+    outputs_json = Column(Text, nullable=False)
+    created_at = Column(String(64), nullable=False)
+
+    user = relationship("UserRecord", back_populates="loan_scenarios")
 
 
 class ReportRecord(Base):
@@ -684,3 +710,130 @@ def get_system_stats(db: Session) -> Dict[str, Any]:
             for u in recent_users
         ]
     }
+
+
+# ─── Loan Scenarios Repository Helpers ────────────────────────────────────────
+
+def save_loan_scenario(db: Session, user_id: str, scenario_data: Dict[str, Any]) -> Dict[str, Any]:
+    """Saves a loan intelligence scenario linked to the specified user_id."""
+    now_str = datetime.now(timezone.utc).isoformat()
+    scen_id = "SCEN-" + uuid.uuid4().hex[:10].upper()
+    
+    rec = LoanScenarioRecord(
+        id=scen_id,
+        user_id=user_id,
+        scenario_name=scenario_data.get("scenario_name", "Saved Loan Scenario"),
+        loan_type=scenario_data.get("loan_type", "Personal Loan"),
+        principal=float(scenario_data.get("principal", 0.0)),
+        annual_rate=float(scenario_data.get("annual_rate", 0.0)),
+        tenure_months=int(scenario_data.get("tenure_months", 36)),
+        processing_fee=float(scenario_data.get("processing_fee", 0.0)),
+        down_payment=float(scenario_data.get("down_payment", 0.0)),
+        monthly_emi=float(scenario_data.get("monthly_emi", 0.0)),
+        total_interest=float(scenario_data.get("total_interest", 0.0)),
+        total_repayment=float(scenario_data.get("total_repayment", 0.0)),
+        effective_total_cost=float(scenario_data.get("effective_total_cost", 0.0)),
+        foir=float(scenario_data.get("foir", 0.0)),
+        affordability_result=scenario_data.get("affordability_result", "Comfortable"),
+        inputs_json=json.dumps(scenario_data.get("inputs", {})),
+        outputs_json=json.dumps(scenario_data.get("outputs", {})),
+        created_at=now_str
+    )
+    db.add(rec)
+    db.commit()
+    db.refresh(rec)
+
+    return {
+        "id": rec.id,
+        "user_id": rec.user_id,
+        "scenario_name": rec.scenario_name,
+        "loan_type": rec.loan_type,
+        "principal": rec.principal,
+        "annual_rate": rec.annual_rate,
+        "tenure_months": rec.tenure_months,
+        "processing_fee": rec.processing_fee,
+        "down_payment": rec.down_payment,
+        "monthly_emi": rec.monthly_emi,
+        "total_interest": rec.total_interest,
+        "total_repayment": rec.total_repayment,
+        "effective_total_cost": rec.effective_total_cost,
+        "foir": rec.foir,
+        "affordability_result": rec.affordability_result,
+        "inputs": json.loads(rec.inputs_json),
+        "outputs": json.loads(rec.outputs_json),
+        "created_at": rec.created_at
+    }
+
+
+def get_user_loan_scenarios(db: Session, user_id: str, is_admin: bool = False, limit: int = 50) -> List[Dict[str, Any]]:
+    """Retrieves loan scenarios enforcing multi-tenant user isolation."""
+    query = db.query(LoanScenarioRecord)
+    if not is_admin:
+        query = query.filter(LoanScenarioRecord.user_id == user_id)
+    rows = query.order_by(desc(LoanScenarioRecord.created_at)).limit(limit).all()
+    return [
+        {
+            "id": r.id,
+            "user_id": r.user_id,
+            "scenario_name": r.scenario_name,
+            "loan_type": r.loan_type,
+            "principal": r.principal,
+            "annual_rate": r.annual_rate,
+            "tenure_months": r.tenure_months,
+            "processing_fee": r.processing_fee,
+            "down_payment": r.down_payment,
+            "monthly_emi": r.monthly_emi,
+            "total_interest": r.total_interest,
+            "total_repayment": r.total_repayment,
+            "effective_total_cost": r.effective_total_cost,
+            "foir": r.foir,
+            "affordability_result": r.affordability_result,
+            "inputs": json.loads(r.inputs_json) if r.inputs_json else {},
+            "outputs": json.loads(r.outputs_json) if r.outputs_json else {},
+            "created_at": r.created_at
+        }
+        for r in rows
+    ]
+
+
+def get_loan_scenario_by_id(db: Session, scenario_id: str, user_id: Optional[str] = None, is_admin: bool = False) -> Optional[Dict[str, Any]]:
+    """Retrieves a single loan scenario by ID verifying user ownership."""
+    query = db.query(LoanScenarioRecord).filter(LoanScenarioRecord.id == scenario_id)
+    if user_id and not is_admin:
+        query = query.filter(LoanScenarioRecord.user_id == user_id)
+    r = query.first()
+    if not r:
+        return None
+    return {
+        "id": r.id,
+        "user_id": r.user_id,
+        "scenario_name": r.scenario_name,
+        "loan_type": r.loan_type,
+        "principal": r.principal,
+        "annual_rate": r.annual_rate,
+        "tenure_months": r.tenure_months,
+        "processing_fee": r.processing_fee,
+        "down_payment": r.down_payment,
+        "monthly_emi": r.monthly_emi,
+        "total_interest": r.total_interest,
+        "total_repayment": r.total_repayment,
+        "effective_total_cost": r.effective_total_cost,
+        "foir": r.foir,
+        "affordability_result": r.affordability_result,
+        "inputs": json.loads(r.inputs_json) if r.inputs_json else {},
+        "outputs": json.loads(r.outputs_json) if r.outputs_json else {},
+        "created_at": r.created_at
+    }
+
+
+def delete_loan_scenario(db: Session, scenario_id: str, user_id: str, is_admin: bool = False) -> bool:
+    """Deletes a saved scenario verifying user ownership."""
+    query = db.query(LoanScenarioRecord).filter(LoanScenarioRecord.id == scenario_id)
+    if not is_admin:
+        query = query.filter(LoanScenarioRecord.user_id == user_id)
+    rec = query.first()
+    if not rec:
+        return False
+    db.delete(rec)
+    db.commit()
+    return True

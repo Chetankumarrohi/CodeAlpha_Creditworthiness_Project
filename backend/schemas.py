@@ -65,9 +65,84 @@ class SimulationRequest(BaseModel):
 
 
 class LoanEmiRequest(BaseModel):
-    principal: float = Field(1000000.0, gt=0, le=100000000)
-    annual_rate: float = Field(9.5, ge=1.0, le=45.0)
-    tenure_years: int = Field(5, ge=1, le=30)
+    principal: float = Field(1000000.0, ge=0, le=100000000)
+    annual_rate: float = Field(9.5, ge=0.0, le=100.0)
+    tenure_years: Optional[int] = Field(None, ge=1, le=40)
+    tenure_months: Optional[int] = Field(None, ge=1, le=480)
+    loan_type: Optional[str] = Field("Personal Loan")
+    processing_fee_val: Optional[float] = Field(0.0, ge=0.0)
+    processing_fee_type: Optional[str] = Field("percentage")
+    down_payment: Optional[float] = Field(0.0, ge=0.0)
+    start_date: Optional[str] = Field(None)
+
+
+class LoanAffordabilityRequest(BaseModel):
+    monthly_income: float = Field(0.0, ge=0.0)
+    proposed_emi: float = Field(0.0, ge=0.0)
+    existing_emi: Optional[float] = Field(0.0, ge=0.0)
+    housing_rent: Optional[float] = Field(0.0, ge=0.0)
+    other_fixed_obligations: Optional[float] = Field(0.0, ge=0.0)
+    essential_expenses: Optional[float] = Field(0.0, ge=0.0)
+    dependents: Optional[int] = Field(0, ge=0)
+
+
+class TenureOptimizeRequest(BaseModel):
+    principal: float = Field(1000000.0, ge=0.0)
+    annual_rate: float = Field(9.5, ge=0.0)
+    down_payment: Optional[float] = Field(0.0, ge=0.0)
+    processing_fee_val: Optional[float] = Field(0.0, ge=0.0)
+    processing_fee_type: Optional[str] = Field("percentage")
+    monthly_income: Optional[float] = Field(0.0, ge=0.0)
+    existing_fixed_obligations: Optional[float] = Field(0.0, ge=0.0)
+    target_tenure_months: Optional[int] = Field(36, ge=1)
+
+
+class LoanPrepaymentRequest(BaseModel):
+    principal: float = Field(1000000.0, ge=0.0)
+    annual_rate: float = Field(9.5, ge=0.0)
+    tenure_months: int = Field(36, ge=1)
+    prepayment_amount: Optional[float] = Field(0.0, ge=0.0)
+    prepayment_month: Optional[int] = Field(12, ge=1)
+    strategy: Optional[str] = Field("reduce_tenure")  # "reduce_tenure" | "reduce_emi"
+    extra_monthly_payment: Optional[float] = Field(0.0, ge=0.0)
+    start_date: Optional[str] = Field(None)
+
+
+class LoanOfferItem(BaseModel):
+    offer_name: str = Field("Offer A")
+    principal: float = Field(1000000.0, ge=0.0)
+    annual_rate: float = Field(9.5, ge=0.0)
+    tenure_months: int = Field(36, ge=1)
+    processing_fee: Optional[float] = Field(0.0, ge=0.0)
+    processing_fee_type: Optional[str] = Field("percentage")
+    other_upfront_fees: Optional[float] = Field(0.0, ge=0.0)
+    down_payment: Optional[float] = Field(0.0, ge=0.0)
+    prepayment_notes: Optional[str] = Field(None)
+
+
+class LoanCompareRequest(BaseModel):
+    offers: List[LoanOfferItem] = Field(default_factory=list)
+    monthly_income: Optional[float] = Field(0.0, ge=0.0)
+    existing_fixed_obligations: Optional[float] = Field(0.0, ge=0.0)
+
+
+class LoanScenarioCreateRequest(BaseModel):
+    scenario_name: str = Field("My Loan Plan")
+    loan_type: str = Field("Personal Loan")
+    principal: float = Field(..., ge=0.0)
+    annual_rate: float = Field(..., ge=0.0)
+    tenure_months: int = Field(..., ge=1)
+    processing_fee: Optional[float] = Field(0.0, ge=0.0)
+    down_payment: Optional[float] = Field(0.0, ge=0.0)
+    monthly_emi: float = Field(..., ge=0.0)
+    total_interest: float = Field(..., ge=0.0)
+    total_repayment: float = Field(..., ge=0.0)
+    effective_total_cost: float = Field(..., ge=0.0)
+    foir: Optional[float] = Field(0.0, ge=0.0)
+    affordability_result: Optional[str] = Field("Comfortable")
+    inputs: Optional[Dict[str, Any]] = Field(default_factory=dict)
+    outputs: Optional[Dict[str, Any]] = Field(default_factory=dict)
+
 
 
 # ─── Auth & User Account Schemas ──────────────────────────────────────────────

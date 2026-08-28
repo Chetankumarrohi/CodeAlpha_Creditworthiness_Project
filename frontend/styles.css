@@ -738,3 +738,84 @@ select option { background: var(--surface-elevated); }
   .page-title { font-size: 15px; }
   .user-id-chip { display: none; }
 }
+
+/* ════════════════════ LOAN INTELLIGENCE MODULE STYLES ════════════════════ */
+.li-workspace { display: flex; flex-direction: column; gap: 20px; }
+
+.li-header { margin-bottom: 4px; }
+.li-title { font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin: 0 0 6px 0; }
+.li-subtitle { font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.4; }
+
+/* ── Tab Navigation ── */
+.li-tabs-container { display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--border-dim); padding-bottom: 2px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.li-tab-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 13px; font-weight: 600;
+  color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent;
+  cursor: pointer; transition: all 0.2s ease; whitespace: nowrap; border-radius: 6px 6px 0 0;
+}
+.li-tab-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.03); }
+.li-tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(59,130,246,0.06); }
+.li-tab-btn i { width: 16px; height: 16px; }
+
+/* ── Split Layouts ── */
+.li-split-grid { display: grid; grid-template-columns: 380px 1fr; gap: 20px; }
+@media (max-width: 1024px) { .li-split-grid { grid-template-columns: 1fr; } }
+
+/* ── Metric Cards & Grid ── */
+.li-hero-card {
+  background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(15,23,42,0.6) 100%);
+  border: 1px solid rgba(59,130,246,0.25); border-radius: 12px; padding: 20px;
+  display: flex; flex-direction: column; gap: 16px; position: relative; overflow: hidden;
+}
+.li-hero-emi-label { font-size: 12px; text-transform: uppercase; tracking: 0.08em; color: var(--text-muted); font-weight: 600; }
+.li-hero-emi-value { font-size: 36px; font-weight: 800; font-family: var(--font-mono); color: #60A5FA; line-height: 1.1; }
+
+.li-metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.li-metric-box {
+  background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 8px; padding: 12px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.li-metric-lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.04em; }
+.li-metric-val { font-size: 15px; font-weight: 700; font-family: var(--font-mono); color: var(--text-primary); }
+
+/* ── Insight Box ── */
+.li-insight-box {
+  background: rgba(59,130,246,0.08); border-left: 4px solid var(--primary); border-radius: 0 8px 8px 0;
+  padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start;
+}
+.li-insight-icon { color: var(--primary); width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; }
+.li-insight-text { font-size: 13px; color: var(--text-primary); line-height: 1.5; margin: 0; }
+
+/* ── Badges & Tags ── */
+.li-tag { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+.li-tag-cost { background: rgba(16,185,129,0.15); color: #10B981; border: 1px solid rgba(16,185,129,0.3); }
+.li-tag-emi { background: rgba(59,130,246,0.15); color: #60A5FA; border: 1px solid rgba(59,130,246,0.3); }
+.li-tag-balanced { background: rgba(245,158,11,0.15); color: #F59E0B; border: 1px solid rgba(245,158,11,0.3); }
+
+/* ── Interactive Chips ── */
+.li-chips-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.li-chip {
+  padding: 6px 14px; font-size: 12px; font-weight: 600; font-family: var(--font-mono);
+  background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 20px;
+  color: var(--text-muted); cursor: pointer; transition: all 0.2s ease;
+}
+.li-chip:hover { color: var(--text-primary); border-color: var(--primary); }
+.li-chip.active { background: var(--primary); color: #FFFFFF; border-color: var(--primary); font-weight: 700; }
+
+/* ── Segmented Control ── */
+.li-segmented-control { display: inline-flex; background: rgba(15,23,42,0.8); border: 1px solid var(--border-dim); border-radius: 8px; padding: 3px; gap: 2px; }
+.li-segment-btn {
+  padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent;
+  border: none; border-radius: 6px; cursor: pointer; transition: all 0.2s ease;
+}
+.li-segment-btn.active { background: var(--primary); color: #FFFFFF; font-weight: 700; }
+
+/* ── Chart Container ── */
+.li-chart-wrapper { position: relative; width: 100%; height: 260px; margin-top: 10px; }
+
+/* ── Disclaimer Footer ── */
+.li-disclaimer {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(255,255,255,0.02);
+  border: 1px dashed var(--border-dim); border-radius: 8px; font-size: 11.5px; color: var(--text-muted); margin-top: 10px;
+}
+.li-disclaimer i { width: 14px; height: 14px; color: #F59E0B; flex-shrink: 0; }

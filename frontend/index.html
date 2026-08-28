@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -273,7 +274,7 @@
       <div>
         <div class="nav-group-label">Loan Intelligence</div>
         <ul class="nav-list">
-          <li><a class="nav-item" onclick="navigateTo('/app/loans')"><i data-lucide="calculator"></i><span>Loan & Amortization</span></a></li>
+          <li><a class="nav-item" onclick="navigateTo('/app/loans')"><i data-lucide="calculator"></i><span>Loan Intelligence</span></a></li>
         </ul>
       </div>
       <div>
@@ -474,10 +475,9 @@
         </div>
       </section>
 
-      <!-- ════════ USER SECTION: LOAN CALCULATOR ════════ -->
+      <!-- ════════ USER SECTION: LOAN INTELLIGENCE ════════ -->
       <section class="view-section" id="view-user-loans">
-        <div class="card">
-          <div class="card-title">Loan Amortization & EMI Calculator</div>
+        <div id="loanIntelligenceContainer">
           <div id="calculatorContainer"></div>
         </div>
       </section>

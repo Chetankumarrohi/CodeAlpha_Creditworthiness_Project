@@ -29,19 +29,28 @@ from backend.app.database.session import (
     get_financial_profile, save_or_update_financial_profile,
     save_assessment_orm, get_assessment_by_id, get_history, count_assessments,
     save_loan_simulation, get_loan_simulations, save_report_record, get_user_reports,
-    log_activity, get_activity_logs, get_system_stats
+    log_activity, get_activity_logs, get_system_stats,
+    save_loan_scenario, get_user_loan_scenarios, get_loan_scenario_by_id, delete_loan_scenario
 )
 from backend.schemas import (
-    AssessmentRequest, SimulationRequest, LoanEmiRequest,
+    AssessmentRequest, SimulationRequest, LoanEmiRequest, LoanAffordabilityRequest,
+    TenureOptimizeRequest, LoanPrepaymentRequest, LoanCompareRequest, LoanScenarioCreateRequest,
     UserLoginRequest, UserRegisterRequest, AuthTokenResponse, UserResponse,
     UserProfileUpdateRequest, PasswordChangeRequest, ForgotPasswordRequest, ResetPasswordRequest,
     UserStatusUpdateRequest, FinancialProfileRequest, UserDetailAdminResponse
 )
+from backend.app.services.emi_service import calculate_emi
+from backend.app.services.amortization_service import generate_amortization_schedule
+from backend.app.services.affordability_service import evaluate_affordability
+from backend.app.services.tenure_optimizer_service import optimize_tenures
+from backend.app.services.prepayment_service import simulate_prepayment
+from backend.app.services.loan_comparison_service import compare_loan_offers
 from backend.pdf_generator import generate_credit_pdf
 from ml.nova_score import calculate_nova_score
 from ml.decision_engine import evaluate_underwriting_policy
 from ml.explainer import CreditExplainer
 from ml.model_intelligence import get_model_health, get_model_metrics
+
 
 settings = get_settings()
 logger = logging.getLogger("nova_credit")
@@ -473,40 +482,215 @@ def list_simulations(db: Session = Depends(get_db), current_user: UserRecord = D
 
 @app.post("/api/v1/loans/calculate")
 def calculate_loan_amortization(req: LoanEmiRequest, current_user: UserRecord = Depends(get_current_user)):
-    P = req.principal
-    r = (req.annual_rate / 100) / 12
-    n = req.tenure_years * 12
-
-    if r == 0:
-        emi = P / n
-    else:
-        emi = P * r * ((1 + r) ** n) / (((1 + r) ** n) - 1)
-
-    total_payment = emi * n
-    total_interest = total_payment - P
-
-    schedule = []
-    balance = P
-    for month in range(1, min(n + 1, 361)):
-        interest_part = balance * r
-        principal_part = emi - interest_part
-        balance = max(0.0, balance - principal_part)
-        schedule.append({
-            "month": month,
-            "emi": round(emi, 2),
-            "principal_paid": round(principal_part, 2),
-            "interest_paid": round(interest_part, 2),
-            "remaining_balance": round(balance, 2),
-        })
-
+    tenure_m = req.tenure_months or (req.tenure_years * 12 if req.tenure_years else 36)
+    
+    result = generate_amortization_schedule(
+        principal=req.principal,
+        annual_rate=req.annual_rate,
+        tenure_months=tenure_m,
+        down_payment=req.down_payment or 0.0,
+        processing_fee_val=req.processing_fee_val or 0.0,
+        processing_fee_type=req.processing_fee_type or "percentage"
+    )
+    
+    summary = result["summary"]
+    
+    insight_text = (
+        f"Your requested {summary['tenure_months']}-month loan of ₹{summary['net_principal']:,.0f} at {summary['annual_rate']}% p.a. "
+        f"results in a monthly EMI of ₹{summary['monthly_emi']:,.0f}. Over the full term, total interest is ₹{summary['total_interest']:,.0f} "
+        f"({summary['interest_to_principal_ratio']:.1f}% of net principal), with an effective total borrowing cost of ₹{summary['effective_total_cost']:,.0f}."
+    )
+    
     return {
-        "monthly_emi": round(emi, 2),
-        "total_payment": round(total_payment, 2),
-        "total_interest": round(total_interest, 2),
-        "principal": P,
-        "tenure_months": n,
-        "schedule": schedule
+        "monthly_emi": summary["monthly_emi"],
+        "total_payment": summary["total_repayment"],
+        "total_interest": summary["total_interest"],
+        "principal": summary["net_principal"],
+        "gross_loan_amount": summary["gross_loan_amount"],
+        "down_payment": summary["down_payment"],
+        "net_principal": summary["net_principal"],
+        "tenure_months": summary["tenure_months"],
+        "processing_fee": summary["processing_fee"],
+        "effective_total_cost": summary["effective_total_cost"],
+        "interest_to_principal_ratio": summary["interest_to_principal_ratio"],
+        "start_date": summary["start_date"],
+        "end_date": summary["end_date"],
+        "schedule": result["monthly_schedule"],
+        "yearly_schedule": result["yearly_schedule"],
+        "nova_insight": insight_text
     }
+
+
+@app.post("/api/v1/loans/affordability")
+def check_loan_affordability(
+    req: LoanAffordabilityRequest,
+    db: Session = Depends(get_db),
+    current_user: UserRecord = Depends(get_current_user)
+):
+    inc = req.monthly_income
+    ex_emi = req.existing_emi
+    
+    # Auto-load financial profile if income or existing EMI is not specified
+    if inc == 0.0:
+        fp = get_financial_profile(db, current_user.id)
+        if fp:
+            inc = fp.monthly_income
+            if ex_emi == 0.0:
+                ex_emi = fp.existing_emi
+                
+    result = evaluate_affordability(
+        monthly_income=inc,
+        proposed_emi=req.proposed_emi,
+        existing_emi=ex_emi,
+        housing_rent=req.housing_rent or 0.0,
+        other_fixed_obligations=req.other_fixed_obligations or 0.0,
+        essential_expenses=req.essential_expenses or 0.0,
+        dependents=req.dependents or 0
+    )
+    return result
+
+
+@app.post("/api/v1/loans/optimize-tenure")
+def optimize_loan_tenure(
+    req: TenureOptimizeRequest,
+    db: Session = Depends(get_db),
+    current_user: UserRecord = Depends(get_current_user)
+):
+    inc = req.monthly_income or 0.0
+    ex_fix = req.existing_fixed_obligations or 0.0
+    
+    if inc == 0.0:
+        fp = get_financial_profile(db, current_user.id)
+        if fp:
+            inc = fp.monthly_income
+            if ex_fix == 0.0:
+                ex_fix = fp.existing_emi
+
+    result = optimize_tenures(
+        principal=req.principal,
+        annual_rate=req.annual_rate,
+        down_payment=req.down_payment or 0.0,
+        processing_fee_val=req.processing_fee_val or 0.0,
+        processing_fee_type=req.processing_fee_type or "percentage",
+        monthly_income=inc,
+        existing_fixed_obligations=ex_fix,
+        target_tenure_months=req.target_tenure_months or 36
+    )
+    return result
+
+
+@app.post("/api/v1/loans/prepayment")
+def calculate_prepayment_simulation(
+    req: LoanPrepaymentRequest,
+    current_user: UserRecord = Depends(get_current_user)
+):
+    result = simulate_prepayment(
+        principal=req.principal,
+        annual_rate=req.annual_rate,
+        tenure_months=req.tenure_months,
+        prepayment_amount=req.prepayment_amount or 0.0,
+        prepayment_month=req.prepayment_month or 12,
+        strategy=req.strategy or "reduce_tenure",
+        extra_monthly_payment=req.extra_monthly_payment or 0.0,
+        start_date_str=req.start_date
+    )
+    return result
+
+
+@app.post("/api/v1/loans/compare")
+def compare_offers(
+    req: LoanCompareRequest,
+    db: Session = Depends(get_db),
+    current_user: UserRecord = Depends(get_current_user)
+):
+    inc = req.monthly_income or 0.0
+    ex_fix = req.existing_fixed_obligations or 0.0
+    
+    if inc == 0.0:
+        fp = get_financial_profile(db, current_user.id)
+        if fp:
+            inc = fp.monthly_income
+            if ex_fix == 0.0:
+                ex_fix = fp.existing_emi
+
+    raw_offers = [o.model_dump() for o in req.offers]
+    result = compare_loan_offers(
+        offers=raw_offers,
+        monthly_income=inc,
+        existing_fixed_obligations=ex_fix
+    )
+    return result
+
+
+@app.get("/api/v1/loans/scenarios")
+def list_user_scenarios(
+    db: Session = Depends(get_db),
+    current_user: UserRecord = Depends(get_current_user)
+):
+    is_admin = (current_user.role.upper() == "ADMIN")
+    scenarios = get_user_loan_scenarios(db, user_id=current_user.id, is_admin=is_admin, limit=50)
+    return {"scenarios": scenarios}
+
+
+@app.post("/api/v1/loans/scenarios")
+def save_user_scenario(
+    req: LoanScenarioCreateRequest,
+    request: Request,
+    db: Session = Depends(get_db),
+    current_user: UserRecord = Depends(get_current_user)
+):
+    data = req.model_dump()
+    saved = save_loan_scenario(db, user_id=current_user.id, scenario_data=data)
+    
+    log_activity(
+        db=db,
+        user_id=current_user.id,
+        user_email=current_user.email,
+        action="SAVE_LOAN_SCENARIO",
+        resource_type="LOAN_SCENARIO",
+        resource_id=saved["id"],
+        details={"scenario_name": saved["scenario_name"], "principal": saved["principal"], "emi": saved["monthly_emi"]},
+        ip_address=get_client_ip(request)
+    )
+    return saved
+
+
+@app.get("/api/v1/loans/scenarios/{scenario_id}")
+def get_single_scenario(
+    scenario_id: str,
+    db: Session = Depends(get_db),
+    current_user: UserRecord = Depends(get_current_user)
+):
+    is_admin = (current_user.role.upper() == "ADMIN")
+    scen = get_loan_scenario_by_id(db, scenario_id=scenario_id, user_id=current_user.id, is_admin=is_admin)
+    if not scen:
+        raise HTTPException(status_code=404, detail="Loan scenario not found or unauthorized.")
+    return scen
+
+
+@app.delete("/api/v1/loans/scenarios/{scenario_id}")
+def delete_single_scenario(
+    scenario_id: str,
+    request: Request,
+    db: Session = Depends(get_db),
+    current_user: UserRecord = Depends(get_current_user)
+):
+    is_admin = (current_user.role.upper() == "ADMIN")
+    success = delete_loan_scenario(db, scenario_id=scenario_id, user_id=current_user.id, is_admin=is_admin)
+    if not success:
+        raise HTTPException(status_code=404, detail="Loan scenario not found or unauthorized.")
+        
+    log_activity(
+        db=db,
+        user_id=current_user.id,
+        user_email=current_user.email,
+        action="DELETE_LOAN_SCENARIO",
+        resource_type="LOAN_SCENARIO",
+        resource_id=scenario_id,
+        ip_address=get_client_ip(request)
+    )
+    return {"message": "Scenario deleted successfully.", "id": scenario_id}
+
 
 
 @app.get("/api/v1/reports/pdf/{assessment_id}")
