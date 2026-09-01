@@ -24,16 +24,12 @@ def create_admin_account(email: str, password: str, full_name: str):
         clean_email = email.lower().strip()
         existing = get_user_by_email(db, clean_email)
         if existing:
-            if existing.role == "ADMIN":
-                print(f"❌ User '{clean_email}' already exists as an ADMIN.")
-                return
-            else:
-                existing.role = "ADMIN"
-                existing.password_hash = hash_password(password)
-                existing.updated_at = datetime.now(timezone.utc).isoformat()
-                db.commit()
-                print(f"✅ Promoted existing user '{clean_email}' to ADMIN role successfully.")
-                return
+            existing.role = "ADMIN"
+            existing.password_hash = hash_password(password)
+            existing.updated_at = datetime.now(timezone.utc).isoformat()
+            db.commit()
+            print(f"✅ Successfully updated password and permissions for ADMIN user '{clean_email}'.")
+            return
 
         now_str = datetime.now(timezone.utc).isoformat()
         admin_id = "ADMIN-" + uuid.uuid4().hex[:8].upper()
