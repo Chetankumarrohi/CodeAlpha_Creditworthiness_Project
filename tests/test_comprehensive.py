@@ -313,9 +313,13 @@ class TestAPIIntegration:
     @pytest.fixture(scope="class")
     def auth_headers(self, client):
         import uuid
+        from backend.app.database.session import SessionLocal, create_user
         email = f"comp_tester_{uuid.uuid4().hex[:6]}@example.com"
-        reg = client.post("/api/v1/auth/register", json={"email": email, "password": "Password123!", "full_name": "Comp Tester"})
-        token = reg.json()["access_token"]
+        db = SessionLocal()
+        create_user(db, f"USR-{uuid.uuid4().hex[:8].upper()}", email, "Password123!", "Comp Tester", email_verified=True)
+        db.close()
+        login_res = client.post("/api/v1/auth/login", json={"email": email, "password": "Password123!"})
+        token = login_res.json()["access_token"]
         return {"Authorization": f"Bearer {token}"}
 
     def test_health_check(self, client):

@@ -1,8 +1,16 @@
 import uuid
+import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
+from backend.app.database.session import init_db
 
 client = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def setup_db():
+    init_db()
+    yield
 
 
 def test_api_health():
@@ -13,9 +21,14 @@ def test_api_health():
 
 
 def test_api_assessment():
+    from backend.app.database.session import SessionLocal, create_user
     email = f"test_api_{uuid.uuid4().hex[:6]}@example.com"
-    reg = client.post("/api/v1/auth/register", json={"email": email, "password": "Password123!", "full_name": "API Tester"})
-    token = reg.json()["access_token"]
+    db = SessionLocal()
+    create_user(db, f"USR-{uuid.uuid4().hex[:8].upper()}", email, "Password123!", "API Tester", email_verified=True)
+    db.close()
+
+    login = client.post("/api/v1/auth/login", json={"email": email, "password": "Password123!"})
+    token = login.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
 
     payload = {

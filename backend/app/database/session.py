@@ -6,8 +6,8 @@ financial profiles, credit assessments, loan simulations, report tracking, and a
 import os
 import json
 import uuid
-from datetime import datetime, timezone
-from typing import Optional, List, Dict, Any
+from datetime import datetime, timezone, timedelta
+from typing import Optional, List, Dict, Any, Tuple
 
 from sqlalchemy import (
     create_engine, Column, String, Integer, Float, Boolean, Text, ForeignKey, desc
@@ -47,7 +47,13 @@ class UserRecord(Base):
     full_name = Column(String(255), nullable=False)
     role = Column(String(32), default="USER", nullable=False)   # "USER" | "ADMIN"
     is_active = Column(Boolean, default=True, nullable=False)
-    email_verified = Column(Boolean, default=True, nullable=False)
+    email_verified = Column(Boolean, default=False, nullable=False)
+    email_verified_at = Column(String(64), nullable=True)
+    two_factor_enabled = Column(Boolean, default=False, nullable=False)
+    two_factor_method = Column(String(32), default="totp", nullable=False)  # "totp" | "email_otp"
+    totp_secret = Column(String(255), nullable=True)
+    failed_login_attempts = Column(Integer, default=0, nullable=False)
+    locked_until = Column(String(64), nullable=True)
     created_at = Column(String(64), nullable=False)
     updated_at = Column(String(64), nullable=False)
     last_login_at = Column(String(64), nullable=True)
@@ -59,6 +65,76 @@ class UserRecord(Base):
     loan_scenarios = relationship("LoanScenarioRecord", back_populates="user", cascade="all, delete-orphan")
     reports = relationship("ReportRecord", back_populates="user", cascade="all, delete-orphan")
     activities = relationship("ActivityLog", back_populates="user", cascade="all, delete-orphan")
+    recovery_codes = relationship("TwoFactorRecoveryCode", back_populates="user", cascade="all, delete-orphan")
+    oauth_accounts = relationship("OAuthAccount", back_populates="user", cascade="all, delete-orphan")
+    sessions = relationship("UserSession", back_populates="user", cascade="all, delete-orphan")
+
+
+class EmailVerificationChallenge(Base):
+    __tablename__ = "email_verification_challenges"
+
+    id = Column(String(36), primary_key=True, index=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    email = Column(String(255), nullable=False, index=True)
+    code_hash = Column(String(255), nullable=False)
+    expires_at = Column(String(64), nullable=False)
+    attempts_left = Column(Integer, default=5, nullable=False)
+    resend_cooldown_until = Column(String(64), nullable=False)
+    consumed = Column(Boolean, default=False, nullable=False)
+    created_at = Column(String(64), nullable=False)
+
+
+class TwoFactorRecoveryCode(Base):
+    __tablename__ = "two_factor_recovery_codes"
+
+    id = Column(String(36), primary_key=True, index=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    code_hash = Column(String(255), nullable=False, index=True)
+    used = Column(Boolean, default=False, nullable=False)
+    used_at = Column(String(64), nullable=True)
+    created_at = Column(String(64), nullable=False)
+
+    user = relationship("UserRecord", back_populates="recovery_codes")
+
+
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_tokens"
+
+    id = Column(String(36), primary_key=True, index=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    token_hash = Column(String(255), nullable=False, index=True)
+    expires_at = Column(String(64), nullable=False)
+    consumed = Column(Boolean, default=False, nullable=False)
+    created_at = Column(String(64), nullable=False)
+
+
+class OAuthAccount(Base):
+    __tablename__ = "oauth_accounts"
+
+    id = Column(String(36), primary_key=True, index=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    provider = Column(String(64), nullable=False, index=True)  # e.g. "google"
+    provider_user_id = Column(String(255), nullable=False, index=True)
+    provider_email = Column(String(255), nullable=False)
+    created_at = Column(String(64), nullable=False)
+
+    user = relationship("UserRecord", back_populates="oauth_accounts")
+
+
+class UserSession(Base):
+    __tablename__ = "user_sessions"
+
+    id = Column(String(36), primary_key=True, index=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    session_token = Column(String(255), unique=True, index=True, nullable=False)
+    device_info = Column(String(255), default="Web Browser", nullable=False)
+    ip_address = Column(String(64), default="127.0.0.1", nullable=False)
+    last_active_at = Column(String(64), nullable=False)
+    expires_at = Column(String(64), nullable=False)
+    is_revoked = Column(Boolean, default=False, nullable=False)
+    created_at = Column(String(64), nullable=False)
+
+    user = relationship("UserRecord", back_populates="sessions")
 
 
 class FinancialProfileRecord(Base):
@@ -193,6 +269,29 @@ def init_db():
     """Initializes tables and optionally bootstraps the administrator account if configured via env."""
     Base.metadata.create_all(bind=engine)
 
+    # SQLite schema auto-migration for newly added columns
+    try:
+        with engine.connect() as conn:
+            # Check users table columns
+            cursor = conn.exec_driver_sql("PRAGMA table_info(users)")
+            existing_cols = {row[1] for row in cursor.fetchall()}
+            
+            col_defs = [
+                ("email_verified", "BOOLEAN DEFAULT 0 NOT NULL"),
+                ("email_verified_at", "VARCHAR(64)"),
+                ("two_factor_enabled", "BOOLEAN DEFAULT 0 NOT NULL"),
+                ("two_factor_method", "VARCHAR(32) DEFAULT 'totp' NOT NULL"),
+                ("totp_secret", "VARCHAR(255)"),
+                ("failed_login_attempts", "INTEGER DEFAULT 0 NOT NULL"),
+                ("locked_until", "VARCHAR(64)"),
+            ]
+            for col_name, col_type in col_defs:
+                if col_name not in existing_cols:
+                    conn.exec_driver_sql(f"ALTER TABLE users ADD COLUMN {col_name} {col_type}")
+            conn.commit()
+    except Exception as e:
+        pass
+
     # Optional initial admin bootstrap from environment variables
     admin_email = getattr(settings, "ADMIN_BOOTSTRAP_EMAIL", None) or os.getenv("ADMIN_BOOTSTRAP_EMAIL")
     admin_password = getattr(settings, "ADMIN_BOOTSTRAP_PASSWORD", None) or os.getenv("ADMIN_BOOTSTRAP_PASSWORD")
@@ -242,7 +341,8 @@ def create_user(
     email: str,
     password_plain: str,
     full_name: str,
-    role: str = "USER"
+    role: str = "USER",
+    email_verified: bool = False
 ) -> UserRecord:
     now_str = datetime.now(timezone.utc).isoformat()
     # Normalize role to uppercase
@@ -254,7 +354,8 @@ def create_user(
         full_name=full_name.strip(),
         role=clean_role,
         is_active=True,
-        email_verified=True,
+        email_verified=email_verified,
+        email_verified_at=now_str if email_verified else None,
         created_at=now_str,
         updated_at=now_str,
     )
@@ -285,7 +386,296 @@ def update_user_last_login(db: Session, user_id: str):
     user = get_user_by_id(db, user_id)
     if user:
         user.last_login_at = datetime.now(timezone.utc).isoformat()
+        user.failed_login_attempts = 0
+        user.locked_until = None
         db.commit()
+
+
+# ─── Account Lockout & Brute-Force Tracking ────────────────────────────────────
+
+def record_login_failure(db: Session, user: UserRecord, max_attempts: int = 5, lock_minutes: int = 15) -> Tuple[int, Optional[str]]:
+    """Increments failed login counter and locks account if threshold exceeded. Returns (attempts, locked_until_iso)."""
+    user.failed_login_attempts = (user.failed_login_attempts or 0) + 1
+    if user.failed_login_attempts >= max_attempts:
+        lock_until = datetime.now(timezone.utc) + timedelta(minutes=lock_minutes)
+        user.locked_until = lock_until.isoformat()
+    db.commit()
+    return user.failed_login_attempts, user.locked_until
+
+
+def is_account_locked(user: UserRecord) -> Tuple[bool, int]:
+    """Returns (is_locked: bool, minutes_remaining: int)."""
+    if not user.locked_until:
+        return False, 0
+    try:
+        lock_time = datetime.fromisoformat(user.locked_until)
+        now = datetime.now(timezone.utc)
+        if now < lock_time:
+            remaining = int((lock_time - now).total_seconds() / 60) + 1
+            return True, remaining
+    except Exception:
+        pass
+    return False, 0
+
+
+# ─── Email Verification Challenge Operations ──────────────────────────────────
+
+def create_email_verification_challenge(
+    db: Session,
+    user_id: str,
+    email: str,
+    code_hash: str,
+    expiry_minutes: int = 10,
+    cooldown_seconds: int = 45
+) -> EmailVerificationChallenge:
+    """Invalidates old unconsumed challenges for this email and creates a fresh one."""
+    now = datetime.now(timezone.utc)
+    now_str = now.isoformat()
+    expires_str = (now + timedelta(minutes=expiry_minutes)).isoformat()
+    cooldown_str = (now + timedelta(seconds=cooldown_seconds)).isoformat()
+
+    # Invalidate previous unconsumed challenges
+    db.query(EmailVerificationChallenge).filter(
+        EmailVerificationChallenge.email == email.lower().strip(),
+        EmailVerificationChallenge.consumed == False
+    ).update({"consumed": True})
+
+    challenge = EmailVerificationChallenge(
+        id="CHAL-" + uuid.uuid4().hex[:8].upper(),
+        user_id=user_id,
+        email=email.lower().strip(),
+        code_hash=code_hash,
+        expires_at=expires_str,
+        attempts_left=5,
+        resend_cooldown_until=cooldown_str,
+        consumed=False,
+        created_at=now_str,
+    )
+    db.add(challenge)
+    db.commit()
+    db.refresh(challenge)
+    return challenge
+
+
+def get_active_email_challenge(db: Session, email: str) -> Optional[EmailVerificationChallenge]:
+    now_str = datetime.now(timezone.utc).isoformat()
+    return db.query(EmailVerificationChallenge).filter(
+        EmailVerificationChallenge.email == email.lower().strip(),
+        EmailVerificationChallenge.consumed == False,
+        EmailVerificationChallenge.expires_at > now_str,
+        EmailVerificationChallenge.attempts_left > 0
+    ).order_by(desc(EmailVerificationChallenge.created_at)).first()
+
+
+def mark_user_email_verified(db: Session, user_id: str) -> bool:
+    user = get_user_by_id(db, user_id)
+    if not user:
+        return False
+    user.email_verified = True
+    user.email_verified_at = datetime.now(timezone.utc).isoformat()
+    user.updated_at = datetime.now(timezone.utc).isoformat()
+    db.commit()
+    return True
+
+
+# ─── Two-Factor Authentication & Recovery Codes ───────────────────────────────
+
+def set_user_totp_secret(db: Session, user_id: str, secret: str):
+    user = get_user_by_id(db, user_id)
+    if user:
+        user.totp_secret = secret
+        user.updated_at = datetime.now(timezone.utc).isoformat()
+        db.commit()
+
+
+def enable_user_2fa(db: Session, user_id: str, method: str = "totp") -> bool:
+    user = get_user_by_id(db, user_id)
+    if not user:
+        return False
+    user.two_factor_enabled = True
+    user.two_factor_method = method
+    user.updated_at = datetime.now(timezone.utc).isoformat()
+    db.commit()
+    return True
+
+
+def disable_user_2fa(db: Session, user_id: str) -> bool:
+    user = get_user_by_id(db, user_id)
+    if not user:
+        return False
+    user.two_factor_enabled = False
+    user.totp_secret = None
+    user.updated_at = datetime.now(timezone.utc).isoformat()
+    # Delete unused recovery codes
+    db.query(TwoFactorRecoveryCode).filter(TwoFactorRecoveryCode.user_id == user_id).delete()
+    db.commit()
+    return True
+
+
+def save_user_recovery_codes(db: Session, user_id: str, hashed_codes: List[str]):
+    # Invalidate previous unused recovery codes
+    db.query(TwoFactorRecoveryCode).filter(TwoFactorRecoveryCode.user_id == user_id).delete()
+    now_str = datetime.now(timezone.utc).isoformat()
+    for h in hashed_codes:
+        rec = TwoFactorRecoveryCode(
+            id="REC-" + uuid.uuid4().hex[:8].upper(),
+            user_id=user_id,
+            code_hash=h,
+            used=False,
+            created_at=now_str,
+        )
+        db.add(rec)
+    db.commit()
+
+
+def verify_and_consume_recovery_code(db: Session, user_id: str, code_hash: str) -> bool:
+    rec = db.query(TwoFactorRecoveryCode).filter(
+        TwoFactorRecoveryCode.user_id == user_id,
+        TwoFactorRecoveryCode.code_hash == code_hash,
+        TwoFactorRecoveryCode.used == False
+    ).first()
+    if not rec:
+        return False
+    rec.used = True
+    rec.used_at = datetime.now(timezone.utc).isoformat()
+    db.commit()
+    return True
+
+
+# ─── Password Reset Tokens ────────────────────────────────────────────────────
+
+def create_password_reset_token(db: Session, user_id: str, token_hash: str, expiry_minutes: int = 30) -> PasswordResetToken:
+    now = datetime.now(timezone.utc)
+    now_str = now.isoformat()
+    expires_str = (now + timedelta(minutes=expiry_minutes)).isoformat()
+
+    # Invalidate old tokens
+    db.query(PasswordResetToken).filter(
+        PasswordResetToken.user_id == user_id,
+        PasswordResetToken.consumed == False
+    ).update({"consumed": True})
+
+    token_rec = PasswordResetToken(
+        id="RST-" + uuid.uuid4().hex[:8].upper(),
+        user_id=user_id,
+        token_hash=token_hash,
+        expires_at=expires_str,
+        consumed=False,
+        created_at=now_str,
+    )
+    db.add(token_rec)
+    db.commit()
+    db.refresh(token_rec)
+    return token_rec
+
+
+def verify_and_consume_password_reset_token(db: Session, user_id: str, token_hash: str) -> bool:
+    now_str = datetime.now(timezone.utc).isoformat()
+    rec = db.query(PasswordResetToken).filter(
+        PasswordResetToken.user_id == user_id,
+        PasswordResetToken.token_hash == token_hash,
+        PasswordResetToken.consumed == False,
+        PasswordResetToken.expires_at > now_str
+    ).first()
+    if not rec:
+        return False
+    rec.consumed = True
+    db.commit()
+    return True
+
+
+# ─── OAuth Account Operations ─────────────────────────────────────────────────
+
+def get_oauth_account(db: Session, provider: str, provider_user_id: str) -> Optional[OAuthAccount]:
+    return db.query(OAuthAccount).filter(
+        OAuthAccount.provider == provider.lower().strip(),
+        OAuthAccount.provider_user_id == str(provider_user_id).strip()
+    ).first()
+
+
+def link_oauth_account(db: Session, user_id: str, provider: str, provider_user_id: str, provider_email: str) -> OAuthAccount:
+    existing = db.query(OAuthAccount).filter(
+        OAuthAccount.provider == provider.lower().strip(),
+        OAuthAccount.provider_user_id == str(provider_user_id).strip()
+    ).first()
+    if existing:
+        return existing
+    now_str = datetime.now(timezone.utc).isoformat()
+    oauth_acc = OAuthAccount(
+        id="OA-" + uuid.uuid4().hex[:8].upper(),
+        user_id=user_id,
+        provider=provider.lower().strip(),
+        provider_user_id=str(provider_user_id).strip(),
+        provider_email=provider_email.lower().strip(),
+        created_at=now_str,
+    )
+    db.add(oauth_acc)
+    db.commit()
+    db.refresh(oauth_acc)
+    return oauth_acc
+
+
+# ─── User Sessions & Multi-Device Management ──────────────────────────────────
+
+def create_user_session(
+    db: Session,
+    user_id: str,
+    session_token: str,
+    device_info: str = "Web Browser",
+    ip_address: str = "127.0.0.1",
+    expiry_days: int = 30
+) -> UserSession:
+    now = datetime.now(timezone.utc)
+    now_str = now.isoformat()
+    expires_str = (now + timedelta(days=expiry_days)).isoformat()
+    session_rec = UserSession(
+        id="SESS-" + uuid.uuid4().hex[:8].upper(),
+        user_id=user_id,
+        session_token=session_token,
+        device_info=device_info,
+        ip_address=ip_address,
+        last_active_at=now_str,
+        expires_at=expires_str,
+        is_revoked=False,
+        created_at=now_str,
+    )
+    db.add(session_rec)
+    db.commit()
+    db.refresh(session_rec)
+    return session_rec
+
+
+def get_active_sessions(db: Session, user_id: str) -> List[UserSession]:
+    now_str = datetime.now(timezone.utc).isoformat()
+    return db.query(UserSession).filter(
+        UserSession.user_id == user_id,
+        UserSession.is_revoked == False,
+        UserSession.expires_at > now_str
+    ).order_by(desc(UserSession.last_active_at)).all()
+
+
+def revoke_user_session(db: Session, user_id: str, session_id: str) -> bool:
+    sess = db.query(UserSession).filter(
+        UserSession.id == session_id,
+        UserSession.user_id == user_id
+    ).first()
+    if not sess:
+        return False
+    sess.is_revoked = True
+    db.commit()
+    return True
+
+
+def revoke_all_user_sessions(db: Session, user_id: str, except_session_token: Optional[str] = None):
+    q = db.query(UserSession).filter(
+        UserSession.user_id == user_id,
+        UserSession.is_revoked == False
+    )
+    if except_session_token:
+        q = q.filter(UserSession.session_token != except_session_token)
+    q.update({"is_revoked": True})
+    db.commit()
+
 
 
 def update_user_password(db: Session, user_id: str, new_password_plain: str) -> bool:

@@ -1,6 +1,7 @@
 import os
 import sys
 import uuid
+import secrets
 import logging
 import joblib
 import pandas as pd
@@ -20,7 +21,11 @@ sys.path.insert(0, str(BASE_DIR))
 
 from backend.app.core.config import get_settings
 from backend.app.core.security import (
-    create_access_token, decode_access_token, verify_password, check_rate_limit
+    create_access_token, decode_access_token, verify_password, check_rate_limit,
+    generate_numeric_otp, hash_otp_code, verify_otp_code,
+    generate_totp_secret, get_totp_uri, generate_qr_code_data_url, verify_totp_code,
+    generate_recovery_codes, hash_recovery_code, create_2fa_challenge_token,
+    generate_session_token, check_action_cooldown
 )
 from backend.app.database.session import (
     init_db, get_db, UserRecord,
@@ -30,12 +35,21 @@ from backend.app.database.session import (
     save_assessment_orm, get_assessment_by_id, get_history, count_assessments,
     save_loan_simulation, get_loan_simulations, save_report_record, get_user_reports,
     log_activity, get_activity_logs, get_system_stats,
-    save_loan_scenario, get_user_loan_scenarios, get_loan_scenario_by_id, delete_loan_scenario
+    save_loan_scenario, get_user_loan_scenarios, get_loan_scenario_by_id, delete_loan_scenario,
+    create_email_verification_challenge, get_active_email_challenge, mark_user_email_verified,
+    record_login_failure, is_account_locked, set_user_totp_secret, enable_user_2fa, disable_user_2fa,
+    save_user_recovery_codes, verify_and_consume_recovery_code,
+    create_password_reset_token, verify_and_consume_password_reset_token,
+    get_oauth_account, link_oauth_account,
+    create_user_session, get_active_sessions, revoke_user_session, revoke_all_user_sessions
 )
 from backend.schemas import (
     AssessmentRequest, SimulationRequest, LoanEmiRequest, LoanAffordabilityRequest,
     TenureOptimizeRequest, LoanPrepaymentRequest, LoanCompareRequest, LoanScenarioCreateRequest,
-    UserLoginRequest, UserRegisterRequest, AuthTokenResponse, UserResponse,
+    UserLoginRequest, UserRegisterRequest, EmailVerifyRequest, ResendVerificationRequest,
+    TwoFactorVerifyRequest, TwoFactorSetupResponse, TwoFactorConfirmRequest, TwoFactorDisableRequest,
+    GoogleAuthRequest, GoogleAuthUrlResponse, UserSessionResponse, SecuritySettingsResponse,
+    AuthTokenResponse, UserResponse,
     UserProfileUpdateRequest, PasswordChangeRequest, ForgotPasswordRequest, ResetPasswordRequest,
     UserStatusUpdateRequest, FinancialProfileRequest, UserDetailAdminResponse
 )
@@ -104,7 +118,7 @@ def get_current_user_optional(authorization: Optional[str] = Header(None), db: S
         return None
     token = authorization.split(" ")[1]
     payload = decode_access_token(token)
-    if not payload or "sub" not in payload:
+    if not payload or "sub" not in payload or payload.get("scope") != "access":
         return None
     user = get_user_by_id(db, payload["sub"])
     if not user or not user.is_active:
@@ -138,35 +152,99 @@ def get_client_ip(request: Request) -> str:
     return request.client.host if request.client else "127.0.0.1"
 
 
+def get_device_info(request: Request) -> str:
+    ua = request.headers.get("user-agent", "Web Browser")
+    if "Mobile" in ua:
+        return "Mobile Device"
+    elif "Macintosh" in ua:
+        return "macOS Desktop"
+    elif "Windows" in ua:
+        return "Windows Desktop"
+    elif "Linux" in ua:
+        return "Linux Desktop"
+    return "Web Browser"
+
+
 # ─── Authentication Routes ────────────────────────────────────────────────────
 
 @app.post("/api/v1/auth/register", response_model=AuthTokenResponse, status_code=status.HTTP_201_CREATED)
 def register_user(req: UserRegisterRequest, request: Request, db: Session = Depends(get_db)):
-    # Rate limit signups per IP
     ip = get_client_ip(request)
-    if not check_rate_limit(ip, max_requests=10, window_seconds=60):
-        raise HTTPException(status_code=429, detail="Too many registration attempts. Please try again later.")
+    if not check_rate_limit(ip, max_requests=8, window_seconds=60):
+        raise HTTPException(status_code=429, detail="Too many registration attempts from this IP. Please wait.")
 
-    existing = get_user_by_email(db, req.email)
+    clean_email = req.email.lower().strip()
+    existing = get_user_by_email(db, clean_email)
+    
     if existing:
-        raise HTTPException(status_code=400, detail="An account with this email address already exists.")
+        if existing.email_verified:
+            raise HTTPException(status_code=400, detail="An account with this email address already exists.")
+        # If user exists but is unverified, regenerate verification code and guide them to verify
+        user = existing
+    else:
+        # Strictly assign USER role for public signups (cannot be elevated via payload)
+        user_id = "USR-" + uuid.uuid4().hex[:8].upper()
+        user = create_user(
+            db=db,
+            user_id=user_id,
+            email=clean_email,
+            password_plain=req.password,
+            full_name=req.full_name,
+            role="USER",
+            email_verified=False
+        )
 
-    # Strictly assign USER role for public signups (cannot be elevated via payload)
-    user_id = "USR-" + uuid.uuid4().hex[:8].upper()
-    user = create_user(
-        db=db,
-        user_id=user_id,
-        email=req.email,
-        password_plain=req.password,
-        full_name=req.full_name,
-        role="USER"
+    # Generate single-use 6-digit numeric verification OTP
+    otp = generate_numeric_otp(6)
+    code_hash = hash_otp_code(otp)
+    create_email_verification_challenge(db, user_id=user.id, email=user.email, code_hash=code_hash, expiry_minutes=10)
+
+    # Log for development/testing visibility
+    logger.info(f"📧 [Email Verification OTP] Code for {user.email}: {otp}")
+    log_activity(db, "signup_initiated", user_id=user.id, user_email=user.email, resource_type="user", ip_address=ip)
+
+    return AuthTokenResponse(
+        user_id=user.id,
+        email=user.email,
+        full_name=user.full_name,
+        role=user.role,
+        requires_verification=True,
+        message=f"A 6-digit verification code has been dispatched to {user.email}."
     )
 
+
+@app.post("/api/v1/auth/verify-email", response_model=AuthTokenResponse)
+def verify_email(req: EmailVerifyRequest, request: Request, db: Session = Depends(get_db)):
+    ip = get_client_ip(request)
+    clean_email = req.email.lower().strip()
+    user = get_user_by_email(db, clean_email)
+    if not user:
+        raise HTTPException(status_code=400, detail="Invalid email or verification challenge.")
+
+    challenge = get_active_email_challenge(db, clean_email)
+    if not challenge:
+        raise HTTPException(status_code=400, detail="That code is invalid or has expired. Please request a new code.")
+
+    if not verify_otp_code(req.code, challenge.code_hash):
+        challenge.attempts_left -= 1
+        if challenge.attempts_left <= 0:
+            challenge.consumed = True
+        db.commit()
+        raise HTTPException(status_code=400, detail=f"Invalid verification code. {max(0, challenge.attempts_left)} attempt(s) remaining.")
+
+    # Mark challenge consumed and activate user
+    challenge.consumed = True
+    mark_user_email_verified(db, user.id)
     update_user_last_login(db, user.id)
-    log_activity(db, "account_created", user_id=user.id, user_email=user.email, resource_type="user", resource_id=user.id, ip_address=ip)
+
+    # Create user session
+    session_token = generate_session_token()
+    create_user_session(db, user.id, session_token=session_token, device_info=get_device_info(request), ip_address=ip)
+
+    log_activity(db, "email_verified", user_id=user.id, user_email=user.email, ip_address=ip)
     log_activity(db, "login_success", user_id=user.id, user_email=user.email, resource_type="session", ip_address=ip)
 
-    token = create_access_token(subject=user.id, role=user.role)
+    token = create_access_token(subject=user.id, role=user.role, session_id=session_token)
     return AuthTokenResponse(
         access_token=token,
         user_id=user.id,
@@ -174,7 +252,34 @@ def register_user(req: UserRegisterRequest, request: Request, db: Session = Depe
         full_name=user.full_name,
         role=user.role,
         expires_in_minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES,
+        message="Email successfully verified. Welcome to Nova Credit AI!"
     )
+
+
+@app.post("/api/v1/auth/resend-verification")
+def resend_verification_code(req: ResendVerificationRequest, request: Request, db: Session = Depends(get_db)):
+    ip = get_client_ip(request)
+    clean_email = req.email.lower().strip()
+    user = get_user_by_email(db, clean_email)
+    if not user:
+        # Return generic success to avoid user enumeration
+        return {"message": "If an unverified account exists, a new code has been sent."}
+
+    if user.email_verified:
+        return {"message": "Email is already verified. Please sign in directly."}
+
+    # Enforce 45s cooldown
+    can_resend, remaining_secs = check_action_cooldown(f"resend_otp_{clean_email}", cooldown_seconds=45)
+    if not can_resend:
+        raise HTTPException(status_code=429, detail=f"Please wait {remaining_secs}s before requesting a new code.")
+
+    otp = generate_numeric_otp(6)
+    code_hash = hash_otp_code(otp)
+    create_email_verification_challenge(db, user_id=user.id, email=user.email, code_hash=code_hash, expiry_minutes=10)
+
+    logger.info(f"📧 [Resent Email OTP] Code for {user.email}: {otp}")
+    log_activity(db, "verification_code_resent", user_id=user.id, user_email=user.email, ip_address=ip)
+    return {"message": "A new 6-digit verification code has been dispatched."}
 
 
 @app.post("/api/v1/auth/login", response_model=AuthTokenResponse)
@@ -184,14 +289,65 @@ def login_user(req: UserLoginRequest, request: Request, db: Session = Depends(ge
         raise HTTPException(status_code=429, detail="Too many login attempts. Please wait 60 seconds.")
 
     user = get_user_by_email(db, req.email)
-    if not user or not verify_password(req.password, user.password_hash) or not user.is_active:
-        log_activity(db, "login_failed", user_email=req.email, ip_address=ip, details={"reason": "invalid_credentials"})
+    if not user:
         raise HTTPException(status_code=401, detail="Invalid email or password.")
 
+    # Check account lockout
+    locked, remaining_mins = is_account_locked(user)
+    if locked:
+        raise HTTPException(
+            status_code=423,
+            detail=f"Account temporarily locked due to repeated failed attempts. Please retry in {remaining_mins} minute(s)."
+        )
+
+    if not verify_password(req.password, user.password_hash):
+        attempts, lock_iso = record_login_failure(db, user, max_attempts=5, lock_minutes=15)
+        log_activity(db, "login_failed", user_id=user.id, user_email=user.email, ip_address=ip, details={"reason": "invalid_password", "attempts": attempts})
+        if lock_iso:
+            raise HTTPException(status_code=423, detail="Too many failed login attempts. Account locked for 15 minutes.")
+        raise HTTPException(status_code=401, detail="Invalid email or password.")
+
+    if not user.is_active:
+        raise HTTPException(status_code=403, detail="Account is deactivated. Please contact support.")
+
+    # If email is not yet verified, require OTP verification before issuing full session
+    if not user.email_verified:
+        otp = generate_numeric_otp(6)
+        code_hash = hash_otp_code(otp)
+        create_email_verification_challenge(db, user_id=user.id, email=user.email, code_hash=code_hash, expiry_minutes=10)
+        logger.info(f"📧 [Email Verification OTP] Code for {user.email}: {otp}")
+        return AuthTokenResponse(
+            user_id=user.id,
+            email=user.email,
+            full_name=user.full_name,
+            role=user.role,
+            requires_verification=True,
+            message="Please verify your email address to activate your account."
+        )
+
+    # If Two-Factor Authentication is enabled, issue a short-lived 2FA challenge token
+    if user.two_factor_enabled:
+        temp_token = create_2fa_challenge_token(user.id, user.email, user.two_factor_method or "totp")
+        log_activity(db, "2fa_challenge_issued", user_id=user.id, user_email=user.email, ip_address=ip)
+        return AuthTokenResponse(
+            user_id=user.id,
+            email=user.email,
+            full_name=user.full_name,
+            role=user.role,
+            requires_2fa=True,
+            temp_token=temp_token,
+            two_factor_method=user.two_factor_method or "totp",
+            message="Two-step verification required."
+        )
+
+    # Standard Login Success
     update_user_last_login(db, user.id)
+    session_token = generate_session_token()
+    create_user_session(db, user.id, session_token=session_token, device_info=get_device_info(request), ip_address=ip)
+
     log_activity(db, "login_success", user_id=user.id, user_email=user.email, resource_type="session", ip_address=ip)
 
-    token = create_access_token(subject=user.id, role=user.role)
+    token = create_access_token(subject=user.id, role=user.role, session_id=session_token)
     return AuthTokenResponse(
         access_token=token,
         user_id=user.id,
@@ -200,6 +356,251 @@ def login_user(req: UserLoginRequest, request: Request, db: Session = Depends(ge
         role=user.role,
         expires_in_minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES,
     )
+
+
+@app.post("/api/v1/auth/2fa/verify", response_model=AuthTokenResponse)
+def verify_two_factor(req: TwoFactorVerifyRequest, request: Request, db: Session = Depends(get_db)):
+    ip = get_client_ip(request)
+    payload = decode_access_token(req.temp_token)
+    if not payload or payload.get("scope") != "2fa_challenge" or "sub" not in payload:
+        raise HTTPException(status_code=401, detail="2FA challenge session has expired. Please sign in again.")
+
+    user = get_user_by_id(db, payload["sub"])
+    if not user or not user.is_active:
+        raise HTTPException(status_code=401, detail="User account invalid or deactivated.")
+
+    # 1. Recovery code branch
+    if req.is_recovery_code or "-" in req.code:
+        code_h = hash_recovery_code(req.code)
+        if not verify_and_consume_recovery_code(db, user.id, code_h):
+            log_activity(db, "2fa_recovery_code_failed", user_id=user.id, user_email=user.email, ip_address=ip)
+            raise HTTPException(status_code=400, detail="Invalid or previously consumed recovery code.")
+        log_activity(db, "2fa_recovery_code_used", user_id=user.id, user_email=user.email, ip_address=ip)
+    else:
+        # 2. Standard TOTP Authenticator code branch
+        if not user.totp_secret or not verify_totp_code(user.totp_secret, req.code):
+            log_activity(db, "2fa_totp_failed", user_id=user.id, user_email=user.email, ip_address=ip)
+            raise HTTPException(status_code=400, detail="That code is invalid. Check your authenticator app.")
+
+    # 2FA Succeeded: Issue Full Session
+    update_user_last_login(db, user.id)
+    session_token = generate_session_token()
+    create_user_session(db, user.id, session_token=session_token, device_info=get_device_info(request), ip_address=ip)
+
+    log_activity(db, "2fa_login_success", user_id=user.id, user_email=user.email, resource_type="session", ip_address=ip)
+    token = create_access_token(subject=user.id, role=user.role, session_id=session_token)
+
+    return AuthTokenResponse(
+        access_token=token,
+        user_id=user.id,
+        email=user.email,
+        full_name=user.full_name,
+        role=user.role,
+        expires_in_minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES,
+        message="Authentication complete."
+    )
+
+
+@app.get("/api/v1/auth/google/url", response_model=GoogleAuthUrlResponse)
+def get_google_auth_url():
+    state = secrets.token_urlsafe(16)
+    auth_url = (
+        f"https://accounts.google.com/o/oauth2/v2/auth?"
+        f"client_id=GOOGLE_CLIENT_ID&"
+        f"response_type=code&"
+        f"scope=openid%20email%20profile&"
+        f"redirect_uri=http://localhost:8085/api/v1/auth/google/callback&"
+        f"state={state}"
+    )
+    return GoogleAuthUrlResponse(auth_url=auth_url, state=state)
+
+
+@app.post("/api/v1/auth/google", response_model=AuthTokenResponse)
+def google_authenticate(req: GoogleAuthRequest, request: Request, db: Session = Depends(get_db)):
+    ip = get_client_ip(request)
+    if not req.email:
+        raise HTTPException(status_code=400, detail="Google authentication failed to provide a valid email.")
+
+    clean_email = req.email.lower().strip()
+    provider_sub = req.provider_user_id or f"google-sub-{uuid.uuid4().hex[:8]}"
+    
+    # Check if account exists
+    user = get_user_by_email(db, clean_email)
+    if not user:
+        user_id = "USR-" + uuid.uuid4().hex[:8].upper()
+        user = create_user(
+            db=db,
+            user_id=user_id,
+            email=clean_email,
+            password_plain=secrets.token_urlsafe(24),
+            full_name=req.full_name or clean_email.split("@")[0].capitalize(),
+            role="USER",
+            email_verified=True
+        )
+        log_activity(db, "google_account_created", user_id=user.id, user_email=user.email, ip_address=ip)
+    else:
+        # Ensure email is marked verified since verified by Google Identity
+        if not user.email_verified:
+            mark_user_email_verified(db, user.id)
+
+    # Link OAuth account record
+    link_oauth_account(db, user_id=user.id, provider="google", provider_user_id=provider_sub, provider_email=clean_email)
+
+    # If user has 2FA enabled on Nova, enforce Nova 2FA after Google OAuth
+    if user.two_factor_enabled:
+        temp_token = create_2fa_challenge_token(user.id, user.email, user.two_factor_method or "totp")
+        log_activity(db, "google_login_2fa_required", user_id=user.id, user_email=user.email, ip_address=ip)
+        return AuthTokenResponse(
+            user_id=user.id,
+            email=user.email,
+            full_name=user.full_name,
+            role=user.role,
+            requires_2fa=True,
+            temp_token=temp_token,
+            two_factor_method=user.two_factor_method or "totp",
+            message="Two-step verification required."
+        )
+
+    update_user_last_login(db, user.id)
+    session_token = generate_session_token()
+    create_user_session(db, user.id, session_token=session_token, device_info=get_device_info(request), ip_address=ip)
+
+    log_activity(db, "google_login_success", user_id=user.id, user_email=user.email, ip_address=ip)
+    token = create_access_token(subject=user.id, role=user.role, session_id=session_token)
+
+    return AuthTokenResponse(
+        access_token=token,
+        user_id=user.id,
+        email=user.email,
+        full_name=user.full_name,
+        role=user.role,
+        expires_in_minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES,
+        message="Successfully authenticated with Google."
+    )
+
+
+# ─── 2FA Management Endpoints ─────────────────────────────────────────────────
+
+@app.post("/api/v1/auth/2fa/setup", response_model=TwoFactorSetupResponse)
+def setup_two_factor(current_user: UserRecord = Depends(get_current_user), db: Session = Depends(get_db)):
+    secret = generate_totp_secret()
+    set_user_totp_secret(db, current_user.id, secret)
+    uri = get_totp_uri(secret, current_user.email, issuer_name="Nova Credit AI")
+    qr_data_url = generate_qr_code_data_url(uri)
+    return TwoFactorSetupResponse(
+        secret=secret,
+        otpauth_uri=uri,
+        qr_code_data_url=qr_data_url
+    )
+
+
+@app.post("/api/v1/auth/2fa/confirm")
+def confirm_two_factor(req: TwoFactorConfirmRequest, request: Request, current_user: UserRecord = Depends(get_current_user), db: Session = Depends(get_db)):
+    if not current_user.totp_secret:
+        raise HTTPException(status_code=400, detail="Two-factor enrollment not initiated. Run setup first.")
+
+    if not verify_totp_code(current_user.totp_secret, req.code):
+        raise HTTPException(status_code=400, detail="Invalid verification code. Check the time on your authenticator app.")
+
+    enable_user_2fa(db, current_user.id, method="totp")
+    plain_codes, hashed_codes = generate_recovery_codes(count=8)
+    save_user_recovery_codes(db, current_user.id, hashed_codes)
+
+    log_activity(db, "2fa_enabled", user_id=current_user.id, user_email=current_user.email, ip_address=get_client_ip(request))
+
+    return {
+        "message": "Two-factor authentication successfully enabled.",
+        "recovery_codes": plain_codes
+    }
+
+
+@app.post("/api/v1/auth/2fa/disable")
+def disable_two_factor(req: TwoFactorDisableRequest, request: Request, current_user: UserRecord = Depends(get_current_user), db: Session = Depends(get_db)):
+    if not current_user.two_factor_enabled:
+        return {"message": "Two-factor authentication is already disabled."}
+
+    # Verify either current password or valid TOTP code
+    is_valid = False
+    if req.password and verify_password(req.password, current_user.password_hash):
+        is_valid = True
+    elif req.code and current_user.totp_secret and verify_totp_code(current_user.totp_secret, req.code):
+        is_valid = True
+
+    if not is_valid:
+        raise HTTPException(status_code=400, detail="Current password or authenticator code required to disable 2FA.")
+
+    disable_user_2fa(db, current_user.id)
+    log_activity(db, "2fa_disabled", user_id=current_user.id, user_email=current_user.email, ip_address=get_client_ip(request))
+    return {"message": "Two-factor authentication has been disabled."}
+
+
+# ─── Sessions & Security Settings Endpoints ───────────────────────────────────
+
+@app.get("/api/v1/auth/security-settings", response_model=SecuritySettingsResponse)
+def get_security_settings(
+    authorization: Optional[str] = Header(None),
+    current_user: UserRecord = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    sessions = get_active_sessions(db, current_user.id)
+    current_sess_id = None
+    if authorization and authorization.startswith("Bearer "):
+        token_payload = decode_access_token(authorization.split(" ")[1])
+        if token_payload:
+            current_sess_id = token_payload.get("session_id")
+
+    google_linked = bool(get_oauth_account(db, "google", current_user.id) or any(oa.provider == "google" for oa in current_user.oauth_accounts))
+    
+    session_responses = [
+        UserSessionResponse(
+            id=s.id,
+            device_info=s.device_info,
+            ip_address=s.ip_address,
+            last_active_at=s.last_active_at,
+            expires_at=s.expires_at,
+            is_current=(s.session_token == current_sess_id or s.id == current_sess_id)
+        )
+        for s in sessions
+    ]
+
+    return SecuritySettingsResponse(
+        two_factor_enabled=current_user.two_factor_enabled,
+        two_factor_method=current_user.two_factor_method,
+        has_google_linked=google_linked,
+        active_sessions=session_responses
+    )
+
+
+@app.get("/api/v1/auth/sessions", response_model=List[UserSessionResponse])
+def list_sessions(current_user: UserRecord = Depends(get_current_user), db: Session = Depends(get_db)):
+    sessions = get_active_sessions(db, current_user.id)
+    return [
+        UserSessionResponse(
+            id=s.id,
+            device_info=s.device_info,
+            ip_address=s.ip_address,
+            last_active_at=s.last_active_at,
+            expires_at=s.expires_at,
+            is_current=False
+        )
+        for s in sessions
+    ]
+
+
+@app.delete("/api/v1/auth/sessions/{session_id}")
+def revoke_session(session_id: str, request: Request, current_user: UserRecord = Depends(get_current_user), db: Session = Depends(get_db)):
+    success = revoke_user_session(db, current_user.id, session_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Session not found.")
+    log_activity(db, "session_revoked", user_id=current_user.id, user_email=current_user.email, resource_id=session_id, ip_address=get_client_ip(request))
+    return {"message": "Session revoked."}
+
+
+@app.post("/api/v1/auth/logout-all")
+def logout_all_sessions(request: Request, current_user: UserRecord = Depends(get_current_user), db: Session = Depends(get_db)):
+    revoke_all_user_sessions(db, current_user.id)
+    log_activity(db, "all_sessions_revoked", user_id=current_user.id, user_email=current_user.email, ip_address=get_client_ip(request))
+    return {"message": "All active sessions have been terminated."}
 
 
 @app.post("/api/v1/auth/logout")
@@ -217,6 +618,8 @@ def get_me(current_user: UserRecord = Depends(get_current_user)):
         role=current_user.role,
         is_active=current_user.is_active,
         email_verified=current_user.email_verified,
+        two_factor_enabled=current_user.two_factor_enabled,
+        two_factor_method=current_user.two_factor_method,
         created_at=current_user.created_at,
         last_login_at=current_user.last_login_at,
     )
@@ -226,8 +629,11 @@ def get_me(current_user: UserRecord = Depends(get_current_user)):
 def forgot_password(req: ForgotPasswordRequest, request: Request, db: Session = Depends(get_db)):
     user = get_user_by_email(db, req.email)
     if user:
+        raw_token = secrets.token_urlsafe(32)
+        token_hash = hash_otp_code(raw_token)
+        create_password_reset_token(db, user.id, token_hash=token_hash, expiry_minutes=30)
+        logger.info(f"🔑 [Password Reset Token] For {user.email}: {raw_token}")
         log_activity(db, "password_reset_requested", user_id=user.id, user_email=user.email, ip_address=get_client_ip(request))
-    # Return generic success response to prevent user enumeration
     return {"message": "If an account with that email exists, password reset instructions have been dispatched."}
 
 
@@ -235,10 +641,17 @@ def forgot_password(req: ForgotPasswordRequest, request: Request, db: Session = 
 def reset_password(req: ResetPasswordRequest, request: Request, db: Session = Depends(get_db)):
     user = get_user_by_email(db, req.email)
     if not user:
-        raise HTTPException(status_code=400, detail="Invalid password reset token or request.")
+        raise HTTPException(status_code=400, detail="Invalid password reset request.")
+
+    token_hash = hash_otp_code(req.reset_token)
+    if not verify_and_consume_password_reset_token(db, user.id, token_hash):
+        raise HTTPException(status_code=400, detail="Password reset token is invalid or has expired.")
+
     update_user_password(db, user.id, req.new_password)
+    revoke_all_user_sessions(db, user.id)
     log_activity(db, "password_changed", user_id=user.id, user_email=user.email, ip_address=get_client_ip(request))
     return {"message": "Password reset successful. Please sign in with your new password."}
+
 
 
 # ─── User Profile & Settings Endpoints ────────────────────────────────────────

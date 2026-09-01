@@ -391,6 +391,197 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.06); font-weight: 500;
 }
 
+/* ─── AUTH STEP PILL ─── */
+.auth-step-pill {
+  display: inline-block; padding: 3px 10px; border-radius: 12px;
+  background: rgba(231, 166, 74, 0.1); border: 1px solid rgba(231, 166, 74, 0.25);
+  color: #E7A64A; font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+/* ─── GOOGLE AUTH BUTTON ─── */
+.btn-google-auth {
+  width: 100%; height: 48px; display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: #171821; border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9px; font-size: 13.5px; font-weight: 600; color: #F5F5F7;
+  cursor: pointer; transition: all 180ms ease; font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.btn-google-auth:hover {
+  background: #1C1D28; border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 12px -2px rgba(0,0,0,0.4);
+}
+.btn-google-auth:active { transform: scale(0.98); }
+.google-icon-svg { flex-shrink: 0; }
+
+/* ─── AUTH DIVIDER ─── */
+.auth-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 18px 0; color: #525866; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.auth-divider::before, .auth-divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ─── PASSWORD STRENGTH INDICATOR ─── */
+.pwd-strength-container {
+  margin-top: 8px;
+}
+.pwd-strength-bars {
+  display: flex; gap: 4px; margin-bottom: 4px;
+}
+.pwd-strength-bars .bar {
+  flex: 1; height: 3px; border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background 250ms ease;
+}
+.pwd-strength-bars .bar.weak { background: #EF4444; }
+.pwd-strength-bars .bar.fair { background: #F59E0B; }
+.pwd-strength-bars .bar.good { background: #3B82F6; }
+.pwd-strength-bars .bar.strong { background: #10B981; }
+
+.pwd-strength-text {
+  font-size: 11px; color: #8E919D; font-weight: 500;
+}
+.pwd-strength-text.weak { color: #FCA5A5; }
+.pwd-strength-text.fair { color: #FCD34D; }
+.pwd-strength-text.good { color: #93C5FD; }
+.pwd-strength-text.strong { color: #6EE7B7; }
+
+/* ─── 6-CELL OTP INPUT GROUP ─── */
+.otp-cell-group {
+  display: flex; gap: 8px; justify-content: center;
+  margin: 20px 0 24px 0;
+}
+.otp-cell {
+  width: 52px; height: 56px; text-align: center;
+  font-size: 22px; font-weight: 700; font-family: 'Plus Jakarta Sans', monospace;
+  background: #171821; border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px; color: #F5F5F7; caret-color: #E7A64A;
+  transition: all 180ms ease;
+}
+.otp-cell:focus {
+  background: #1C1D28; border-color: #E56D69;
+  box-shadow: 0 0 0 3px rgba(229, 109, 105, 0.2);
+  outline: none;
+}
+.otp-cell.filled { border-color: #E7A64A; background: #1A1B24; }
+.otp-cell.error { border-color: #EF4444; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2); animation: otpShake 400ms ease; }
+
+@keyframes otpShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+/* ─── AUTH STATUS ICON WRAP ─── */
+.auth-status-icon-wrap {
+  display: flex; justify-content: center; margin-bottom: 16px;
+}
+.auth-icon-circle {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(231, 166, 74, 0.1); border: 1px solid rgba(231, 166, 74, 0.2);
+  display: flex; align-items: center; justify-content: center;
+  animation: iconPulse 2s ease-in-out infinite;
+}
+@keyframes iconPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(231, 166, 74, 0.1); }
+  50% { box-shadow: 0 0 0 10px rgba(231, 166, 74, 0); }
+}
+
+.auth-verify-desc {
+  font-size: 13px; color: #9295A1; line-height: 1.6;
+  text-align: center; margin-bottom: 4px;
+}
+.email-highlight { color: #E7A64A; font-weight: 700; }
+
+/* ─── RESEND COUNTDOWN ROW ─── */
+.resend-countdown-row {
+  text-align: center; margin-top: 12px; margin-bottom: 8px;
+  font-size: 12.5px; color: #8E919D;
+}
+.resend-countdown-row #resendCountdown { color: #E7A64A; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ─── LINK ACTION BUTTON ─── */
+.btn-link-action {
+  background: none; border: none; color: #E7A64A;
+  font-size: 12.5px; font-weight: 600; cursor: pointer;
+  transition: color 150ms ease; text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.btn-link-action:hover { color: #E56D69; }
+
+/* ─── 2FA SWITCH ROW ─── */
+.twofa-switch-row {
+  text-align: center; margin-top: 12px; margin-bottom: 4px;
+}
+
+/* ─── MONO FIELD (Recovery codes, tokens) ─── */
+.mono-field {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace !important;
+  letter-spacing: 0.05em;
+}
+
+.btn-ghost-back {
+  width: 100%; padding: 10px; background: transparent; color: #8E919D;
+  font-size: 13px; font-weight: 500; border: none; margin-top: 8px; cursor: pointer;
+  transition: color 150ms ease; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-ghost-back:hover { color: #F5F5F7; }
+
+/* ─── AUTH ALERT INFO TYPE ─── */
+.auth-alert-banner.info { background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.3); color: #93C5FD; }
+.auth-alert-banner.warning { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); color: #FCD34D; }
+
+/* ─── SECURITY SETTINGS SECTION ─── */
+.security-settings-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+@media (max-width: 768px) {
+  .security-settings-grid { grid-template-columns: 1fr; }
+}
+
+.security-card {
+  background: #171821; border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px; padding: 20px;
+}
+.security-card-title {
+  font-size: 14px; font-weight: 700; color: #F5F5F7;
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.security-card-desc {
+  font-size: 12.5px; color: #8E919D; line-height: 1.5; margin-bottom: 14px;
+}
+.security-status-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+}
+.security-status-badge.enabled { background: rgba(16, 185, 129, 0.12); color: #6EE7B7; }
+.security-status-badge.disabled { background: rgba(156, 163, 175, 0.12); color: #9CA3AF; }
+
+.session-list-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.session-list-item:last-child { border-bottom: none; }
+.session-info { display: flex; flex-direction: column; gap: 2px; }
+.session-device { font-size: 13px; font-weight: 600; color: #F5F5F7; }
+.session-meta { font-size: 11px; color: #8E919D; }
+.session-current-badge {
+  font-size: 10px; font-weight: 700; color: #10B981;
+  background: rgba(16, 185, 129, 0.12); padding: 2px 8px;
+  border-radius: 8px; letter-spacing: 0.04em;
+}
+.btn-revoke-session {
+  background: none; border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #FCA5A5; font-size: 11px; font-weight: 600;
+  padding: 4px 10px; border-radius: 6px; cursor: pointer;
+  transition: all 150ms ease;
+}
+.btn-revoke-session:hover { background: rgba(239, 68, 68, 0.15); color: #EF4444; }
+
 /* BOTTOM FOOTER */
 .auth-bottom-footer {
   position: relative; z-index: 10;

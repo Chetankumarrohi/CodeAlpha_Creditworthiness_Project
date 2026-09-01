@@ -183,6 +183,7 @@ function resolveUserRoute(path) {
   } else if (path === "/app/settings") {
     showSection("view-user-settings");
     if (pageTitle) pageTitle.textContent = "Security & Password Settings";
+    check2faStatus();
   } else {
     // Default: /app/dashboard
     showSection("view-user-dashboard");
@@ -240,37 +241,104 @@ function toggleMobileSidebar() {
 
 // ─── Authentication Gate Handlers ──────────────────────────────────────────────
 
+// ─── Auth State Machine ──────────────────────────────────────────────────────
+// States: login | register | verify_email | 2fa_challenge | forgot | reset_password
+let authPendingEmail = "";
+let authPendingUserId = "";
+let authPendingTempToken = "";
+let authPending2faMethod = "";
+let resendCountdownTimer = null;
+let isRecoveryCodeMode = false;
+
 function switchAuthMode(mode) {
   currentAuthMode = mode;
+  hideAuthAlert();
+
+  const allForms = ["authMainForm", "authVerifyEmailForm", "authTwoFactorForm", "forgotPassForm", "authResetPassForm"];
+  allForms.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = "none"; });
+
+  const tabsNav = document.getElementById("authTabsNav");
+  const stepPill = document.getElementById("authStepPill");
+  const headerTitle = document.getElementById("authHeaderTitle");
+  const headerSub = document.getElementById("authHeaderSub");
+  const pwdStrength = document.getElementById("pwdStrengthWrap");
+
+  if (stepPill) stepPill.style.display = "none";
+  if (tabsNav) tabsNav.style.display = "flex";
+  if (pwdStrength) pwdStrength.style.display = "none";
+
   const btnLogin = document.getElementById("btnTabLogin");
   const btnReg = document.getElementById("btnTabRegister");
   const nameGrp = document.getElementById("fieldGroupName");
   const btnText = document.getElementById("btnAuthText");
   const forgotLink = document.getElementById("linkForgotPass");
-  const headerTitle = document.getElementById("authHeaderTitle");
-  const headerSub = document.getElementById("authHeaderSub");
   const chkText = document.getElementById("chkRememberText");
 
-  hideAuthAlert();
+  switch (mode) {
+    case "login":
+      document.getElementById("authMainForm").style.display = "block";
+      if (btnLogin) btnLogin.classList.add("active");
+      if (btnReg) btnReg.classList.remove("active");
+      if (nameGrp) nameGrp.style.display = "none";
+      if (btnText) btnText.textContent = "Sign In to Workspace";
+      if (forgotLink) forgotLink.style.display = "inline";
+      if (headerTitle) headerTitle.textContent = "Welcome back";
+      if (headerSub) headerSub.textContent = "Sign in to access your Nova workspace.";
+      if (chkText) chkText.textContent = "Keep me signed in on this device";
+      break;
 
-  if (mode === "login") {
-    if (btnLogin) btnLogin.classList.add("active");
-    if (btnReg) btnReg.classList.remove("active");
-    if (nameGrp) nameGrp.style.display = "none";
-    if (btnText) btnText.textContent = "Sign In to Workspace";
-    if (forgotLink) forgotLink.style.display = "inline";
-    if (headerTitle) headerTitle.textContent = "Welcome back";
-    if (headerSub) headerSub.textContent = "Sign in to access your Nova workspace.";
-    if (chkText) chkText.textContent = "Remember me for 30 days";
-  } else {
-    if (btnReg) btnReg.classList.add("active");
-    if (btnLogin) btnLogin.classList.remove("active");
-    if (nameGrp) nameGrp.style.display = "block";
-    if (btnText) btnText.textContent = "Create Workspace Account";
-    if (forgotLink) forgotLink.style.display = "none";
-    if (headerTitle) headerTitle.textContent = "Create your account";
-    if (headerSub) headerSub.textContent = "Get started with Nova Credit AI workspace";
-    if (chkText) chkText.textContent = "I agree to the Terms of Service & Privacy Policy";
+    case "register":
+      document.getElementById("authMainForm").style.display = "block";
+      if (btnReg) btnReg.classList.add("active");
+      if (btnLogin) btnLogin.classList.remove("active");
+      if (nameGrp) nameGrp.style.display = "block";
+      if (btnText) btnText.textContent = "Create Workspace Account";
+      if (forgotLink) forgotLink.style.display = "none";
+      if (headerTitle) headerTitle.textContent = "Create your account";
+      if (headerSub) headerSub.textContent = "Get started with Nova Credit AI workspace.";
+      if (chkText) chkText.textContent = "I agree to the Terms of Service & Privacy Policy";
+      if (pwdStrength) pwdStrength.style.display = "block";
+      break;
+
+    case "verify_email":
+      if (tabsNav) tabsNav.style.display = "none";
+      if (stepPill) { stepPill.style.display = "inline-block"; stepPill.textContent = "VERIFICATION REQUIRED"; }
+      if (headerTitle) headerTitle.textContent = "Verify your email";
+      if (headerSub) headerSub.textContent = "A security code has been sent to your email.";
+      document.getElementById("authVerifyEmailForm").style.display = "block";
+      document.getElementById("lblVerifyTargetEmail").textContent = authPendingEmail;
+      clearOtpCells("emailOtp");
+      startResendCountdown(45);
+      setTimeout(() => { const c = document.getElementById("emailOtp0"); if (c) c.focus(); }, 200);
+      break;
+
+    case "2fa_challenge":
+      if (tabsNav) tabsNav.style.display = "none";
+      if (stepPill) { stepPill.style.display = "inline-block"; stepPill.textContent = "TWO-STEP VERIFICATION"; }
+      if (headerTitle) headerTitle.textContent = "Two-step verification";
+      if (headerSub) headerSub.textContent = "An extra layer of security for your account.";
+      document.getElementById("authTwoFactorForm").style.display = "block";
+      isRecoveryCodeMode = false;
+      document.getElementById("twoFactorTotpWrap").style.display = "block";
+      document.getElementById("twoFactorRecoveryWrap").style.display = "none";
+      document.getElementById("btnToggle2faMode").textContent = "Use an emergency recovery code instead";
+      clearOtpCells("twoFactorOtp");
+      setTimeout(() => { const c = document.getElementById("twoFactorOtp0"); if (c) c.focus(); }, 200);
+      break;
+
+    case "forgot":
+      if (tabsNav) tabsNav.style.display = "none";
+      if (headerTitle) headerTitle.textContent = "Reset your password";
+      if (headerSub) headerSub.textContent = "We'll help you regain access to your workspace.";
+      document.getElementById("forgotPassForm").style.display = "block";
+      break;
+
+    case "reset_password":
+      if (tabsNav) tabsNav.style.display = "none";
+      if (headerTitle) headerTitle.textContent = "Create new password";
+      if (headerSub) headerSub.textContent = "Set a strong password for your workspace.";
+      document.getElementById("authResetPassForm").style.display = "block";
+      break;
   }
   if (window.lucide) window.lucide.createIcons();
 }
@@ -288,23 +356,148 @@ function togglePasswordVisibility(inputId, btnEl) {
   if (window.lucide) window.lucide.createIcons();
 }
 
-function toggleForgotPasswordView(show) {
-  const mainForm = document.getElementById("authMainForm");
-  const forgotForm = document.getElementById("forgotPassForm");
-  if (show) {
-    if (mainForm) mainForm.style.display = "none";
-    if (forgotForm) forgotForm.style.display = "block";
-  } else {
-    if (mainForm) mainForm.style.display = "block";
-    if (forgotForm) forgotForm.style.display = "none";
+// ─── Password Strength Evaluator ─────────────────────────────────────────────
+function evaluatePasswordStrength(pwd) {
+  if (currentAuthMode !== "register") return;
+  const bars = [document.getElementById("pwdBar1"), document.getElementById("pwdBar2"), document.getElementById("pwdBar3"), document.getElementById("pwdBar4")];
+  const textEl = document.getElementById("pwdStrengthText");
+  bars.forEach(b => { if (b) b.className = "bar"; });
+
+  if (!pwd || pwd.length === 0) {
+    if (textEl) { textEl.textContent = "Use at least 8 characters with letters & numbers"; textEl.className = "pwd-strength-text"; }
+    return;
+  }
+
+  let score = 0;
+  if (pwd.length >= 8) score++;
+  if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) score++;
+  if (/\d/.test(pwd)) score++;
+  if (/[^a-zA-Z0-9]/.test(pwd)) score++;
+
+  const levels = ["weak", "weak", "fair", "good", "strong"];
+  const labels = ["Very weak", "Weak", "Fair", "Good", "Strong"];
+  const level = levels[score] || "weak";
+
+  for (let i = 0; i < score && i < bars.length; i++) {
+    if (bars[i]) bars[i].className = "bar " + level;
+  }
+  if (textEl) {
+    textEl.textContent = labels[score] || "Weak";
+    textEl.className = "pwd-strength-text " + level;
   }
 }
 
-function showAuthAlert(msg, isSuccess = false) {
+// ─── OTP Cell Handlers (Shared: Email OTP + 2FA TOTP) ────────────────────────
+function handleOtpInput(el, index, prefix) {
+  el.value = el.value.replace(/[^0-9]/g, "");
+  if (el.value.length === 1) {
+    el.classList.add("filled");
+    el.classList.remove("error");
+    const next = document.getElementById(`${prefix}${index + 1}`);
+    if (next) next.focus();
+  } else {
+    el.classList.remove("filled");
+  }
+}
+
+function handleOtpKeydown(el, index, prefix) {
+  if (event.key === "Backspace" && !el.value && index > 0) {
+    const prev = document.getElementById(`${prefix}${index - 1}`);
+    if (prev) { prev.focus(); prev.value = ""; prev.classList.remove("filled"); }
+  }
+}
+
+function handleOtpPaste(e, prefix) {
+  e.preventDefault();
+  const pasted = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g, "").slice(0, 6);
+  for (let i = 0; i < 6; i++) {
+    const cell = document.getElementById(`${prefix}${i}`);
+    if (cell) {
+      cell.value = pasted[i] || "";
+      if (pasted[i]) cell.classList.add("filled");
+    }
+  }
+}
+
+function getOtpValue(prefix) {
+  let code = "";
+  for (let i = 0; i < 6; i++) {
+    const cell = document.getElementById(`${prefix}${i}`);
+    code += cell ? cell.value : "";
+  }
+  return code;
+}
+
+function clearOtpCells(prefix) {
+  for (let i = 0; i < 6; i++) {
+    const cell = document.getElementById(`${prefix}${i}`);
+    if (cell) { cell.value = ""; cell.classList.remove("filled", "error"); }
+  }
+}
+
+function shakeOtpCells(prefix) {
+  for (let i = 0; i < 6; i++) {
+    const cell = document.getElementById(`${prefix}${i}`);
+    if (cell) cell.classList.add("error");
+  }
+  setTimeout(() => {
+    for (let i = 0; i < 6; i++) {
+      const cell = document.getElementById(`${prefix}${i}`);
+      if (cell) cell.classList.remove("error");
+    }
+  }, 500);
+}
+
+// ─── Resend Countdown Timer ──────────────────────────────────────────────────
+function startResendCountdown(seconds) {
+  if (resendCountdownTimer) clearInterval(resendCountdownTimer);
+  let remaining = seconds;
+  const timerEl = document.getElementById("lblResendTimer");
+  const countdownEl = document.getElementById("resendCountdown");
+  const btnResend = document.getElementById("btnResendOtp");
+
+  if (timerEl) timerEl.style.display = "inline";
+  if (btnResend) btnResend.style.display = "none";
+
+  resendCountdownTimer = setInterval(() => {
+    remaining--;
+    if (countdownEl) countdownEl.textContent = remaining + "s";
+    if (remaining <= 0) {
+      clearInterval(resendCountdownTimer);
+      if (timerEl) timerEl.style.display = "none";
+      if (btnResend) btnResend.style.display = "inline";
+    }
+  }, 1000);
+}
+
+// ─── Toggle 2FA Input Mode (TOTP <-> Recovery) ──────────────────────────────
+function toggleTwoFactorInputMode() {
+  isRecoveryCodeMode = !isRecoveryCodeMode;
+  const totpWrap = document.getElementById("twoFactorTotpWrap");
+  const recWrap = document.getElementById("twoFactorRecoveryWrap");
+  const toggle = document.getElementById("btnToggle2faMode");
+  const desc = document.getElementById("lbl2faDesc");
+
+  if (isRecoveryCodeMode) {
+    if (totpWrap) totpWrap.style.display = "none";
+    if (recWrap) recWrap.style.display = "block";
+    if (toggle) toggle.textContent = "Use authenticator code instead";
+    if (desc) desc.textContent = "Enter one of the single-use recovery codes you saved when setting up 2FA.";
+  } else {
+    if (totpWrap) totpWrap.style.display = "block";
+    if (recWrap) recWrap.style.display = "none";
+    if (toggle) toggle.textContent = "Use an emergency recovery code instead";
+    if (desc) desc.textContent = "Enter the 6-digit authentication code generated by your authenticator app.";
+    clearOtpCells("twoFactorOtp");
+  }
+}
+
+// ─── Auth Alert Helpers ──────────────────────────────────────────────────────
+function showAuthAlert(msg, type = "error") {
   const alertEl = document.getElementById("authAlert");
   if (!alertEl) return;
   alertEl.style.display = "block";
-  alertEl.className = isSuccess ? "auth-alert-banner success" : "auth-alert-banner error";
+  alertEl.className = `auth-alert-banner ${type}`;
   alertEl.textContent = msg;
 }
 
@@ -313,6 +506,7 @@ function hideAuthAlert() {
   if (alertEl) alertEl.style.display = "none";
 }
 
+// ─── Primary Auth Submit (Login / Register) ──────────────────────────────────
 async function handleAuthSubmit(e) {
   e.preventDefault();
   hideAuthAlert();
@@ -326,9 +520,14 @@ async function handleAuthSubmit(e) {
     return;
   }
 
+  if (currentAuthMode === "register" && password.length < 8) {
+    showAuthAlert("Password must be at least 8 characters.");
+    return;
+  }
+
   const endpoint = currentAuthMode === "login" ? "/api/v1/auth/login" : "/api/v1/auth/register";
   const body = currentAuthMode === "login"
-    ? { email, password }
+    ? { email, password, remember_me: document.getElementById("chkRememberMe")?.checked ?? true }
     : { email, password, full_name: name || email.split("@")[0] };
 
   const submitBtn = document.getElementById("btnAuthSubmit");
@@ -346,21 +545,28 @@ async function handleAuthSubmit(e) {
       throw new Error(data.detail || "Authentication failed.");
     }
 
-    localStorage.setItem("nova_token", data.access_token);
-    currentUser = {
-      user_id: data.user_id,
-      email: data.email,
-      full_name: data.full_name,
-      role: data.role,
-    };
-    localStorage.setItem("nova_user", JSON.stringify(currentUser));
-
-    // Redirect based on role
-    if (currentUser.role.toUpperCase() === "ADMIN") {
-      navigateTo("/admin/dashboard");
-    } else {
-      navigateTo("/app/dashboard");
+    // Email Verification Required
+    if (data.requires_verification) {
+      authPendingEmail = data.email;
+      authPendingUserId = data.user_id;
+      showAuthAlert(data.message || "Please verify your email.", "info");
+      switchAuthMode("verify_email");
+      return;
     }
+
+    // 2FA Challenge Required
+    if (data.requires_2fa) {
+      authPendingEmail = data.email;
+      authPendingUserId = data.user_id;
+      authPendingTempToken = data.temp_token;
+      authPending2faMethod = data.two_factor_method || "totp";
+      showAuthAlert("Two-step verification required.", "warning");
+      switchAuthMode("2fa_challenge");
+      return;
+    }
+
+    // Successful authentication - store token and redirect
+    completeAuthentication(data);
   } catch (err) {
     showAuthAlert(err.message);
   } finally {
@@ -368,6 +574,121 @@ async function handleAuthSubmit(e) {
   }
 }
 
+// ─── Email Verification Submit ───────────────────────────────────────────────
+async function handleVerifyEmailSubmit(e) {
+  e.preventDefault();
+  hideAuthAlert();
+
+  const code = getOtpValue("emailOtp");
+  if (code.length !== 6) {
+    showAuthAlert("Please enter the complete 6-digit verification code.");
+    shakeOtpCells("emailOtp");
+    return;
+  }
+
+  const submitBtn = document.getElementById("btnVerifyEmailSubmit");
+  if (submitBtn) submitBtn.disabled = true;
+
+  try {
+    const res = await fetch("/api/v1/auth/verify-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: authPendingEmail, code }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.detail || "Verification failed.");
+    }
+
+    showAuthAlert(data.message || "Email verified successfully!", "success");
+    setTimeout(() => completeAuthentication(data), 800);
+  } catch (err) {
+    showAuthAlert(err.message);
+    shakeOtpCells("emailOtp");
+    clearOtpCells("emailOtp");
+    setTimeout(() => { const c = document.getElementById("emailOtp0"); if (c) c.focus(); }, 500);
+  } finally {
+    if (submitBtn) submitBtn.disabled = false;
+  }
+}
+
+// ─── Resend Verification OTP ─────────────────────────────────────────────────
+async function handleResendVerificationOtp() {
+  try {
+    const res = await fetch("/api/v1/auth/resend-verification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: authPendingEmail }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Failed to resend code.");
+    showAuthAlert(data.message || "New code sent.", "success");
+    startResendCountdown(45);
+    clearOtpCells("emailOtp");
+    setTimeout(() => { const c = document.getElementById("emailOtp0"); if (c) c.focus(); }, 300);
+  } catch (err) {
+    showAuthAlert(err.message);
+  }
+}
+
+// ─── 2FA Challenge Submit ────────────────────────────────────────────────────
+async function handleTwoFactorChallengeSubmit(e) {
+  e.preventDefault();
+  hideAuthAlert();
+
+  let code, isRecovery;
+  if (isRecoveryCodeMode) {
+    code = document.getElementById("input2faRecoveryCode")?.value.trim() || "";
+    isRecovery = true;
+    if (!code) { showAuthAlert("Please enter your recovery code."); return; }
+  } else {
+    code = getOtpValue("twoFactorOtp");
+    isRecovery = false;
+    if (code.length !== 6) {
+      showAuthAlert("Please enter the complete 6-digit code.");
+      shakeOtpCells("twoFactorOtp");
+      return;
+    }
+  }
+
+  const submitBtn = document.getElementById("btn2faVerifySubmit");
+  if (submitBtn) submitBtn.disabled = true;
+
+  try {
+    const res = await fetch("/api/v1/auth/2fa/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        temp_token: authPendingTempToken,
+        code,
+        is_recovery_code: isRecovery,
+      }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "2FA verification failed.");
+
+    showAuthAlert("Authentication complete.", "success");
+    setTimeout(() => completeAuthentication(data), 600);
+  } catch (err) {
+    showAuthAlert(err.message);
+    if (!isRecoveryCodeMode) {
+      shakeOtpCells("twoFactorOtp");
+      clearOtpCells("twoFactorOtp");
+      setTimeout(() => { const c = document.getElementById("twoFactorOtp0"); if (c) c.focus(); }, 500);
+    }
+  } finally {
+    if (submitBtn) submitBtn.disabled = false;
+  }
+}
+
+// ─── Google Sign-In Handler ──────────────────────────────────────────────────
+async function handleGoogleSignIn() {
+  showAuthAlert("Google Sign-In is being configured for this workspace.", "info");
+}
+
+// ─── Forgot Password Submit ─────────────────────────────────────────────────
 async function handleForgotPasswordSubmit(e) {
   e.preventDefault();
   hideAuthAlert();
@@ -381,10 +702,54 @@ async function handleForgotPasswordSubmit(e) {
       body: JSON.stringify({ email }),
     });
     const data = await res.json();
-    showAuthAlert(data.message || "Password reset instructions dispatched.", true);
-    setTimeout(() => toggleForgotPasswordView(false), 2500);
+    showAuthAlert(data.message || "Password reset instructions dispatched.", "success");
+    authPendingEmail = email;
+    setTimeout(() => switchAuthMode("reset_password"), 2000);
   } catch (err) {
     showAuthAlert("Password recovery request failed.");
+  }
+}
+
+// ─── Reset Password Submit ──────────────────────────────────────────────────
+async function handleResetPasswordSubmit(e) {
+  e.preventDefault();
+  hideAuthAlert();
+  const token = document.getElementById("inputResetToken")?.value.trim();
+  const newPassword = document.getElementById("inputResetNewPassword")?.value.trim();
+
+  if (!token || !newPassword) { showAuthAlert("Please provide reset token and new password."); return; }
+  if (newPassword.length < 8) { showAuthAlert("Password must be at least 8 characters."); return; }
+
+  try {
+    const res = await fetch("/api/v1/auth/reset-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: authPendingEmail, reset_token: token, new_password: newPassword }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Password reset failed.");
+    showAuthAlert(data.message || "Password updated. Please sign in.", "success");
+    setTimeout(() => switchAuthMode("login"), 1500);
+  } catch (err) {
+    showAuthAlert(err.message);
+  }
+}
+
+// ─── Complete Authentication (final token storage + redirect) ────────────────
+function completeAuthentication(data) {
+  localStorage.setItem("nova_token", data.access_token);
+  currentUser = {
+    user_id: data.user_id,
+    email: data.email,
+    full_name: data.full_name,
+    role: data.role,
+  };
+  localStorage.setItem("nova_user", JSON.stringify(currentUser));
+
+  if (currentUser.role.toUpperCase() === "ADMIN") {
+    navigateTo("/admin/dashboard");
+  } else {
+    navigateTo("/app/dashboard");
   }
 }
 
@@ -596,6 +961,96 @@ async function handleChangePassword(e) {
     document.getElementById("inputCurrentPass").value = "";
     document.getElementById("inputNewPass").value = "";
     document.getElementById("inputConfirmPass").value = "";
+  } catch (err) { alert(err.message); }
+}
+
+// ─── 2FA Settings Management ──────────────────────────────────────────────────
+let pending2faSetupData = null;
+
+async function check2faStatus() {
+  if (!currentUser) return;
+  try {
+    const res = await fetch("/api/v1/auth/me", { headers: getAuthHeaders() });
+    if (res.ok) {
+      const u = await res.json();
+      currentUser = u;
+      const isEnabled = u.two_factor_enabled;
+      const badge = document.getElementById("sec2faBadge");
+      const disabledCtrl = document.getElementById("sec2faDisabledControls");
+      const enabledCtrl = document.getElementById("sec2faEnabledControls");
+
+      if (badge) {
+        badge.className = isEnabled ? "security-status-badge enabled" : "security-status-badge disabled";
+        badge.innerHTML = isEnabled
+          ? '<i data-lucide="shield-check" style="width:12px;height:12px;"></i><span>2FA ACTIVE (PROTECTED)</span>'
+          : '<i data-lucide="circle-slash" style="width:12px;height:12px;"></i><span>2FA DISABLED</span>';
+      }
+      if (disabledCtrl) disabledCtrl.style.display = isEnabled ? "none" : "block";
+      if (enabledCtrl) enabledCtrl.style.display = isEnabled ? "block" : "none";
+      if (window.lucide) window.lucide.createIcons();
+    }
+  } catch (e) {}
+}
+
+async function start2faSetupWizard() {
+  try {
+    const res = await fetch("/api/v1/auth/2fa/setup", {
+      method: "POST",
+      headers: getAuthHeaders()
+    });
+    if (!res.ok) { const d = await res.json(); throw new Error(d.detail || "Failed to start 2FA setup."); }
+    pending2faSetupData = await res.json();
+
+    const keyEl = document.getElementById("sec2faSecretKey");
+    const panel = document.getElementById("sec2faSetupPanel");
+
+    if (keyEl) keyEl.textContent = pending2faSetupData.totp_secret;
+    if (panel) panel.style.display = "block";
+  } catch (err) { alert(err.message); }
+}
+
+async function confirm2faSetup() {
+  const code = document.getElementById("input2faSetupCode")?.value.trim();
+  if (!code || code.length !== 6) { alert("Please enter a valid 6-digit code."); return; }
+
+  try {
+    const res = await fetch("/api/v1/auth/2fa/confirm", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify({ code: code }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Failed to activate 2FA.");
+
+    alert(`2FA Enabled Successfully!\n\nIMPORTANT: Save these recovery codes in a safe place:\n\n${(data.recovery_codes || []).join('\n')}`);
+    cancel2faSetup();
+    check2faStatus();
+  } catch (err) { alert(err.message); }
+}
+
+function cancel2faSetup() {
+  pending2faSetupData = null;
+  const panel = document.getElementById("sec2faSetupPanel");
+  const codeInput = document.getElementById("input2faSetupCode");
+  if (panel) panel.style.display = "none";
+  if (codeInput) codeInput.value = "";
+}
+
+async function promptDisable2fa() {
+  const pwd = prompt("Enter your current password to disable Two-Factor Authentication:");
+  if (!pwd) return;
+
+  try {
+    const res = await fetch("/api/v1/auth/2fa/disable", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify({ password: pwd }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Failed to disable 2FA.");
+    alert("2FA has been disabled.");
+    check2faStatus();
   } catch (err) { alert(err.message); }
 }
 

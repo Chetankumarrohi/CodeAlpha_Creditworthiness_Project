@@ -139,13 +139,11 @@ def test_loan_comparison_offers():
 # ─── 7. REST API & User Isolation Tests ─────────────────────────────────────
 
 def get_auth_token(email="loan_test@nova.ai"):
-    reg_resp = client.post("/api/v1/auth/register", json={
-        "email": email,
-        "password": "TestPassword123!",
-        "full_name": "Loan Intelligence Tester"
-    })
-    if reg_resp.status_code == 200:
-        return reg_resp.json()["access_token"]
+    from backend.app.database.session import SessionLocal, create_user, get_user_by_email
+    db = SessionLocal()
+    if not get_user_by_email(db, email):
+        create_user(db, f"USR-{uuid.uuid4().hex[:8].upper()}", email, "TestPassword123!", "Loan Intelligence Tester", email_verified=True)
+    db.close()
     login_resp = client.post("/api/v1/auth/login", json={
         "email": email,
         "password": "TestPassword123!"

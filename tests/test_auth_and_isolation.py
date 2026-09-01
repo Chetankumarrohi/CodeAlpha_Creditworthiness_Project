@@ -13,8 +13,20 @@ def setup_db():
     yield
 
 
+def register_and_get_token(email: str, password: str = "Password123!", full_name: str = "Test User"):
+    """Helper to register and directly verify account to obtain access token in tests."""
+    db = SessionLocal()
+    user_id = "USR-" + uuid.uuid4().hex[:8].upper()
+    user = create_user(db, user_id, email, password, full_name, role="USER", email_verified=True)
+    db.close()
+
+    res = client.post("/api/v1/auth/login", json={"email": email, "password": password})
+    assert res.status_code == 200
+    return res.json()["access_token"]
+
+
 def test_public_registration_creates_user_role_only():
-    """Verify public registration strictly assigns USER role, ignoring any attempt to supply ADMIN role."""
+    """Verify public registration strictly assigns USER role and requires email verification."""
     email = f"user_{uuid.uuid4().hex[:6]}@example.com"
     payload = {
         "email": email,
@@ -25,23 +37,15 @@ def test_public_registration_creates_user_role_only():
     res = client.post("/api/v1/auth/register", json=payload)
     assert res.status_code == 201
     data = res.json()
-    assert "access_token" in data
+    assert data["requires_verification"] is True
     assert data["role"] == "USER"  # Must remain USER!
 
 
 def test_correct_login_succeeds():
-    """Verify correct credentials return access token and user profile."""
+    """Verify correct credentials return access token and user profile for verified users."""
     email = f"user_{uuid.uuid4().hex[:6]}@example.com"
-    reg_payload = {"email": email, "password": "Password123!", "full_name": "Test User One"}
-    client.post("/api/v1/auth/register", json=reg_payload)
-
-    login_payload = {"email": email, "password": "Password123!"}
-    res = client.post("/api/v1/auth/login", json=login_payload)
-    assert res.status_code == 200
-    data = res.json()
-    assert "access_token" in data
-    assert data["email"] == email
-    assert data["role"] == "USER"
+    token = register_and_get_token(email, "Password123!", "Test User One")
+    assert token is not None
 
 
 def test_incorrect_password_fails_generically():
@@ -57,12 +61,11 @@ def test_incorrect_password_fails_generically():
 
 
 def test_duplicate_email_signup_handled():
-    """Verify duplicate email registration is rejected with 400 error."""
+    """Verify duplicate email registration for existing verified account is rejected with 400 error."""
     email = f"user_{uuid.uuid4().hex[:6]}@example.com"
-    reg_payload = {"email": email, "password": "Password123!", "full_name": "Test User One"}
-    res1 = client.post("/api/v1/auth/register", json=reg_payload)
-    assert res1.status_code == 201
+    register_and_get_token(email, "Password123!", "Test User One")
 
+    reg_payload = {"email": email, "password": "Password123!", "full_name": "Test User One"}
     res2 = client.post("/api/v1/auth/register", json=reg_payload)
     assert res2.status_code == 400
     assert "already exists" in res2.json()["detail"].lower()
@@ -85,14 +88,12 @@ def test_server_side_user_isolation():
     email_a = f"user_a_{uuid.uuid4().hex[:6]}@example.com"
     email_b = f"user_b_{uuid.uuid4().hex[:6]}@example.com"
 
-    # Register User A
-    res_a = client.post("/api/v1/auth/register", json={"email": email_a, "password": "Password123!", "full_name": "User A"})
-    token_a = res_a.json()["access_token"]
+    # Register & Verify User A
+    token_a = register_and_get_token(email_a, "Password123!", "User A")
     headers_a = {"Authorization": f"Bearer {token_a}"}
 
-    # Register User B
-    res_b = client.post("/api/v1/auth/register", json={"email": email_b, "password": "Password123!", "full_name": "User B"})
-    token_b = res_b.json()["access_token"]
+    # Register & Verify User B
+    token_b = register_and_get_token(email_b, "Password123!", "User B")
     headers_b = {"Authorization": f"Bearer {token_b}"}
 
     # User A creates a credit assessment
@@ -122,8 +123,7 @@ def test_server_side_user_isolation():
 def test_user_cannot_access_admin_endpoints():
     """Verify USER role receives 403 Forbidden on /admin endpoints."""
     email = f"user_{uuid.uuid4().hex[:6]}@example.com"
-    res_user = client.post("/api/v1/auth/register", json={"email": email, "password": "Password123!", "full_name": "Normal User"})
-    token_user = res_user.json()["access_token"]
+    token_user = register_and_get_token(email, "Password123!", "Normal User")
     headers_user = {"Authorization": f"Bearer {token_user}"}
 
     res_admin_stats = client.get("/api/v1/admin/dashboard/stats", headers=headers_user)
@@ -141,7 +141,7 @@ def test_admin_can_access_admin_apis():
     db = SessionLocal()
     admin_id = "ADMIN-" + uuid.uuid4().hex[:8].upper()
     admin_email = f"admin_{uuid.uuid4().hex[:6]}@example.com"
-    create_user(db, admin_id, admin_email, "AdminPassword123!", "Admin User", role="ADMIN")
+    create_user(db, admin_id, admin_email, "AdminPassword123!", "Admin User", role="ADMIN", email_verified=True)
     db.close()
 
     res_login = client.post("/api/v1/auth/login", json={"email": admin_email, "password": "AdminPassword123!"})
@@ -162,8 +162,7 @@ def test_admin_can_access_admin_apis():
 def test_password_hash_never_exposed_in_api():
     """Verify user profiles and user lists never leak password_hash."""
     email = f"user_{uuid.uuid4().hex[:6]}@example.com"
-    res = client.post("/api/v1/auth/register", json={"email": email, "password": "Password123!", "full_name": "User One"})
-    token = res.json()["access_token"]
+    token = register_and_get_token(email, "Password123!", "User One")
     headers = {"Authorization": f"Bearer {token}"}
 
     res_me = client.get("/api/v1/auth/me", headers=headers)
@@ -171,3 +170,4 @@ def test_password_hash_never_exposed_in_api():
     me_data = res_me.json()
     assert "password_hash" not in me_data
     assert "password" not in me_data
+

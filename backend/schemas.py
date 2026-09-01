@@ -150,6 +150,7 @@ class LoanScenarioCreateRequest(BaseModel):
 class UserLoginRequest(BaseModel):
     email: str = Field(..., min_length=3, max_length=255)
     password: str = Field(..., min_length=6, max_length=128)
+    remember_me: Optional[bool] = Field(True)
 
 
 class UserRegisterRequest(BaseModel):
@@ -158,14 +159,62 @@ class UserRegisterRequest(BaseModel):
     full_name: str = Field(..., min_length=2, max_length=100)
 
 
+class EmailVerifyRequest(BaseModel):
+    email: str = Field(..., min_length=3, max_length=255)
+    code: str = Field(..., min_length=6, max_length=6)
+
+
+class ResendVerificationRequest(BaseModel):
+    email: str = Field(..., min_length=3, max_length=255)
+
+
+class TwoFactorVerifyRequest(BaseModel):
+    temp_token: str
+    code: str = Field(..., min_length=4, max_length=20)  # can be 6-digit TOTP or recovery code XXXX-XXXX
+    is_recovery_code: Optional[bool] = False
+
+
+class TwoFactorSetupResponse(BaseModel):
+    secret: str
+    otpauth_uri: str
+    qr_code_data_url: str
+
+
+class TwoFactorConfirmRequest(BaseModel):
+    code: str = Field(..., min_length=6, max_length=6)
+
+
+class TwoFactorDisableRequest(BaseModel):
+    password: Optional[str] = None
+    code: Optional[str] = None
+
+
+class GoogleAuthRequest(BaseModel):
+    id_token: Optional[str] = None
+    code: Optional[str] = None
+    email: Optional[str] = None
+    full_name: Optional[str] = None
+    provider_user_id: Optional[str] = None
+
+
+class GoogleAuthUrlResponse(BaseModel):
+    auth_url: str
+    state: str
+
+
 class AuthTokenResponse(BaseModel):
-    access_token: str
+    access_token: Optional[str] = None
     token_type: str = "bearer"
-    user_id: str
-    email: str
-    full_name: str
-    role: str   # "USER" | "ADMIN"
+    user_id: Optional[str] = None
+    email: Optional[str] = None
+    full_name: Optional[str] = None
+    role: Optional[str] = "USER"   # "USER" | "ADMIN"
     expires_in_minutes: int = 120
+    requires_2fa: bool = False
+    temp_token: Optional[str] = None
+    two_factor_method: Optional[str] = None
+    requires_verification: bool = False
+    message: Optional[str] = None
 
 
 class UserResponse(BaseModel):
@@ -175,8 +224,26 @@ class UserResponse(BaseModel):
     role: str
     is_active: bool
     email_verified: bool
+    two_factor_enabled: bool = False
+    two_factor_method: Optional[str] = "totp"
     created_at: str
     last_login_at: Optional[str] = None
+
+
+class UserSessionResponse(BaseModel):
+    id: str
+    device_info: str
+    ip_address: str
+    last_active_at: str
+    expires_at: str
+    is_current: bool = False
+
+
+class SecuritySettingsResponse(BaseModel):
+    two_factor_enabled: bool
+    two_factor_method: Optional[str]
+    has_google_linked: bool
+    active_sessions: List[UserSessionResponse]
 
 
 class UserProfileUpdateRequest(BaseModel):

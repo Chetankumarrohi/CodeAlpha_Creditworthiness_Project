@@ -132,42 +132,60 @@
     </div>
 
     <!-- RIGHT SIDE: AUTHENTICATION PANEL (40-45%) -->
+    <!-- RIGHT SIDE: AUTHENTICATION PANEL (40-45%) -->
     <div class="auth-panel-side">
       <div class="auth-card-container">
         
         <!-- Auth Header -->
         <div class="auth-card-header">
+          <div class="auth-step-pill" id="authStepPill" style="display:none;">STEP 2 OF 2</div>
           <h2 class="auth-title" id="authHeaderTitle">Welcome back</h2>
           <p class="auth-sub" id="authHeaderSub">Sign in to access your Nova workspace.</p>
         </div>
 
-        <!-- Sign In / Create Account Navigation Tabs -->
-        <div class="auth-tabs">
-          <button class="auth-tab-btn active" id="btnTabLogin" onclick="switchAuthMode('login')">Sign In</button>
-          <button class="auth-tab-btn" id="btnTabRegister" onclick="switchAuthMode('register')">Create Account</button>
+        <!-- Sign In / Create Account Navigation Tabs (Visible only in Login/Register modes) -->
+        <div class="auth-tabs" id="authTabsNav">
+          <button type="button" class="auth-tab-btn active" id="btnTabLogin" onclick="switchAuthMode('login')">Sign In</button>
+          <button type="button" class="auth-tab-btn" id="btnTabRegister" onclick="switchAuthMode('register')">Create Account</button>
         </div>
 
         <!-- Notification Banner -->
         <div class="auth-alert-banner" id="authAlert" style="display:none;"></div>
 
-        <!-- Main Auth Form -->
+        <!-- ── SCREEN 1: LOGIN & SIGNUP PRIMARY FORM ── -->
         <form id="authMainForm" onsubmit="handleAuthSubmit(event)">
           
+          <!-- Social Login Provider: Google -->
+          <button type="button" class="btn-google-auth" id="btnGoogleSignIn" onclick="handleGoogleSignIn()">
+            <svg class="google-icon-svg" viewBox="0 0 24 24" width="18" height="18">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span id="txtGoogleBtn">Continue with Google</span>
+          </button>
+
+          <!-- Divider -->
+          <div class="auth-divider">
+            <span>OR CONTINUE WITH EMAIL</span>
+          </div>
+
           <!-- Full Legal Name (Create Account Only) -->
           <div class="form-group" id="fieldGroupName" style="display:none;">
             <label class="form-label" for="inputAuthName">Full Legal Name</label>
             <div class="input-wrap">
               <i data-lucide="user" class="input-icon"></i>
-              <input type="text" id="inputAuthName" class="form-control" placeholder="e.g. Alex Morgan"/>
+              <input type="text" id="inputAuthName" class="form-control" placeholder="e.g. Alex Morgan" autocomplete="name"/>
             </div>
           </div>
 
           <!-- Email Address -->
           <div class="form-group">
-            <label class="form-label" for="inputAuthEmail">Email Address</label>
+            <label class="form-label" for="inputAuthEmail">Work Email Address</label>
             <div class="input-wrap">
               <i data-lucide="mail" class="input-icon"></i>
-              <input type="email" id="inputAuthEmail" class="form-control" required placeholder="name@company.com"/>
+              <input type="email" id="inputAuthEmail" class="form-control" required placeholder="name@company.com" autocomplete="email"/>
             </div>
           </div>
 
@@ -175,14 +193,25 @@
           <div class="form-group">
             <div class="form-label-row">
               <label class="form-label" for="inputAuthPassword" style="margin-bottom:0;">Password</label>
-              <a href="javascript:void(0)" onclick="toggleForgotPasswordView(true)" class="link-forgot" id="linkForgotPass">Forgot password?</a>
+              <a href="javascript:void(0)" onclick="switchAuthMode('forgot')" class="link-forgot" id="linkForgotPass">Forgot password?</a>
             </div>
             <div class="input-wrap">
               <i data-lucide="lock" class="input-icon"></i>
-              <input type="password" id="inputAuthPassword" class="form-control" required placeholder="••••••••"/>
-              <button type="button" class="btn-toggle-eye" onclick="togglePasswordVisibility('inputAuthPassword', this)" title="Show/Hide Password">
+              <input type="password" id="inputAuthPassword" class="form-control" required placeholder="••••••••" autocomplete="current-password" oninput="evaluatePasswordStrength(this.value)"/>
+              <button type="button" class="btn-toggle-eye" onclick="togglePasswordVisibility('inputAuthPassword', this)" title="Show/Hide Password" tabindex="-1">
                 <i data-lucide="eye"></i>
               </button>
+            </div>
+            
+            <!-- Dynamic Password Strength Indicator (Signup Only) -->
+            <div class="pwd-strength-container" id="pwdStrengthWrap" style="display:none;">
+              <div class="pwd-strength-bars">
+                <div class="bar" id="pwdBar1"></div>
+                <div class="bar" id="pwdBar2"></div>
+                <div class="bar" id="pwdBar3"></div>
+                <div class="bar" id="pwdBar4"></div>
+              </div>
+              <span class="pwd-strength-text" id="pwdStrengthText">Use at least 8 characters with letters & numbers</span>
             </div>
           </div>
 
@@ -190,34 +219,170 @@
           <div class="form-checkbox-group" id="fieldCheckboxRow">
             <label class="checkbox-label">
               <input type="checkbox" id="chkRememberMe" checked/>
-              <span id="chkRememberText">Remember me for 30 days</span>
+              <span id="chkRememberText">Keep me signed in on this device</span>
             </label>
           </div>
 
           <!-- Primary CTA Button -->
           <button type="submit" class="btn-primary-cta" id="btnAuthSubmit">
             <span id="btnAuthText">Sign In to Workspace</span>
+            <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
           </button>
         </form>
 
-        <!-- Forgot Password Sub-View -->
-        <form id="forgotPassForm" onsubmit="handleForgotPasswordSubmit(event)" style="display:none;">
-          <p class="forgot-info-text">Enter your registered email address to receive password recovery instructions.</p>
-          <div class="form-group">
-            <label class="form-label" for="inputForgotEmail">Email Address</label>
-            <div class="input-wrap">
-              <i data-lucide="mail" class="input-icon"></i>
-              <input type="email" id="inputForgotEmail" class="form-control" required placeholder="name@company.com"/>
+        <!-- ── SCREEN 2: EMAIL VERIFICATION OTP (6 CELLS) ── -->
+        <form id="authVerifyEmailForm" onsubmit="handleVerifyEmailSubmit(event)" style="display:none;">
+          <div class="auth-status-icon-wrap">
+            <div class="auth-icon-circle">
+              <i data-lucide="mail-check" style="width:24px;height:24px;color:#E7A64A;"></i>
             </div>
           </div>
-          <button type="submit" class="btn-primary-cta">Send Reset Instructions</button>
-          <button type="button" class="btn-ghost-back" onclick="toggleForgotPasswordView(false)">Back to Sign In</button>
+          <p class="auth-verify-desc">
+            We dispatched a 6-digit security code to <strong id="lblVerifyTargetEmail" class="email-highlight">user@domain.com</strong>. Enter it below to activate your account.
+          </p>
+
+          <div class="otp-cell-group" id="emailOtpGroup">
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="emailOtp0" oninput="handleOtpInput(this, 0, 'emailOtp')" onkeydown="handleOtpKeydown(this, 0, 'emailOtp')" onpaste="handleOtpPaste(event, 'emailOtp')" autofocus/>
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="emailOtp1" oninput="handleOtpInput(this, 1, 'emailOtp')" onkeydown="handleOtpKeydown(this, 1, 'emailOtp')"/>
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="emailOtp2" oninput="handleOtpInput(this, 2, 'emailOtp')" onkeydown="handleOtpKeydown(this, 2, 'emailOtp')"/>
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="emailOtp3" oninput="handleOtpInput(this, 3, 'emailOtp')" onkeydown="handleOtpKeydown(this, 3, 'emailOtp')"/>
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="emailOtp4" oninput="handleOtpInput(this, 4, 'emailOtp')" onkeydown="handleOtpKeydown(this, 4, 'emailOtp')"/>
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="emailOtp5" oninput="handleOtpInput(this, 5, 'emailOtp')" onkeydown="handleOtpKeydown(this, 5, 'emailOtp')"/>
+          </div>
+
+          <button type="submit" class="btn-primary-cta" id="btnVerifyEmailSubmit">
+            <span>Verify & Complete Registration</span>
+            <i data-lucide="shield-check" style="width:16px;height:16px;"></i>
+          </button>
+
+          <div class="resend-countdown-row">
+            <span id="lblResendTimer">Resend code in <span id="resendCountdown">45s</span></span>
+            <button type="button" class="btn-link-action" id="btnResendOtp" onclick="handleResendVerificationOtp()" style="display:none;">
+              Resend verification code
+            </button>
+          </div>
+
+          <button type="button" class="btn-ghost-back" onclick="switchAuthMode('login')">
+            <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+            <span>Return to Sign In</span>
+          </button>
+        </form>
+
+        <!-- ── SCREEN 3: TWO-STEP VERIFICATION (2FA TOTP / RECOVERY) ── -->
+        <form id="authTwoFactorForm" onsubmit="handleTwoFactorChallengeSubmit(event)" style="display:none;">
+          <div class="auth-status-icon-wrap">
+            <div class="auth-icon-circle 2fa-accent">
+              <i data-lucide="smartphone" style="width:24px;height:24px;color:#E7A64A;"></i>
+            </div>
+          </div>
+          <p class="auth-verify-desc" id="lbl2faDesc">
+            Enter the 6-digit authentication code generated by your authenticator app.
+          </p>
+
+          <!-- 6-Cell TOTP Input Mode -->
+          <div id="twoFactorTotpWrap">
+            <div class="otp-cell-group" id="twoFactorOtpGroup">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="twoFactorOtp0" oninput="handleOtpInput(this, 0, 'twoFactorOtp')" onkeydown="handleOtpKeydown(this, 0, 'twoFactorOtp')" onpaste="handleOtpPaste(event, 'twoFactorOtp')" autofocus/>
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="twoFactorOtp1" oninput="handleOtpInput(this, 1, 'twoFactorOtp')" onkeydown="handleOtpKeydown(this, 1, 'twoFactorOtp')"/>
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="twoFactorOtp2" oninput="handleOtpInput(this, 2, 'twoFactorOtp')" onkeydown="handleOtpKeydown(this, 2, 'twoFactorOtp')"/>
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="twoFactorOtp3" oninput="handleOtpInput(this, 3, 'twoFactorOtp')" onkeydown="handleOtpKeydown(this, 3, 'twoFactorOtp')"/>
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="twoFactorOtp4" oninput="handleOtpInput(this, 4, 'twoFactorOtp')" onkeydown="handleOtpKeydown(this, 4, 'twoFactorOtp')"/>
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-cell" id="twoFactorOtp5" oninput="handleOtpInput(this, 5, 'twoFactorOtp')" onkeydown="handleOtpKeydown(this, 5, 'twoFactorOtp')"/>
+            </div>
+          </div>
+
+          <!-- Single Recovery Code Input Mode -->
+          <div id="twoFactorRecoveryWrap" style="display:none;" class="form-group">
+            <label class="form-label" for="input2faRecoveryCode">8-Character Recovery Code</label>
+            <div class="input-wrap">
+              <i data-lucide="key" class="input-icon"></i>
+              <input type="text" id="input2faRecoveryCode" class="form-control mono-field" placeholder="XXXX-XXXX" maxlength="12" style="letter-spacing:0.15em;text-transform:uppercase;"/>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary-cta" id="btn2faVerifySubmit">
+            <span>Verify & Enter Platform</span>
+            <i data-lucide="unlock" style="width:16px;height:16px;"></i>
+          </button>
+
+          <div class="twofa-switch-row">
+            <button type="button" class="btn-link-action" id="btnToggle2faMode" onclick="toggleTwoFactorInputMode()">
+              Use an emergency recovery code instead
+            </button>
+          </div>
+
+          <button type="button" class="btn-ghost-back" onclick="switchAuthMode('login')">
+            <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+            <span>Cancel and return to Sign In</span>
+          </button>
+        </form>
+
+        <!-- ── SCREEN 4: FORGOT PASSWORD SUB-VIEW ── -->
+        <form id="forgotPassForm" onsubmit="handleForgotPasswordSubmit(event)" style="display:none;">
+          <div class="auth-status-icon-wrap">
+            <div class="auth-icon-circle">
+              <i data-lucide="key-round" style="width:24px;height:24px;color:#E7A64A;"></i>
+            </div>
+          </div>
+          <p class="forgot-info-text">
+            Enter your verified workspace email address and we'll dispatch single-use password recovery instructions.
+          </p>
+          <div class="form-group">
+            <label class="form-label" for="inputForgotEmail">Account Email Address</label>
+            <div class="input-wrap">
+              <i data-lucide="mail" class="input-icon"></i>
+              <input type="email" id="inputForgotEmail" class="form-control" required placeholder="name@company.com" autocomplete="email"/>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary-cta" id="btnForgotSubmit">
+            <span>Send Reset Instructions</span>
+            <i data-lucide="send" style="width:16px;height:16px;"></i>
+          </button>
+          <button type="button" class="btn-ghost-back" onclick="switchAuthMode('login')">
+            <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+            <span>Back to Sign In</span>
+          </button>
+        </form>
+
+        <!-- ── SCREEN 5: RESET PASSWORD SUB-VIEW ── -->
+        <form id="authResetPassForm" onsubmit="handleResetPasswordSubmit(event)" style="display:none;">
+          <div class="auth-status-icon-wrap">
+            <div class="auth-icon-circle">
+              <i data-lucide="shield-alert" style="width:24px;height:24px;color:#E7A64A;"></i>
+            </div>
+          </div>
+          <p class="forgot-info-text">Create a strong, new password for your account.</p>
+          <div class="form-group">
+            <label class="form-label" for="inputResetToken">Reset Token</label>
+            <div class="input-wrap">
+              <i data-lucide="key" class="input-icon"></i>
+              <input type="text" id="inputResetToken" class="form-control mono-field" required placeholder="Paste reset token here"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="inputResetNewPassword">New Password</label>
+            <div class="input-wrap">
+              <i data-lucide="lock" class="input-icon"></i>
+              <input type="password" id="inputResetNewPassword" class="form-control" required placeholder="Min 8 characters" oninput="evaluatePasswordStrength(this.value)"/>
+              <button type="button" class="btn-toggle-eye" onclick="togglePasswordVisibility('inputResetNewPassword', this)" title="Show/Hide Password" tabindex="-1">
+                <i data-lucide="eye"></i>
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary-cta">
+            <span>Update Password & Sign In</span>
+            <i data-lucide="check" style="width:16px;height:16px;"></i>
+          </button>
+          <button type="button" class="btn-ghost-back" onclick="switchAuthMode('login')">
+            <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+            <span>Cancel</span>
+          </button>
         </form>
 
         <!-- Footnote -->
         <div class="auth-card-footnote">
           <i data-lucide="lock" style="width:13px;height:13px;color:#E7A64A;"></i>
-          <span>Secure authentication • Private workspace</span>
+          <span>SOC2 Type II Certified • 256-Bit TLS Encryption</span>
         </div>
       </div>
     </div>
@@ -560,24 +725,76 @@
 
       <!-- ════════ USER SECTION: SETTINGS ════════ -->
       <section class="view-section" id="view-user-settings">
-        <div class="card" style="max-width:500px;">
-          <div class="card-title">Security & Password Settings</div>
-          <p class="card-sub" style="margin-bottom:14px;">Update your account password. Must be at least 8 characters long.</p>
-          <form onsubmit="handleChangePassword(event)" style="display:flex;flex-direction:column;gap:14px;">
-            <div class="field">
-              <label>Current Password</label>
-              <input type="password" id="inputCurrentPass" required placeholder="••••••••"/>
+        <div class="security-settings-grid">
+          <!-- Password Change Card -->
+          <div class="security-card">
+            <div class="security-card-title">
+              <i data-lucide="lock" style="width:18px;height:18px;color:#E7A64A;"></i>
+              <span>Password Settings</span>
             </div>
-            <div class="field">
-              <label>New Password</label>
-              <input type="password" id="inputNewPass" required placeholder="Min 8 characters"/>
+            <p class="security-card-desc">Update your workspace account password. Minimum 8 characters required.</p>
+            <form onsubmit="handleChangePassword(event)" style="display:flex;flex-direction:column;gap:14px;">
+              <div class="field">
+                <label>Current Password</label>
+                <input type="password" id="inputCurrentPass" required placeholder="••••••••"/>
+              </div>
+              <div class="field">
+                <label>New Password</label>
+                <input type="password" id="inputNewPass" required placeholder="Min 8 characters"/>
+              </div>
+              <div class="field">
+                <label>Confirm New Password</label>
+                <input type="password" id="inputConfirmPass" required placeholder="Confirm new password"/>
+              </div>
+              <button type="submit" class="btn btn-primary" style="margin-top:4px;">Update Password</button>
+            </form>
+          </div>
+
+          <!-- Two-Factor Authentication (2FA) Security Card -->
+          <div class="security-card">
+            <div class="security-card-title">
+              <i data-lucide="shield-check" style="width:18px;height:18px;color:#E7A64A;"></i>
+              <span>Two-Factor Authentication</span>
             </div>
-            <div class="field">
-              <label>Confirm New Password</label>
-              <input type="password" id="inputConfirmPass" required placeholder="Confirm new password"/>
+            <p class="security-card-desc">Add a mandatory second authentication factor via authenticator apps (Google Authenticator, 1Password, Authy).</p>
+            
+            <div id="sec2faStatusBox" style="margin-bottom:16px;">
+              <span class="security-status-badge disabled" id="sec2faBadge">
+                <i data-lucide="circle-slash" style="width:12px;height:12px;"></i>
+                <span>2FA DISABLED</span>
+              </span>
             </div>
-            <button type="submit" class="btn btn-primary">Update Password</button>
-          </form>
+
+            <!-- Setup Controls -->
+            <div id="sec2faDisabledControls">
+              <button type="button" class="btn btn-secondary" onclick="start2faSetupWizard()">
+                <i data-lucide="smartphone" style="width:16px;height:16px;margin-right:6px;"></i>
+                Enable Two-Factor Authentication
+              </button>
+            </div>
+
+            <!-- Enabled Controls -->
+            <div id="sec2faEnabledControls" style="display:none;">
+              <p style="font-size:12px;color:#8E919D;margin-bottom:12px;">Your account is protected with 2FA.</p>
+              <button type="button" class="btn btn-secondary" style="border-color:rgba(239,68,68,0.3);color:#FCA5A5;" onclick="promptDisable2fa()">
+                Disable 2FA Security
+              </button>
+            </div>
+
+            <!-- 2FA Setup Modal / Inline Panel -->
+            <div id="sec2faSetupPanel" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
+              <div style="font-size:13px;font-weight:700;color:#F5F5F7;margin-bottom:8px;">Scan QR Code or Enter Key:</div>
+              <div style="font-size:12px;color:#8E919D;margin-bottom:10px;">Secret Key: <code id="sec2faSecretKey" class="mono-field" style="color:#E7A64A;user-select:all;"></code></div>
+              <div class="field" style="margin-bottom:12px;">
+                <label>Verification Code from App</label>
+                <input type="text" id="input2faSetupCode" class="form-control mono-field" placeholder="123456" maxlength="6" style="letter-spacing:0.2em;text-align:center;font-size:18px;"/>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button type="button" class="btn btn-primary" onclick="confirm2faSetup()">Confirm & Activate</button>
+                <button type="button" class="btn btn-secondary" onclick="cancel2faSetup()">Cancel</button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
