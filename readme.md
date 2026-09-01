@@ -18,7 +18,7 @@
 
 ## 🌐 Live Application & Access
 
-- 🌐 **Public Live Tunnel URL**: **[https://f3f229ca9229fa.lhr.life](https://f3f229ca9229fa.lhr.life)**
+- 🌐 **Public Live Tunnel URL**: **[https://dod-persian-employ-caps.trycloudflare.com](https://dod-persian-employ-caps.trycloudflare.com)**
 - 💻 **Local URL**: **[http://localhost:8085](http://localhost:8085)**
 
 ---
@@ -38,7 +38,7 @@
 
 ### 1. Provision an Administrator Account
 ```bash
-python backend/scripts/create_admin.py --email admin@novacredit.ai --password "AdminSecurePassword2026!" --name "System Administrator"
+python backend/scripts/create_admin.py --email <your_admin_email> --password "<your_secure_password>" --name "System Administrator"
 ```
 
 ### 2. Run Automated Test Suite (45/45 Tests)

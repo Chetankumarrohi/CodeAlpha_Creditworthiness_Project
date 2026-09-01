@@ -2,7 +2,7 @@
 """
 CLI script to securely bootstrap or provision an Administrator account for Nova Credit AI.
 Usage:
-    python backend/scripts/create_admin.py --email admin@novacredit.ai --password "SecurePass123!" --name "System Admin"
+    python backend/scripts/create_admin.py --email <admin_email> --password "<admin_password>" --name "System Admin"
 """
 import sys
 import os

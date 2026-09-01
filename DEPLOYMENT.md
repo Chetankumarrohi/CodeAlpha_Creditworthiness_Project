@@ -18,8 +18,8 @@ cp .env.example .env
 | `SECRET_KEY` | 32+ character random secret key for JWT signing | `nova-prod-secret-key-...` |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | JWT token lifespan in minutes | `120` |
 | `ALLOWED_ORIGINS` | CORS origins allowed to access API | `*` |
-| `ADMIN_BOOTSTRAP_EMAIL` | Optional initial admin email | `admin@novacredit.ai` |
-| `ADMIN_BOOTSTRAP_PASSWORD` | Optional initial admin password | `AdminSecurePassword2026!` |
+| `ADMIN_BOOTSTRAP_EMAIL` | Optional initial admin email | `admin@example.com` |
+| `ADMIN_BOOTSTRAP_PASSWORD` | Optional initial admin password | `<strong_random_password>` |
 
 ---
 
@@ -28,7 +28,7 @@ cp .env.example .env
 Provision or promote an admin account via command line:
 
 ```bash
-python backend/scripts/create_admin.py --email admin@novacredit.ai --password "AdminSecurePassword2026!" --name "System Administrator"
+python backend/scripts/create_admin.py --email <your_admin_email> --password "<your_secure_password>" --name "System Administrator"
 ```
 
 - Public signups (`/api/v1/auth/register`) strictly assign `role = USER`.

@@ -403,8 +403,8 @@ async function handleLogout() {
 }
 
 function fillAdminDemo() {
-  document.getElementById("inputAuthEmail").value = "admin@novacredit.ai";
-  document.getElementById("inputAuthPassword").value = "AdminSecurePassword2026!";
+  document.getElementById("inputAuthEmail").value = "";
+  document.getElementById("inputAuthPassword").value = "";
   switchAuthMode("login");
 }
 
