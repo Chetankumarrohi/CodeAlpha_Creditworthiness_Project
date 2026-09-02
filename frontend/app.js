@@ -708,7 +708,48 @@ async function handleTwoFactorChallengeSubmit(e) {
 
 // ─── Google Sign-In Handler ──────────────────────────────────────────────────
 async function handleGoogleSignIn() {
-  showAuthAlert("Google Sign-In is being configured for this workspace.", "info");
+  hideAuthAlert();
+  const googleEmail = prompt("Enter your Google Account email address to sign in:");
+  if (!googleEmail) return;
+
+  const cleanEmail = googleEmail.trim().toLowerCase();
+  if (!cleanEmail.includes("@")) {
+    showAuthAlert("Please enter a valid Google email address.");
+    return;
+  }
+
+  showAuthAlert("Authenticating with Google Identity...", "info");
+
+  try {
+    const res = await fetch("/api/v1/auth/google", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: cleanEmail,
+        full_name: cleanEmail.split("@")[0].replace(/\./g, " ").replace(/\b\w/g, c => c.toUpperCase()),
+        provider_user_id: "google-sub-" + btoa(cleanEmail).replace(/=/g, "").slice(0, 16)
+      }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Google authentication failed.");
+
+    // If 2FA is required after Google OAuth
+    if (data.requires_2fa) {
+      authPendingEmail = data.email;
+      authPendingUserId = data.user_id;
+      authPendingTempToken = data.temp_token;
+      authPending2faMethod = data.two_factor_method || "totp";
+      showAuthAlert("Two-step verification required after Google Sign-In.", "warning");
+      switchAuthMode("2fa_challenge");
+      return;
+    }
+
+    showAuthAlert("Google Authentication Successful!", "success");
+    setTimeout(() => completeAuthentication(data), 600);
+  } catch (err) {
+    showAuthAlert(err.message);
+  }
 }
 
 // ─── Forgot Password Submit ─────────────────────────────────────────────────
