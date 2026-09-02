@@ -18,7 +18,7 @@
 
 ## 🌐 Live Application & Access
 
-- 🌐 **Public Live Tunnel URL**: **[https://dod-persian-employ-caps.trycloudflare.com](https://dod-persian-employ-caps.trycloudflare.com)**
+- 🌐 **Public Live Tunnel URL**: **[https://person-strange-studios-distributed.trycloudflare.com](https://person-strange-studios-distributed.trycloudflare.com)**
 - 💻 **Local URL**: **[http://localhost:8085](http://localhost:8085)**
 
 ---
