@@ -171,21 +171,71 @@
             <span>OR CONTINUE WITH EMAIL</span>
           </div>
 
-          <!-- Full Legal Name (Create Account Only) -->
-          <div class="form-group" id="fieldGroupName" style="display:none;">
-            <label class="form-label" for="inputAuthName">Full Legal Name</label>
-            <div class="input-wrap">
-              <i data-lucide="user" class="input-icon"></i>
-              <input type="text" id="inputAuthName" class="form-control" placeholder="e.g. Alex Morgan" autocomplete="name"/>
+          <!-- First Name & Surname Split Row (Create Account Only) -->
+          <div class="form-row-2col" id="fieldRowSplitName" style="display:none;">
+            <div class="form-group">
+              <label class="form-label" for="inputAuthFirstName">First name</label>
+              <div class="input-wrap">
+                <input type="text" id="inputAuthFirstName" class="form-control no-icon" placeholder="First name" autocomplete="given-name"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inputAuthLastName">Surname</label>
+              <div class="input-wrap">
+                <input type="text" id="inputAuthLastName" class="form-control no-icon" placeholder="Surname" autocomplete="family-name"/>
+              </div>
             </div>
           </div>
 
-          <!-- Email Address -->
+          <!-- Date of Birth Row (Create Account Only) -->
+          <div class="form-group" id="fieldRowDob" style="display:none;">
+            <label class="form-label">Date of birth</label>
+            <div class="dob-select-group">
+              <select id="selectDobDay" class="form-control dob-select">
+                <option value="">Day</option>
+                <!-- Generated via JS or 1..31 -->
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+                <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                <option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                <option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option>
+                <option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+              </select>
+              <select id="selectDobMonth" class="form-control dob-select">
+                <option value="">Month</option>
+                <option value="Jan">Jan</option><option value="Feb">Feb</option><option value="Mar">Mar</option><option value="Apr">Apr</option>
+                <option value="May">May</option><option value="Jun">Jun</option><option value="Jul">Jul</option><option value="Aug">Aug</option>
+                <option value="Sep">Sep</option><option value="Oct">Oct</option><option value="Nov">Nov</option><option value="Dec">Dec</option>
+              </select>
+              <select id="selectDobYear" class="form-control dob-select">
+                <option value="">Year</option>
+                <option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option>
+                <option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option>
+                <option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option>
+                <option value="1991">1991</option><option value="1990">1990</option><option value="1989">1989</option><option value="1988">1988</option><option value="1987">1987</option>
+                <option value="1986">1986</option><option value="1985">1985</option><option value="1984">1984</option><option value="1983">1983</option><option value="1982">1982</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Gender Select Row (Create Account Only) -->
+          <div class="form-group" id="fieldRowGender" style="display:none;">
+            <label class="form-label" for="selectGender">Gender</label>
+            <select id="selectGender" class="form-control no-icon">
+              <option value="">Select your gender</option>
+              <option value="Female">Female</option>
+              <option value="Male">Male</option>
+              <option value="Custom">Custom / Non-binary</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+
+          <!-- Email Address / Mobile Number -->
           <div class="form-group">
-            <label class="form-label" for="inputAuthEmail">Work Email Address</label>
+            <label class="form-label" for="inputAuthEmail" id="lblAuthEmail">Mobile number or email address</label>
             <div class="input-wrap">
-              <i data-lucide="mail" class="input-icon"></i>
-              <input type="email" id="inputAuthEmail" class="form-control" required placeholder="name@company.com" autocomplete="email"/>
+              <i data-lucide="mail" class="input-icon" id="iconAuthEmail"></i>
+              <input type="text" id="inputAuthEmail" class="form-control" required placeholder="Mobile number or email address" autocomplete="email"/>
             </div>
           </div>
 
@@ -197,7 +247,7 @@
             </div>
             <div class="input-wrap">
               <i data-lucide="lock" class="input-icon"></i>
-              <input type="password" id="inputAuthPassword" class="form-control" required placeholder="••••••••" autocomplete="current-password" oninput="evaluatePasswordStrength(this.value)"/>
+              <input type="password" id="inputAuthPassword" class="form-control" required placeholder="Password" autocomplete="current-password" oninput="evaluatePasswordStrength(this.value)"/>
               <button type="button" class="btn-toggle-eye" onclick="togglePasswordVisibility('inputAuthPassword', this)" title="Show/Hide Password" tabindex="-1">
                 <i data-lucide="eye"></i>
               </button>

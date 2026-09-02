@@ -337,10 +337,24 @@ body {
   color: #F5F5F7; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   transition: all 180ms ease-in-out;
 }
+.form-control.no-icon { padding-left: 14px; }
 .form-control::placeholder { color: #525866; }
 .form-control:focus {
   background: #1C1D28; border-color: #E56D69;
   box-shadow: 0 0 0 3.5px rgba(229, 109, 105, 0.18); outline: none;
+}
+
+/* ─── 2-COLUMN FORM ROW & DOB DROPDOWNS ─── */
+.form-row-2col {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+
+.dob-select-group {
+  display: grid; grid-template-columns: 1fr 1.2fr 1.2fr; gap: 8px;
+}
+.dob-select {
+  padding: 0 10px; cursor: pointer;
+  appearance: auto;
 }
 
 .btn-toggle-eye {

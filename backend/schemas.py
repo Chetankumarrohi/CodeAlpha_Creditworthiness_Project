@@ -156,7 +156,12 @@ class UserLoginRequest(BaseModel):
 class UserRegisterRequest(BaseModel):
     email: str = Field(..., min_length=3, max_length=255)
     password: str = Field(..., min_length=8, max_length=128, description="Minimum 8 characters")
-    full_name: str = Field(..., min_length=2, max_length=100)
+    full_name: Optional[str] = Field(None)
+    first_name: Optional[str] = Field(None, max_length=100)
+    last_name: Optional[str] = Field(None, max_length=100)
+    dob: Optional[str] = Field(None, max_length=32)
+    gender: Optional[str] = Field(None, max_length=32)
+    phone_number: Optional[str] = Field(None, max_length=32)
 
 
 class EmailVerifyRequest(BaseModel):

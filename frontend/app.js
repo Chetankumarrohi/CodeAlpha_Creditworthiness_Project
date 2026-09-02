@@ -269,7 +269,9 @@ function switchAuthMode(mode) {
 
   const btnLogin = document.getElementById("btnTabLogin");
   const btnReg = document.getElementById("btnTabRegister");
-  const nameGrp = document.getElementById("fieldGroupName");
+  const rowName = document.getElementById("fieldRowSplitName");
+  const rowDob = document.getElementById("fieldRowDob");
+  const rowGender = document.getElementById("fieldRowGender");
   const btnText = document.getElementById("btnAuthText");
   const forgotLink = document.getElementById("linkForgotPass");
   const chkText = document.getElementById("chkRememberText");
@@ -279,7 +281,9 @@ function switchAuthMode(mode) {
       document.getElementById("authMainForm").style.display = "block";
       if (btnLogin) btnLogin.classList.add("active");
       if (btnReg) btnReg.classList.remove("active");
-      if (nameGrp) nameGrp.style.display = "none";
+      if (rowName) rowName.style.display = "none";
+      if (rowDob) rowDob.style.display = "none";
+      if (rowGender) rowGender.style.display = "none";
       if (btnText) btnText.textContent = "Sign In to Workspace";
       if (forgotLink) forgotLink.style.display = "inline";
       if (headerTitle) headerTitle.textContent = "Welcome back";
@@ -291,8 +295,10 @@ function switchAuthMode(mode) {
       document.getElementById("authMainForm").style.display = "block";
       if (btnReg) btnReg.classList.add("active");
       if (btnLogin) btnLogin.classList.remove("active");
-      if (nameGrp) nameGrp.style.display = "block";
-      if (btnText) btnText.textContent = "Create Workspace Account";
+      if (rowName) rowName.style.display = "grid";
+      if (rowDob) rowDob.style.display = "block";
+      if (rowGender) rowGender.style.display = "block";
+      if (btnText) btnText.textContent = "Create Account";
       if (forgotLink) forgotLink.style.display = "none";
       if (headerTitle) headerTitle.textContent = "Create your account";
       if (headerSub) headerSub.textContent = "Get started with Nova Credit AI workspace.";
@@ -511,12 +517,20 @@ async function handleAuthSubmit(e) {
   e.preventDefault();
   hideAuthAlert();
 
-  const email = document.getElementById("inputAuthEmail").value.trim();
-  const password = document.getElementById("inputAuthPassword").value.trim();
-  const name = document.getElementById("inputAuthName")?.value.trim() || "";
+  const email = document.getElementById("inputAuthEmail")?.value.trim() || "";
+  const password = document.getElementById("inputAuthPassword")?.value.trim() || "";
+  const firstName = document.getElementById("inputAuthFirstName")?.value.trim() || "";
+  const lastName = document.getElementById("inputAuthLastName")?.value.trim() || "";
+  const dobDay = document.getElementById("selectDobDay")?.value || "";
+  const dobMonth = document.getElementById("selectDobMonth")?.value || "";
+  const dobYear = document.getElementById("selectDobYear")?.value || "";
+  const gender = document.getElementById("selectGender")?.value || "";
+
+  const dob = (dobDay && dobMonth && dobYear) ? `${dobDay} ${dobMonth} ${dobYear}` : "";
+  const fullName = (firstName || lastName) ? `${firstName} ${lastName}`.trim() : (email ? email.split("@")[0] : "User");
 
   if (!email || !password) {
-    showAuthAlert("Please provide email and password.");
+    showAuthAlert("Please provide mobile/email and password.");
     return;
   }
 
@@ -528,7 +542,16 @@ async function handleAuthSubmit(e) {
   const endpoint = currentAuthMode === "login" ? "/api/v1/auth/login" : "/api/v1/auth/register";
   const body = currentAuthMode === "login"
     ? { email, password, remember_me: document.getElementById("chkRememberMe")?.checked ?? true }
-    : { email, password, full_name: name || email.split("@")[0] };
+    : {
+        email,
+        password,
+        full_name: fullName,
+        first_name: firstName,
+        last_name: lastName,
+        dob: dob,
+        gender: gender,
+        phone_number: email.replace(/\D/g, "").length >= 10 ? email : null
+      };
 
   const submitBtn = document.getElementById("btnAuthSubmit");
   if (submitBtn) submitBtn.disabled = true;

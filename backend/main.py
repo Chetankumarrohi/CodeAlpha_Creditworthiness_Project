@@ -184,14 +184,20 @@ def register_user(req: UserRegisterRequest, request: Request, db: Session = Depe
     else:
         # Strictly assign USER role for public signups (cannot be elevated via payload)
         user_id = "USR-" + uuid.uuid4().hex[:8].upper()
+        computed_full_name = req.full_name or f"{req.first_name or ''} {req.last_name or ''}".strip() or clean_email.split("@")[0].capitalize()
         user = create_user(
             db=db,
             user_id=user_id,
             email=clean_email,
             password_plain=req.password,
-            full_name=req.full_name,
+            full_name=computed_full_name,
             role="USER",
-            email_verified=False
+            email_verified=False,
+            first_name=req.first_name,
+            last_name=req.last_name,
+            dob=req.dob,
+            gender=req.gender,
+            phone_number=req.phone_number
         )
 
     # Generate single-use 6-digit numeric verification OTP

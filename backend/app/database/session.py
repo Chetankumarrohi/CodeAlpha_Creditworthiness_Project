@@ -45,6 +45,11 @@ class UserRecord(Base):
     email = Column(String(255), unique=True, index=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
     full_name = Column(String(255), nullable=False)
+    first_name = Column(String(128), nullable=True)
+    last_name = Column(String(128), nullable=True)
+    dob = Column(String(32), nullable=True)
+    gender = Column(String(32), nullable=True)
+    phone_number = Column(String(32), nullable=True)
     role = Column(String(32), default="USER", nullable=False)   # "USER" | "ADMIN"
     is_active = Column(Boolean, default=True, nullable=False)
     email_verified = Column(Boolean, default=False, nullable=False)
@@ -277,6 +282,11 @@ def init_db():
             existing_cols = {row[1] for row in cursor.fetchall()}
             
             col_defs = [
+                ("first_name", "VARCHAR(128)"),
+                ("last_name", "VARCHAR(128)"),
+                ("dob", "VARCHAR(32)"),
+                ("gender", "VARCHAR(32)"),
+                ("phone_number", "VARCHAR(32)"),
                 ("email_verified", "BOOLEAN DEFAULT 0 NOT NULL"),
                 ("email_verified_at", "VARCHAR(64)"),
                 ("two_factor_enabled", "BOOLEAN DEFAULT 0 NOT NULL"),
@@ -342,7 +352,12 @@ def create_user(
     password_plain: str,
     full_name: str,
     role: str = "USER",
-    email_verified: bool = False
+    email_verified: bool = False,
+    first_name: Optional[str] = None,
+    last_name: Optional[str] = None,
+    dob: Optional[str] = None,
+    gender: Optional[str] = None,
+    phone_number: Optional[str] = None,
 ) -> UserRecord:
     now_str = datetime.now(timezone.utc).isoformat()
     # Normalize role to uppercase
@@ -352,6 +367,11 @@ def create_user(
         email=email.lower().strip(),
         password_hash=hash_password(password_plain),
         full_name=full_name.strip(),
+        first_name=first_name.strip() if first_name else None,
+        last_name=last_name.strip() if last_name else None,
+        dob=dob.strip() if dob else None,
+        gender=gender.strip() if gender else None,
+        phone_number=phone_number.strip() if phone_number else None,
         role=clean_role,
         is_active=True,
         email_verified=email_verified,
